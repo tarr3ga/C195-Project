@@ -68,7 +68,7 @@ public class AddCustomerController implements Initializable {
                     a.setStreet(street.getText());
                     a.setCity(city.getText());
                     a.setState(state.getSelectionModel().getSelectedItem().toString());
-                    a.setZip(zip.toString());
+                    a.setZip(zip.getText());
                     a.setCountryId(country.getSelectionModel().getSelectedIndex() + 1);
                     a.setCustomerId(id);
                     

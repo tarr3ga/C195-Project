@@ -58,16 +58,24 @@ public class SaveData {
         try {
             conn = DBConnect.makeConnection();
         } catch (SQLException ex) {
-            System.out.println("saveNewAddress");
-            Logger.getLogger(data.FetchData.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("saveNewAddress");
+            System.err.println(ex.toString());
         }
         
-        String sql = "INSERT INTO addresses(street, city, state, zip, countryId, customerId) " +
+        String sql = "INSERT INTO addresses(street, city, state, zip, countryId, customersId) " +
                      "VALUES('" + address.getStreet() + "', '" + address.getCity() + "', '" + address.getState() +"', '" +
                      address.getZip() + "', " + address.getCountryId() + ", " + address.getCustomerId() +");";
         
         statement = conn.createStatement();
-        statement.execute(sql);
+        
+        System.out.println(address.getZip());
+        
+        try{
+            statement.execute(sql);
+        } catch(SQLException ex) {
+            System.err.println("saveNewAddress");
+            System.err.println(ex.toString());
+        }
         
         conn.close();
     }
@@ -76,16 +84,23 @@ public class SaveData {
         try {
             conn = DBConnect.makeConnection();
         } catch(SQLException ex) {
-            System.out.println("saveNewPhone");
-            Logger.getLogger(data.FetchData.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("saveNewAddress");
+            System.err.println(ex.toString());
         }
         
-        String sql = "INSERT INTO phoneNumbers(phone, phoneType, customerId) " +
+        String sql = "INSERT INTO phoneNumbers(phone, phoneType, customersId) " +
                      "VALUES('" + phoneNumber.getPhone() + "', '" + phoneNumber.getPhoneType() +"', " + 
                      phoneNumber.getCustomerId() + ");";
         
         statement = conn.createStatement();
+        try {
+            statement.execute(sql);
+        } catch(SQLException ex) {
+            System.err.println("saveNewAddress");
+            System.err.println(ex.toString());
+        }
         
+        conn.close();
     }
     
     public void updateFullRecord(Appointment appointment, Customer customer, Address address,
