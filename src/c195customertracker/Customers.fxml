@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.cell.*?> 
+<?import javafx.collections.*?> 
+
+<GridPane fx:id="CustomersPane" 
+          prefHeight="500.0" prefWidth="1200.0" 
+          xmlns:fx="http://javafx.com/fxml/1" 
+          fx:controller="c195customertracker.CustomersController">
+    <TableView fx:id="displayTable" 
+               minWidth="1200">   
+        
+    </TableView>
+    <HBox fx:id="hBoxButtons" GridPane.columnIndex= "0" GridPane.rowIndex="1" >
+        
+    </HBox>
+    <HBox fx:id="hBoxCustomer" GridPane.columnIndex= "0" GridPane.rowIndex="2" >
+        
+    </HBox>
+</GridPane>

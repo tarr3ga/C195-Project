@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400" prefWidth="600" xmlns:fx="http://javafx.com/fxml/1" fx:controller="c195customertracker.FXMLDocumentController">
+    <stylesheets>
+        <String fx:value="styles/stylesMain.css" />
+    </stylesheets>
+    <children>
+        <TextField layoutX="200" layoutY="100" minWidth="200" fx:id="username" onAction="#onUserEnter"/>
+        <PasswordField layoutX="200"  layoutY="145" minWidth="200" fx:id="password" onAction="#onPassEnter" />
+        <Button layoutX="200" layoutY="190" text="Logon" onAction="#handleButtonAction" fx:id="logon" />
+        <Label layoutX="110" layoutY="105" minHeight="16" minWidth="70" text="Username" fx:id="labelUsername" />
+        <Label layoutX="110" layoutY="150" minHeight="16" minWidth="70" text="Password" fx:id="labelPassword" />
+        <Label layoutX="110" layoutY="245" minHeight="16" minWidth="70" text="Language" fx:id="labelLanguage" />
+        <Label layoutX="200" layoutY="275" minHeight="16" minWidth="70" fx:id="response" />
+        <ComboBox layoutX="200" layoutY="235" minHeight="16" minWidth="100" fx:id="language" onAction="#onSelectLang" />
+    </children>
+</AnchorPane>

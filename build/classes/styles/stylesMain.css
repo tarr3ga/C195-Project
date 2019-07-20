@@ -1,0 +1,29 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jun 7, 2019, 1:59:29 PM
+    Author     : jamyers
+*/
+
+.label, .button, .text-field, text-area, .combo-box {
+    -fx-font-family: Helvitica;
+    -fx-font-size: 20px;
+}
+
+.button-with-padding-5px {
+    -fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
+}
+
+#appointmentDetails {
+    -fx-font-family: Helvitica;
+    -fx-font-size: 20px;
+}
+
+#pageTitle {
+    -fx-text-align: center;
+}

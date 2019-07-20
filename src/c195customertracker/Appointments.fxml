@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane id="customerAppointmentsPane" 
+            prefHeight="400.0" prefWidth="600.0" 
+            xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="c195customertracker.AppointmentsController">
+    <TableView fx:id="customerAppointmentsTable" 
+               minWidth="1200">   
+    
+    </TableView>
+    <HBox GridPane.columnIndex= "0" GridPane.rowIndex="1" >
+        <Button fx:id="btnView" text="View" minWidth="160.0" 
+                prefWidth="160.0" styleClass="mainFxmlClass" />
+        <Button fx:id="btnDelete" text="Delete" minWidth="160.0" 
+                prefWidth="160.0" styleClass="mainFxmlClass" />
+    </HBox>
+</GridPane>

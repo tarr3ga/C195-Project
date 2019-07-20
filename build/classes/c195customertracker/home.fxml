@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane id="home" prefHeight="400.0" prefWidth="600.0" 
+          xmlns:fx="http://javafx.com/fxml/1" 
+          fx:controller="c195customertracker.HomeController"
+          vgap="10" hgap="10">
+    <padding>
+        <Insets right="10" left="10" top="10" bottom="10" />
+    </padding>
+    <stylesheets>
+        <String fx:value="styles/stylesMain.css" />
+    </stylesheets>
+    <Label fx:id="welcome" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+    <Label text="System Information:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+    <Label fx:id="customerCount" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+    <Label fx:id="appointmentCount" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+</GridPane>
