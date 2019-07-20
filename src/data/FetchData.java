@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -127,10 +128,14 @@ public class FetchData {
             index = resultSet.findColumn("lastName");
             String lastName = resultSet.getString(index);
             
+            index = resultSet.findColumn("addedOn");
+            Timestamp addedOn = (Timestamp)resultSet.getObject(index);
+            
             Customer c = new Customer();
             c.setId(id);
             c.setFirstName(firstName);
             c.setLastName(lastName);
+            c.setAddedOn(addedOn);
             
             customers.add(c);
         }

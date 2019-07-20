@@ -30,18 +30,21 @@ import models.PhoneNumber;
  */
 public class AddCustomerController implements Initializable {
     
-    @FXML TextField firstName;
-    @FXML TextField lastName;
-    @FXML TextField phone;
-    @FXML ComboBox phoneType;
-    @FXML TextField street;
-    @FXML TextField city;
-    @FXML ComboBox state;
-    @FXML TextField zip;
-    @FXML ComboBox country;
+    public static boolean isEditing = false;
+    public static Customer customerToEdit;
     
-    @FXML Button btnSubmit;
-    @FXML Button btnCancel;
+    @FXML private TextField firstName;
+    @FXML private TextField lastName;
+    @FXML private TextField phone;
+    @FXML private ComboBox phoneType;
+    @FXML private TextField street;
+    @FXML private TextField city;
+    @FXML private ComboBox state;
+    @FXML private TextField zip;
+    @FXML private ComboBox country;
+    
+    @FXML private Button btnSubmit;
+    @FXML private Button btnCancel;
     
     private final String[] phoneTypes = {"Home", "Cell", "Work"};
     private final String[] states = {"AK", "AL", "AR", "AS", "AZ", "CA", "CO", "CT", 
@@ -57,12 +60,19 @@ public class AddCustomerController implements Initializable {
         btnSubmit.setOnMouseClicked((MouseEvent e) -> {
             if(firstName.lengthProperty().getValue() > 0 && lastName.lengthProperty().getValue() > 0) {
                 try {
+                    int id = -1;
+                    
                     Customer c = new Customer();
+                    c.setId(customerToEdit.getId());
                     c.setFirstName(firstName.getText());
                     c.setLastName(lastName.getText());
                     
                     SaveData data = new SaveData();
-                    int id = data.saveNewCustomer(c);
+                    
+                    if(isEditing == false) {
+                        id = data.saveNewCustomer(c);
+                        data.close();
+                    }
                     
                     Address a = new Address();
                     a.setStreet(street.getText());
@@ -73,7 +83,11 @@ public class AddCustomerController implements Initializable {
                     a.setCustomerId(id);
                     
                     data = new SaveData();
-                    data.saveNewAddress(a);
+                    
+                    if(isEditing == false) {
+                        data.saveNewAddress(a);
+                        data.close();
+                    }
                     
                     PhoneNumber p = new PhoneNumber();
                     p.setPhone(phone.getText());
@@ -81,12 +95,17 @@ public class AddCustomerController implements Initializable {
                     p.setCustomerId(id);
                     
                     data = new SaveData();
-                    data.saveNewPhone(p);
+                    
+                    if(isEditing == false) {
+                        data.saveNewPhone(p);
+                    } else {
+                        data.updateCustomerRecord(c, a, p);
+                    }
                     
                     Stage stage = (Stage)btnSubmit.getScene().getWindow();
                     stage.close();
                 } catch(SQLException ex) {
-                    
+                    System.out.println("Update Customer" + ex.toString());
                 }
             }
         });
@@ -103,9 +122,7 @@ public class AddCustomerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setEventHandlers();
-        
-        
-        
+         
         for(String s: phoneTypes) {
             phoneType.getItems().add(s);
         }
@@ -127,6 +144,40 @@ public class AddCustomerController implements Initializable {
         } catch(Exception ex) {
             System.err.println(ex.toString());
         }
-    }    
-    
+        
+        if(isEditing == true) {
+            FetchData data = new FetchData();
+            Customer cto = new Customer();
+            Address a = new Address();
+            PhoneNumber p = new PhoneNumber();
+            Country co = new Country();
+            
+            try {
+                cto = data.fetchSingleCustomer(customerToEdit.getId());
+                
+                data = new FetchData();
+                a = data.fetchAddress(customerToEdit.getId());
+                
+                data = new FetchData();
+                p = data.fetchPhoneNumber(customerToEdit.getId());
+                
+                data = new FetchData();
+                co = data.fetchCountry(a.getCountryId());
+            } catch(SQLException ex) {
+                
+            }
+            
+            firstName.setText(cto.getFirstName());
+            lastName.setText(cto.getLastName());
+            phone.setText(p.getPhone());
+            phoneType.getSelectionModel().select(p.getPhoneType());
+            street.setText(a.getStreet());
+            city.setText(a.getCity());
+            state.getSelectionModel().select(a.getState());
+            zip.setText(a.getZip());
+            
+            String countryFull = co.getCountryAbreviation() + " | " + co.getCountry();
+            country.getSelectionModel().select(countryFull);
+        }
+    }       
 }

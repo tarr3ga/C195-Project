@@ -5,7 +5,7 @@
  */
 package models;
 
-import java.util.Calendar;
+import java.sql.Timestamp;
 
 /**
  *
@@ -15,7 +15,7 @@ public class Customer {
     private int id;
     private String firstName;
     private String lastName;
-    private Calendar addedOn;
+    private Timestamp addedOn;
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
@@ -26,15 +26,14 @@ public class Customer {
     public String getLastName() { return lastName; }
     public void setLastName(String lastName) { this.lastName = lastName; }
 
-    public Calendar getAddedOn() { return addedOn; }
-
-    public void setAddedOn(Calendar addedOn) { this.addedOn = addedOn; }
+    public Timestamp getAddedOn() { return addedOn; }
+    public void setAddedOn(Timestamp addedOn) { this.addedOn = addedOn; }
 
     public Customer() {
         
     }
     
-    public Customer(int id, String firstName, String lastName, Calendar addedOn) {
+    public Customer(int id, String firstName, String lastName, Timestamp addedOn) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

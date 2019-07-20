@@ -9,6 +9,7 @@ import data.FetchData;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -26,12 +27,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.Appointment;
 import models.Customer;
+import util.DateTimeUtils;
 
 /**
  * FXML Controller class
@@ -47,13 +49,13 @@ public class CustomersController implements Initializable {
         return customers;
     } 
     
-    @FXML private GridPane CustomersPane;
     @FXML private TableView displayTable;
     @FXML private HBox hBoxButtons;
-    @FXML private HBox hBoxCustomer;
+    @FXML private VBox hBoxCustomer;
     private Button btnAdd;
     private Button btnDelete;
     private Button btnView;
+    private Button btnEdit;
     private Button btnViewAppointmentDetails;
     private Button btnDeleteAppointment;
          
@@ -70,6 +72,10 @@ public class CustomersController implements Initializable {
         lastName.setMinWidth(150);
         lastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         
+        TableColumn<Customer, Timestamp> addedOn = new TableColumn<>("Added On");
+        addedOn.setMinWidth(150);
+        addedOn.setCellValueFactory(new PropertyValueFactory<>("addedOn"));
+        
         btnAdd = new Button();
         btnAdd.setPrefWidth(200);
         btnAdd.setText("Add Customer");
@@ -78,15 +84,19 @@ public class CustomersController implements Initializable {
         btnView.setPrefWidth(200);
         btnView.setText("View Customer");
         
+        btnEdit = new Button();
+        btnEdit.setPrefWidth(200);
+        btnEdit.setText("Edit Customer");
+        
         btnDelete = new Button();
         btnDelete.setPrefWidth(200);
         btnDelete.setText("Delete Customer");
        
         hBoxButtons.getChildren().clear();
-        hBoxButtons.getChildren().addAll(btnAdd, btnView, btnDelete);
+        hBoxButtons.getChildren().addAll(btnAdd, btnView, btnEdit, btnDelete);
         
         displayTable.setItems(customers);
-        displayTable.getColumns().setAll(id, firstName, lastName);
+        displayTable.getColumns().setAll(id, firstName, lastName, addedOn);
         
         displayTable.setOnMouseClicked((MouseEvent event) -> {
             if(event.getClickCount() >= 2) {
@@ -132,6 +142,28 @@ public class CustomersController implements Initializable {
             }           
         });
         
+        btnEdit.setOnMouseClicked((MouseEvent e) -> {
+            if(displayTable.getSelectionModel().getSelectedItem() != null){
+                Customer c = (Customer)displayTable.getSelectionModel().getSelectedItem();
+                AddCustomerController.customerToEdit = c;
+                AddCustomerController.isEditing = true; 
+                
+                 try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("AddCustomer.fxml"));
+                    Parent root = loader.load();
+
+                    Stage stage = new Stage();
+                    Scene scene = new Scene(root);
+
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.setScene(scene);
+                    stage.showAndWait();
+                } catch(IOException ex) {
+
+                }
+            }
+        });
+        
         btnDelete.setOnMouseClicked((MouseEvent e) -> {
             if(displayTable.getSelectionModel().getSelectedItem() != null) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -155,8 +187,6 @@ public class CustomersController implements Initializable {
         FetchData data = new FetchData();
         appointments = data.fetchAppointmentsForCustomerData(customer.getId());
         
-        
-       
         displayTable.getItems().clear();
        
         TableColumn<Customer, Integer> id = new TableColumn<>("ID");
@@ -187,10 +217,14 @@ public class CustomersController implements Initializable {
         hBoxButtons.getChildren().addAll(btnAdd, btnViewAppointmentDetails, btnDeleteAppointment);
         
         Label customerLabel = new Label();
-        customerLabel.setText("Appointments for " + customer.getFirstName() + " " + customer.getLastName());
+        customerLabel.setText("Details for " + customer.getFirstName() + " " + customer.getLastName());
+        
+        Label customerDate = new Label();
+        String formattedDateTime = DateTimeUtils.getFormatedDateTimeStringFromTimestamp(customer.getAddedOn());
+        customerDate.setText("Added on " + formattedDateTime);
         
         hBoxCustomer.getChildren().clear();
-        hBoxCustomer.getChildren().addAll(customerLabel);
+        hBoxCustomer.getChildren().addAll(customerLabel, customerDate);
         
         displayTable.setItems(appointments);
         displayTable.getColumns().setAll(id, subject, location);

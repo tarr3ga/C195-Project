@@ -27,6 +27,10 @@ public class SaveData {
     private Connection conn;
     private Statement statement;
     
+    public void close() throws SQLException {
+        conn.close();
+    }
+    
     public int saveNewCustomer(Customer customer) throws SQLException {
         int id = 0;
         
@@ -52,6 +56,14 @@ public class SaveData {
         conn.close();
         
         return id;
+    }
+    
+    public void updateCustomerRecord(Customer customer, Address address,
+            PhoneNumber phoneNumber) throws SQLException {
+        
+        updateCustomer(customer);
+        updateAddress(address, customer.getId());
+        updatePhoneNumber(phoneNumber, customer.getId());
     }
     
     public void saveNewAddress(Address address) throws SQLException {
@@ -108,10 +120,12 @@ public class SaveData {
         
         updateAppointment(appointment);
         updateCustomer(customer);
-        updateAddress(address);
+        updateAddress(address, customer.getId());
         updateCountry(country);
-        updatePhoneNumber(phoneNumber);
+        updatePhoneNumber(phoneNumber, customer.getId());
     }
+    
+    
     
     public void updateAppointment(Appointment appointment) throws SQLException{
         try {
@@ -159,7 +173,7 @@ public class SaveData {
         conn.close();
     }
     
-    public void updateAddress(Address address) throws SQLException {
+    public void updateAddress(Address address, int customerId) throws SQLException {
         try {
             conn = DBConnect.makeConnection();
         } catch(SQLException ex) {
@@ -172,7 +186,7 @@ public class SaveData {
               "    city = '" + address.getCity() + "', " +
               "    state = '" + address.getState() + "', " +                 
               "    zip = '" + address.getZip() + "' " +                   
-              "WHERE ID = " + address.getId() + ";";
+              "WHERE ID = " + customerId + ";";
                                               
         statement = conn.createStatement();
         statement.execute(sql);
@@ -189,7 +203,7 @@ public class SaveData {
         }
         
         String sql = "UPDATE countries " + 
-              "SET country = '" + country.getCountry() + "' " +
+              "SET countryAbreviation = '" + country.getCountry() + "' " +
               "WHERE ID = " + country.getId() + ";";
                                               
         statement = conn.createStatement();
@@ -198,7 +212,7 @@ public class SaveData {
         conn.close();
     } 
     
-    public void updatePhoneNumber(PhoneNumber phoneNumber) throws SQLException {
+    public void updatePhoneNumber(PhoneNumber phoneNumber, int customerId) throws SQLException {
         try {
             conn = DBConnect.makeConnection();
         } catch(SQLException ex) {
@@ -209,7 +223,7 @@ public class SaveData {
         String sql = "UPDATE phoneNumbers " +
               "SET phone = '" + phoneNumber.getPhone() + "', " +
               "    phoneType = '" + phoneNumber.getPhoneType() + "' " +
-              "WHERE ID = " + phoneNumber.getId() + ";";
+              "WHERE ID = " + customerId + ";";
                                               
         statement = conn.createStatement();
         statement.execute(sql);

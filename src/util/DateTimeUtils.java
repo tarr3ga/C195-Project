@@ -5,8 +5,12 @@
  */
 package util;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
 
 /**
  *
@@ -19,6 +23,15 @@ public class DateTimeUtils {
     public static String getFormatedDateTimeString(LocalDateTime dateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
         String formattedDateTime = dateTime.format(formatter);
+        
+        return formattedDateTime;
+    }
+    
+    public static String getFormatedDateTimeStringFromTimestamp(Timestamp dateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
+        DateFormat format = new SimpleDateFormat(DATE_TIME_FORMAT);
+        
+        String formattedDateTime = format.format(dateTime);
         
         return formattedDateTime;
     }

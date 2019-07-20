@@ -27,3 +27,8 @@ and open the template in the editor.
 #pageTitle {
     -fx-text-align: center;
 }
+
+#hBoxCustomer {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}

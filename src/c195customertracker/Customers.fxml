@@ -2,6 +2,7 @@
 
 <?import java.lang.*?>
 <?import java.util.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -19,7 +20,9 @@
     <HBox fx:id="hBoxButtons" GridPane.columnIndex= "0" GridPane.rowIndex="1" >
         
     </HBox>
-    <HBox fx:id="hBoxCustomer" GridPane.columnIndex= "0" GridPane.rowIndex="2" >
-        
-    </HBox>
+    <VBox fx:id="hBoxCustomer" GridPane.columnIndex= "0" GridPane.rowIndex="2" >
+        <padding>
+            <Insets right="10" left="10" top="10" bottom="10" />
+        </padding>
+    </VBox>
 </GridPane>
