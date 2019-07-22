@@ -5,6 +5,7 @@
  */
 package c195customertracker;
 
+import data.DeleteData;
 import data.FetchData;
 import java.io.IOException;
 import java.net.URL;
@@ -68,15 +69,15 @@ public class CustomersController implements Initializable {
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         
         TableColumn<Customer, String> firstName = new TableColumn<>("First Name");
-        firstName.setMinWidth(150);
+        firstName.setMinWidth(175);
         firstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         
         TableColumn<Customer, String> lastName = new TableColumn<>("Last Name");
-        lastName.setMinWidth(150);
+        lastName.setMinWidth(175);
         lastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         
         TableColumn<Customer, Timestamp> addedOn = new TableColumn<>("Added On");
-        addedOn.setMinWidth(150);
+        addedOn.setMinWidth(250);
         addedOn.setCellValueFactory(new PropertyValueFactory<>("addedOn"));
         
         btnAdd = new Button();
@@ -197,12 +198,16 @@ public class CustomersController implements Initializable {
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
        
         TableColumn<Customer, String> subject = new TableColumn<>("Subject");
-        subject.setMinWidth(150);
+        subject.setMinWidth(175);
         subject.setCellValueFactory(new PropertyValueFactory<>("subject"));
 
         TableColumn<Customer, String> location = new TableColumn<>("Location");
-        location.setMinWidth(150);
+        location.setMinWidth(175);
         location.setCellValueFactory(new PropertyValueFactory<>("location"));
+        
+        TableColumn<Customer, String> time = new TableColumn<>("Date and Time");
+        time.setMinWidth(250);
+        time.setCellValueFactory(new PropertyValueFactory<>("start"));
         
         btnAdd = new Button();
         btnAdd.setPrefWidth(200);
@@ -269,16 +274,14 @@ public class CustomersController implements Initializable {
         hBoxCustomer.getChildren().addAll(customerLabel, customerDate, street, address, country, phone);
         
         displayTable.setItems(appointments);
-        displayTable.getColumns().setAll(id, subject, location);
+        displayTable.getColumns().setAll(id, subject, location, time);
         
         displayTable.setOnMouseClicked((MouseEvent event) -> {
             if(event.getClickCount() >= 2) {
                 Appointment a = (Appointment)displayTable.getSelectionModel().getSelectedItem();           
                 int index = a.getId();
                 
-                try {
-                    //loadCustomerSpecificAppointments(index);
-                    
+                try {                    
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Details.fxml"));
                     Parent root = loader.load();
                     
@@ -288,16 +291,18 @@ public class CustomersController implements Initializable {
                     Stage stage = new Stage();
                     Scene scene = new Scene(root);
                     
+                    stage.initModality(Modality.APPLICATION_MODAL);
                     stage.setScene(scene);
-                    stage.show();
                     
                     controller.getData();
+                    
+                    stage.showAndWait();
                 } catch(IOException | SQLException ex) {
                     System.err.println(ex.toString());
                 }      
             }       
         });
-         
+        
         btnAdd.setOnMouseClicked((MouseEvent e) -> {
             try {
                 AddAppointmentController.customerIsSelected = true;
@@ -313,7 +318,7 @@ public class CustomersController implements Initializable {
                 stage.setScene(scene);
                 stage.showAndWait();
             } catch(IOException ex) {
-                
+                System.err.println(ex.toString());
             }
         }) ;
         
@@ -323,8 +328,6 @@ public class CustomersController implements Initializable {
                 int index = a.getId();
                 
                 try {
-                    //loadCustomerSpecificAppointments(index);
-                    
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Details.fxml"));
                     Parent root = loader.load();
                     
@@ -336,8 +339,11 @@ public class CustomersController implements Initializable {
                     
                     stage.initModality(Modality.APPLICATION_MODAL);
                     stage.setScene(scene);
+                    
+                    controller.getData();
+                    
                     stage.showAndWait();
-                } catch(IOException ex) {
+                } catch(SQLException | IOException ex) {
                     System.err.println(ex.toString());
                 }
             }           
@@ -353,13 +359,23 @@ public class CustomersController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 
                 if(result.get() == ButtonType.OK) {
-                    
+                    try {
+                        Appointment a = (Appointment)displayTable.getSelectionModel().getSelectedItem();
+                        
+                        DeleteData delete= new DeleteData();
+                        delete.deleteAppointment(a.getId());
+                    } catch(SQLException ex) {
+                        
+                    }
+                
                 } else {
                     alert.close();
                 }
             }
         });
     }
+    
+    
     
     /**
      * Initializes the controller class.

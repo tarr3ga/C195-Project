@@ -7,8 +7,13 @@ package c195customertracker;
 
 import data.FetchData;
 import data.SaveData;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -103,6 +108,36 @@ public class AddCustomerController implements Initializable {
                     } else {
                         data.updateCustomerRecord(c, a, p);
                     }
+                    
+                    File dir = new File("logs/");
+                    boolean success =  dir.mkdir();
+                    
+                    if(success)
+                        System.out.println("Directory created");
+                    else
+                        System.out.println("Directory already exists");
+                    
+                    FileWriter writer;
+                    
+                    File file = new File("logs/transactions.txt");
+                    
+                    try {
+                        writer = new FileWriter(file);
+                    } catch(IOException ex) {
+                        System.out.println(ex.toString());
+                    }
+                    
+                    String message = "Customer ID: " + c.getId() + " Created by " + 
+                            FXMLDocumentController.authorizedUser + " on " + LocalDateTime.now().toString() + "\n";
+                    
+                    
+                    try {
+                        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
+                        bufferedWriter.append(message);
+                        bufferedWriter.close();
+                    } catch(IOException ex) {
+                        
+                    } 
                     
                     Stage stage = (Stage)btnSubmit.getScene().getWindow();
                     stage.close();

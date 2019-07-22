@@ -43,7 +43,7 @@ public class FetchData {
     private static final String SQL_PHONENUMBERS = "SELECT * FROM phoneNumbers";
     private static final String SQL_COUNTRY = "SELECT * FROM countries WHERE ID = ";
     private static final String SQL_COUNTRIES = "SELECT * FROM countries";
-    private static final String SQL_CUSTOMER_SPECIFIC_APPOINTMENTS = "SELECT * FROM appointments WHERE ID = ";
+    private static final String SQL_CUSTOMER_SPECIFIC_APPOINTMENTS = "SELECT * FROM appointments WHERE customersId = ";
     
     
     private Connection conn;
@@ -413,21 +413,25 @@ public class FetchData {
             String description = resultSet.getString(index);
             
             index = resultSet.findColumn("start");
-            LocalDateTime start = (LocalDateTime)resultSet.getObject(index);
+            String start = resultSet.getString(index);
             
             index = resultSet.findColumn("end");
-            LocalDateTime end = (LocalDateTime)resultSet.getObject(index);
+            String end = resultSet.getString(index);
             
             index = resultSet.findColumn("customersId");
             int customersId = resultSet.getInt(index);
+            
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            LocalDateTime startDateTime = LocalDateTime.parse(start, formatter);
+            LocalDateTime endDateTime = LocalDateTime.parse(end, formatter);
             
             Appointment a = new Appointment();
             a.setId(id);
             a.setSubject(subject);
             a.setLocation(location);
             a.setDescription(description);
-            a.setStart(start);
-            a.setEnd(end);
+            a.setStart(startDateTime);
+            a.setEnd(endDateTime);
             a.setCustomerId(customersId);
         }
         

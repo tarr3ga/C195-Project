@@ -14,6 +14,7 @@
           xmlns:fx="http://javafx.com/fxml/1" 
           fx:controller="c195customertracker.CustomersController">
     <TableView fx:id="displayTable" 
+               id="customerInfo"
                minWidth="1200">   
         
     </TableView>

@@ -190,8 +190,7 @@ public class DetailsController implements Initializable {
     
     private void setData() {
         appointment.setSubject(subject.getText());
-        // TODO Add location to FXML
-        //appointment.setLocation(location.getT);
+        appointment.setLocation(location.getText());
         appointment.setDescription(details.getText());
         
     }

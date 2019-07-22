@@ -21,6 +21,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import models.Appointment;
 import models.Customer;
 import util.DateTimeUtils;
@@ -92,10 +93,14 @@ public class AddAppointmentController implements Initializable {
             }catch(SQLException ex) {
                 
             }
+            
+            Stage stage = (Stage)submit.getScene().getWindow();
+            stage.close();
         });
         
         cancel.setOnMouseClicked((MouseEvent e) -> {
-        
+            Stage stage = (Stage)cancel.getScene().getWindow();
+            stage.close();
         });
     }
    

@@ -44,8 +44,10 @@ public class MainSceneController implements Initializable {
     }
     
     @FXML
-    private void onAppointmentsClick(ActionEvent event) {
-        
+    private void onAppointmentsClick(ActionEvent event) throws IOException {
+        display.getChildren().clear();
+        GridPane newPane = FXMLLoader.load(getClass().getResource("Appointments.fxml"));
+        display.add(newPane, 0, 0);
     }
     
     @FXML
