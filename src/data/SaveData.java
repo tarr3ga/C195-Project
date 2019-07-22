@@ -115,6 +115,36 @@ public class SaveData {
         conn.close();
     }
     
+    public void saveNewAppointment(Appointment appointment) throws SQLException {
+        try {
+            conn = DBConnect.makeConnection();
+        } catch(SQLException ex) {
+            
+        }
+        
+        String start = DateTimeUtils.getStorableDateTimeString(appointment.getStart());
+        String end = DateTimeUtils.getStorableDateTimeString(appointment.getEnd());
+        
+        String sql = "INSERT INTO appointments(subject, location, description, start, end, customersId, usersId) " +
+                     "VALUES('" + appointment.getSubject() + "', '" + 
+                     appointment.getLocation() + "', '" +
+                     appointment.getDescription() + "', '" +
+                     start + "', '" +
+                     end + "', " +
+                     appointment.getCustomerId() + ", " +
+                     appointment.getUserId() + ");";
+        
+        System.out.println(sql);
+        
+        statement = conn.createStatement();
+        try {
+            statement.execute(sql);
+        } catch(SQLException ex) {
+            System.out.println(ex.toString());
+        }
+        conn.close();
+    }
+    
     public void updateFullRecord(Appointment appointment, Customer customer, Address address,
             Country country, PhoneNumber phoneNumber) throws SQLException {
         
@@ -124,8 +154,6 @@ public class SaveData {
         updateCountry(country);
         updatePhoneNumber(phoneNumber, customer.getId());
     }
-    
-    
     
     public void updateAppointment(Appointment appointment) throws SQLException{
         try {

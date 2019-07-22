@@ -458,6 +458,26 @@ public class FetchData {
     }
     
     
+    public int getUserId(String userName) throws SQLException {
+        try {
+            conn = DBConnect.makeConnection();
+        } catch(SQLException ex) {
+            
+        }
+        
+        String sql = "SELECT ID FROM users WHERE username = '" + userName + "';";
+        
+        statement = conn.createStatement();
+        resultSet = statement.executeQuery(sql);
+        
+        resultSet.next();
+        
+        int index = resultSet.findColumn("ID");
+        int id = resultSet.getInt(index);
+        
+        return id;
+    }
+    
     public int getCustomerCount() throws SQLException {
         try {
             conn = DBConnect.makeConnection();

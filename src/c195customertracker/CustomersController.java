@@ -31,8 +31,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import models.Address;
 import models.Appointment;
+import models.Country;
 import models.Customer;
+import models.PhoneNumber;
 import util.DateTimeUtils;
 
 /**
@@ -223,8 +226,47 @@ public class CustomersController implements Initializable {
         String formattedDateTime = DateTimeUtils.getFormatedDateTimeStringFromTimestamp(customer.getAddedOn());
         customerDate.setText("Added on " + formattedDateTime);
         
+        Address add = new Address();
+        
+        try {
+            data = new FetchData();
+            add = data.fetchAddress(customer.getId());
+        } catch(SQLException ex) {
+            
+        }
+        
+        Label street = new Label();
+        street.setText(add.getStreet());
+        
+        Label address = new Label();
+        address.setText(add.getCity() + ", " + add.getState() + " " + add.getZip());
+        
+        Country c = new Country();
+        
+        try {
+            data = new FetchData();
+            c = data.fetchCountry(add.getCountryId());
+        } catch(SQLException ex) {
+            
+        }
+        
+        Label country = new Label();
+        country.setText(c.getCountryAbreviation() + " | " + c.getCountry());
+        
+        PhoneNumber p = new PhoneNumber();
+        
+        try {
+            data = new FetchData();
+            p = data.fetchPhoneNumber(customer.getId());
+        } catch(SQLException ex) {
+            
+        }
+        
+        Label phone = new Label();
+        phone.setText(p.getPhone() + " (" + p.getPhoneType() + ")");
+        
         hBoxCustomer.getChildren().clear();
-        hBoxCustomer.getChildren().addAll(customerLabel, customerDate);
+        hBoxCustomer.getChildren().addAll(customerLabel, customerDate, street, address, country, phone);
         
         displayTable.setItems(appointments);
         displayTable.getColumns().setAll(id, subject, location);
@@ -258,6 +300,9 @@ public class CustomersController implements Initializable {
          
         btnAdd.setOnMouseClicked((MouseEvent e) -> {
             try {
+                AddAppointmentController.customerIsSelected = true;
+                AddAppointmentController.customerSelected = customer;
+                
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("AddAppointment.fxml"));
                 Parent root = loader.load();
                 

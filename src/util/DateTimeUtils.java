@@ -44,4 +44,28 @@ public class DateTimeUtils {
         
         return formattedDateTime;
     }
+    
+    public static String[] getDateParts(String date, String time, String AmPm) {
+        String[] dateTimeParts = new String[5];
+        
+        String[] dateParts = date.split("-");
+        
+        dateTimeParts[0] = dateParts[0];
+        dateTimeParts[1] = dateParts[1];
+        dateTimeParts[2] = dateParts[2];
+        
+        String[] hourMinutes = time.split(":");
+               
+        dateTimeParts[4] = hourMinutes[1];
+        
+        if(AmPm.equals("AM") && hourMinutes[0] != "12") {
+            dateTimeParts[3] = hourMinutes[0];
+        } else if(AmPm.equals("PM") && hourMinutes[0] != "12") {
+            Integer hour = Integer.parseInt(hourMinutes[0]);
+            hour += 12;
+            dateTimeParts[3] = hour.toString();
+        }
+       
+        return dateTimeParts;
+    }
 }

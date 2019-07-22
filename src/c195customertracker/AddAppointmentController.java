@@ -5,9 +5,25 @@
  */
 package c195customertracker;
 
+import data.FetchData;
+import data.SaveData;
 import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import models.Appointment;
+import models.Customer;
+import util.DateTimeUtils;
 
 /**
  * FXML Controller class
@@ -16,12 +32,119 @@ import javafx.fxml.Initializable;
  */
 public class AddAppointmentController implements Initializable {
 
+    public static boolean customerIsSelected = false;
+    public static Customer customerSelected;
+    
+    @FXML private ComboBox cbCustomers;
+    @FXML private TextField subject;
+    @FXML private TextField location;
+    @FXML private TextArea details;
+    @FXML private DatePicker startDate;
+    @FXML private ComboBox startTime;
+    @FXML private ComboBox startTimeAmPm;
+    @FXML private DatePicker endDate;
+    @FXML private ComboBox endTime;
+    @FXML private ComboBox endTimeAmPm;
+    
+    @FXML private Button submit;
+    @FXML private Button cancel;
+    
+    private ObservableList<Customer> customers;
+    private final String[] times = {"12:00", "12:15", "12:30", "12:45", "1:00", "1:15", "1:30", "1:45",
+                                    "2:00", "2:15", "2:30", "2:45", "3:00", "3:15", "3:30", "3:45",
+                                    "4:00", "4:15", "4:30", "4:45", "5:00", "5:15", "5:30", "5:45",
+                                    "6:00", "6:15", "6:30", "6:45", "7:00", "7:15", "7:30", "7:45",
+                                    "8:00", "8:15", "8:30", "8:45", "9:00", "9:15", "9:30", "9:45",
+                                    "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45"};
+    
+    private void setEventHandlers() {
+        submit.setOnMouseClicked((MouseEvent e) -> {
+            Appointment a = new Appointment();
+            a.setSubject(subject.getText());
+            a.setLocation(location.getText());
+            a.setDescription(details.getText());
+            
+            String[] dateTimeParts = DateTimeUtils.getDateParts(startDate.getValue().toString(), 
+                    (String)startTime.getSelectionModel().getSelectedItem(), 
+                    (String)startTimeAmPm.getSelectionModel().getSelectedItem());
+            LocalDateTime localDateTime = LocalDateTime.of(Integer.parseInt(dateTimeParts[0]), 
+                    Integer.parseInt(dateTimeParts[1]), Integer.parseInt(dateTimeParts[2]), 
+                    Integer.parseInt(dateTimeParts[3]), Integer.parseInt(dateTimeParts[4]));
+            a.setStart(localDateTime);
+            
+            dateTimeParts = DateTimeUtils.getDateParts(endDate.getValue().toString(), 
+                    (String)endTime.getSelectionModel().getSelectedItem(), 
+                    (String)endTimeAmPm.getSelectionModel().getSelectedItem());
+            localDateTime = LocalDateTime.of(Integer.parseInt(dateTimeParts[0]), 
+                    Integer.parseInt(dateTimeParts[1]), Integer.parseInt(dateTimeParts[2]), 
+                    Integer.parseInt(dateTimeParts[3]), Integer.parseInt(dateTimeParts[4]));
+            a.setEnd(localDateTime);
+            
+            a.setUserId(FXMLDocumentController.authorizedUserId);
+            
+            String cbValue = (String)cbCustomers.getSelectionModel().getSelectedItem();
+            String[] parts = cbValue.split(" ");
+            a.setCustomerId(Integer.parseInt(parts[0]));
+            
+            SaveData data = new SaveData();
+            try{
+                data.saveNewAppointment(a);
+            }catch(SQLException ex) {
+                
+            }
+        });
+        
+        cancel.setOnMouseClicked((MouseEvent e) -> {
+        
+        });
+    }
+   
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+        customers = FXCollections.observableArrayList();
+        
+        try {
+            FetchData data = new FetchData();
+            customers = data.fetchCustomerData();
+        } catch(SQLException ex) {
+            
+        }
+        
+        for(Customer c : customers) {
+            cbCustomers.getItems().add(c.getId() + " " + c.getFirstName() + " " + c.getLastName());
+        }
+        
+        if(customerIsSelected) {
+            int index = -1;
+            
+            for(Customer c : customers) {
+                if(customerSelected.getId() == c.getId()) {
+                    index = customers.indexOf(c);
+                }
+            }
+            
+            cbCustomers.getSelectionModel().select(index);
+        }
+        
+        for(String s : times) {
+            startTime.getItems().add(s);
+            endTime.getItems().add(s);
+        }
+        
+        startTimeAmPm.getItems().add("AM");
+        startTimeAmPm.getItems().add("PM");
+        endTimeAmPm.getItems().add("AM");
+        endTimeAmPm.getItems().add("PM");
+        
+        startTime.getSelectionModel().selectFirst();
+        endTime.getSelectionModel().selectFirst();
+        startTimeAmPm.getSelectionModel().selectFirst();
+        endTimeAmPm.getSelectionModel().selectFirst();
+        
+        setEventHandlers();
+    }     
 }

@@ -63,7 +63,9 @@ public class AddCustomerController implements Initializable {
                     int id = -1;
                     
                     Customer c = new Customer();
-                    c.setId(customerToEdit.getId());
+                    if(isEditing == true) {
+                        c.setId(customerToEdit.getId());
+                    }
                     c.setFirstName(firstName.getText());
                     c.setLastName(lastName.getText());
                     

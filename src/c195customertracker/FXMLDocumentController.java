@@ -5,6 +5,7 @@
  */
 package c195customertracker;
 
+import data.FetchData;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -28,6 +29,7 @@ import util.Language;
 public class FXMLDocumentController implements Initializable {
     
     public static String authorizedUser;
+    public static int authorizedUserId;
     
     private Language selectedLanguage;
     String[] english = {"Username", "Password", "Logon", "Language", "Authorized", 
@@ -40,7 +42,7 @@ public class FXMLDocumentController implements Initializable {
         "Tous les champs sont requis."};
     
     private String authorized, unauthorized, required;
-    private ObservableList<String> languages = FXCollections.observableArrayList();
+    private final ObservableList<String> languages = FXCollections.observableArrayList();
     
     
     @FXML private TextField username;
@@ -100,6 +102,9 @@ public class FXMLDocumentController implements Initializable {
                 response.setText(authorized);
                 
                 authorizedUser = username.getText();
+                
+                FetchData data = new FetchData();
+                authorizedUserId = data.getUserId(authorizedUser);
                 
                 MainSceneController scene = new MainSceneController();
                 scene.openWindow();
