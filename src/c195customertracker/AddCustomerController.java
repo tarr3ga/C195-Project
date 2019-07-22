@@ -53,13 +53,13 @@ public class AddCustomerController implements Initializable {
     
     private final String[] phoneTypes = {"Home", "Cell", "Work"};
     private final String[] states = {"AK", "AL", "AR", "AS", "AZ", "CA", "CO", "CT", 
-                               "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", 
-                               "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", 
-                               "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", 
-                               "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", 
-                               "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", 
-                               "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", 
-                               "WY"};
+                                     "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", 
+                                     "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", 
+                                     "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", 
+                                     "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", 
+                                     "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", 
+                                     "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", 
+                                     "WY"};
     
     private void setEventHandlers() {
         btnSubmit.setOnMouseClicked((MouseEvent e) -> {
@@ -117,23 +117,16 @@ public class AddCustomerController implements Initializable {
                     else
                         System.out.println("Directory already exists");
                     
-                    FileWriter writer;
-                    
                     File file = new File("logs/transactions.txt");
                     
-                    try {
-                        writer = new FileWriter(file);
-                    } catch(IOException ex) {
-                        System.out.println(ex.toString());
-                    }
-                    
-                    String message = "Customer ID: " + c.getId() + " Created by " + 
-                            FXMLDocumentController.authorizedUser + " on " + LocalDateTime.now().toString() + "\n";
-                    
+                    String message = "Customer ID: " + id + " Created by " + 
+                            FXMLDocumentController.authorizedUser + " on " + LocalDateTime.now().toString();
                     
                     try {
                         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
+                        bufferedWriter.newLine();
                         bufferedWriter.append(message);
+                        bufferedWriter.flush();
                         bufferedWriter.close();
                     } catch(IOException ex) {
                         
