@@ -19,8 +19,6 @@
                            text="Customers" onAction="#onCustomersClick" />
                    <Button fx:id="btnAppointment" layoutX="350.0" minWidth="160.0" prefWidth="160.0" 
                            text="Appointments" onAction="#onAppointmentsClick" />
-                   <Button fx:id="btnCalendar" layoutX="520.0" minWidth="160.0" prefWidth="160.0" text="Calendar"
-                           onAction="#onCalendarClick"/>
                    <Label fx:id="pageTitle" id="pageTitle" layoutX="600.0" minHeight="45" minWidth="200" maxWidth="200" />
                </children>
             </AnchorPane> 

@@ -26,3 +26,6 @@ New Appointment ID: javafx.scene.control.TableColumn@a8b8daf Created by jamyers 
 New Appointment ID: javafx.scene.control.TableColumn@4d775b0c Created by jamyers on 2019-07-22T18:30:54.231
 New Appointment ID: 14 Created by skyman on 2019-07-22T20:28:00.632
 New Appointment ID: 15 Created by skyman on 2019-07-22T20:28:59.486
+New Appointment ID: 16 Created by jamyers on 2019-07-23T13:49:27.849
+New Appointment ID: 17 Created by jamyers on 2019-07-23T13:50:24.754
+New Appointment ID: 18 Created by jamyers on 2019-07-23T13:51:06.632

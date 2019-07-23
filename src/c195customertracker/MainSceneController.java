@@ -50,11 +50,6 @@ public class MainSceneController implements Initializable {
         display.add(newPane, 0, 0);
     }
     
-    @FXML
-    private void onCalendarClick(ActionEvent event) {
-        
-    }
-    
     public static void loadCustomerAppointments(int index) throws IOException {
         
     }

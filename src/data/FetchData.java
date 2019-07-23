@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -463,6 +464,63 @@ public class FetchData {
         return appointments;
     }
     
+    public ObservableList fetchAppointmentsInDateRange(LocalDateTime startDate, LocalDateTime endDate) throws SQLException {
+        
+        try {
+            conn = DBConnect.makeConnection();
+        } catch(SQLException ex) {
+            System.err.println(ex.toString());
+        }
+        
+        String sql = "SELECT * FROM appointments";
+        
+        statement = conn.createStatement();
+        resultSet = statement.executeQuery(sql);
+        
+        int index;
+        
+        while(resultSet.next()) {
+            index = resultSet.findColumn("ID");
+            int id = resultSet.getInt(index);
+            
+            index = resultSet.findColumn("subject");
+            String subject = resultSet.getString(index);
+            
+            index = resultSet.findColumn("location");
+            String location = resultSet.getString(index);
+            
+            index = resultSet.findColumn("description");
+            String description = resultSet.getString(index);
+            
+            index = resultSet.findColumn("start");
+            String start = resultSet.getString(index);
+            
+            index = resultSet.findColumn("end");
+            String end = resultSet.getString(index);
+            
+            index = resultSet.findColumn("customersId");
+            int customersId = resultSet.getInt(index);
+            
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            LocalDateTime startDateTime = LocalDateTime.parse(start, formatter);
+            LocalDateTime endDateTime = LocalDateTime.parse(end, formatter);
+            
+            if(startDateTime.isAfter(startDate) && startDateTime.isBefore(endDate)) {
+                Appointment a = new Appointment();
+                a.setId(id);
+                a.setSubject(subject);
+                a.setLocation(location);
+                a.setDescription(description);
+                a.setStart(startDateTime);
+                a.setEnd(endDateTime);
+                a.setCustomerId(customersId);
+                
+                appointments.add(a);
+            }
+        }
+        
+        return appointments;
+    }
     
     public int getUserId(String userName) throws SQLException {
         try {
