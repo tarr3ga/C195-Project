@@ -34,7 +34,7 @@ public class SaveData {
     public int saveNewCustomer(Customer customer) throws SQLException {
         int id = 0;
         
-         try {
+        try {
             conn = DBConnect.makeConnection();
         } catch(SQLException ex) {
             System.out.println("saveNewCustomer");
@@ -66,7 +66,9 @@ public class SaveData {
         updatePhoneNumber(phoneNumber, customer.getId());
     }
     
-    public void saveNewAddress(Address address) throws SQLException {
+    public int saveNewAddress(Address address) throws SQLException {
+        int id = 0;
+        
         try {
             conn = DBConnect.makeConnection();
         } catch (SQLException ex) {
@@ -79,17 +81,17 @@ public class SaveData {
                      address.getZip() + "', " + address.getCountryId() + ", " + address.getCustomerId() +");";
         
         statement = conn.createStatement();
+        statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
+      
+         ResultSet rs = statement.getGeneratedKeys();
         
-        System.out.println(address.getZip());
-        
-        try{
-            statement.execute(sql);
-        } catch(SQLException ex) {
-            System.err.println("saveNewAddress");
-            System.err.println(ex.toString());
+        if(rs.next()) {
+            id = rs.getInt(1);
         }
         
         conn.close();
+        
+        return id;
     }
     
     public void saveNewPhone(PhoneNumber phoneNumber) throws SQLException {
@@ -115,7 +117,9 @@ public class SaveData {
         conn.close();
     }
     
-    public void saveNewAppointment(Appointment appointment) throws SQLException {
+    public int saveNewAppointment(Appointment appointment) throws SQLException {
+        int id = 0;
+        
         try {
             conn = DBConnect.makeConnection();
         } catch(SQLException ex) {
@@ -134,15 +138,20 @@ public class SaveData {
                      appointment.getCustomerId() + ", " +
                      appointment.getUserId() + ");";
         
-        System.out.println(sql);
-        
         statement = conn.createStatement();
-        try {
-            statement.execute(sql);
-        } catch(SQLException ex) {
-            System.out.println(ex.toString());
+        statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
+
+        ResultSet rs = statement.getGeneratedKeys();
+        
+        if(rs.next()) {
+            id = rs.getInt(1);
         }
+
+        System.out.println("ID = " + id);
+        
         conn.close();
+        
+        return id;
     }
     
     public void updateFullRecord(Appointment appointment, Customer customer, Address address,

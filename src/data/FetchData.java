@@ -433,6 +433,8 @@ public class FetchData {
             a.setStart(startDateTime);
             a.setEnd(endDateTime);
             a.setCustomerId(customersId);
+            
+            appointments.add(a);
         }
         
         conn.close();
@@ -520,6 +522,27 @@ public class FetchData {
         int count = resultSet.getInt(1);
         
         conn.close();
+        
+        return count;
+    }
+    
+    public int getAppointmentCountPerCustomer(Customer customer) throws SQLException{        
+        try {
+            conn = DBConnect.makeConnection();
+        } catch(SQLException ex) {
+            System.err.println(ex.toString());
+        }
+        
+        String sql = "SELECT COUNT(*) FROM appointments WHERE customersId = " + customer.getId();
+        
+        statement = conn.createStatement();
+        resultSet = statement.executeQuery(sql);
+        
+        resultSet.next();
+        
+        int count = resultSet.getInt(1);
+        
+        System.out.println("Appointment count = " + count);
         
         return count;
     }

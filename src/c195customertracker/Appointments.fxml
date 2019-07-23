@@ -7,11 +7,12 @@
 <?import javafx.scene.layout.*?>
 
 <GridPane id="customerAppointmentsPane" 
-            prefHeight="400.0" prefWidth="600.0" 
+            prefHeight="800.0" prefWidth="1200.0" 
             xmlns:fx="http://javafx.com/fxml/1" 
             fx:controller="c195customertracker.AppointmentsController">
     <TableView fx:id="appointmentsTable" 
-               minWidth="1200">   
+               id="appointmentInfo"
+               minWidth="1200" minHeight="400" >   
     
     </TableView>
     <HBox GridPane.columnIndex= "0" GridPane.rowIndex="1" >
@@ -19,5 +20,17 @@
                 prefWidth="160.0" styleClass="mainFxmlClass" />
         <Button fx:id="btnDelete" text="Delete" minWidth="160.0" 
                 prefWidth="160.0" styleClass="mainFxmlClass" />
+    </HBox>
+    <HBox GridPane.columnIndex= "0" GridPane.rowIndex="2" >
+        <Label text="Filter by Date:" />
+    </HBox>
+    <HBox GridPane.columnIndex= "0" GridPane.rowIndex="3" >
+        <GridPane>
+            <Label text="Start Date" GridPane.columnIndex= "0" GridPane.rowIndex="0" />
+            <Label text="End Date"  GridPane.columnIndex= "1" GridPane.rowIndex="0" />
+            <DatePicker fx:id="startDate" GridPane.columnIndex= "0" GridPane.rowIndex="1" />
+            <DatePicker fx:id="endDate" GridPane.columnIndex= "1" GridPane.rowIndex="1" />
+            <Button fx:id="btnFilter" text="Filter" GridPane.columnIndex= "0" GridPane.rowIndex="2" />
+        </GridPane>     
     </HBox>
 </GridPane>

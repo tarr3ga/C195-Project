@@ -3,3 +3,26 @@ Customer ID: 0 Created by jamyers on 2019-07-22T09:41:03.018
 
 Customer ID: 0 Created by jamyers on 2019-07-22T09:43:07.375
 Customer ID: 0 Created by jamyers on 2019-07-22T09:45:38.567
+New Customer ID: 3 Created by skyman on 2019-07-22T14:34:58.178
+New Appointment ID: 1 Created by jamyers on 2019-07-22T14:58:52.657
+New Appointment ID: 2 Created by superdude on 2019-07-22T15:31:41.748
+New Appointment ID: 13 Created by skyman on 2019-07-22T15:37:00.028
+New Customer ID: 19 Created by skyman on 2019-07-22T15:38:30.711
+New Appointment ID: javafx.scene.control.TableColumn@58f71974 Created by jamyers on 2019-07-22T15:49:14.364
+New Appointment ID: javafx.scene.control.TableColumn@464ddb8d Created by jamyers on 2019-07-22T16:03:08.605
+New Appointment ID: javafx.scene.control.TableColumn@5d8aacc Created by jamyers on 2019-07-22T16:35:24.888
+New Appointment ID: javafx.scene.control.TableColumn@5d8aacc Created by jamyers on 2019-07-22T16:36:14.255
+New Appointment ID: javafx.scene.control.TableColumn@25cc7b87 Created by jamyers on 2019-07-22T16:37:25.160
+New Appointment ID: javafx.scene.control.TableColumn@25cc7b87 Created by jamyers on 2019-07-22T16:37:31.530
+New Appointment ID: javafx.scene.control.TableColumn@1a921ceb Created by jamyers on 2019-07-22T16:39:30.750
+New Appointment ID: javafx.scene.control.TableColumn@4d775b0c Created by jamyers on 2019-07-22T16:46:47.917
+New Appointment ID: javafx.scene.control.TableColumn@4d775b0c Created by jamyers on 2019-07-22T16:46:51.264
+New Appointment ID: javafx.scene.control.TableColumn@4054de96 Created by jamyers on 2019-07-22T16:59:28.606
+New Appointment ID: javafx.scene.control.TableColumn@4054de96 Created by jamyers on 2019-07-22T17:00:09.767
+New Appointment ID: javafx.scene.control.TableColumn@a16f364 Created by jamyers on 2019-07-22T17:01:05.182
+New Appointment ID: javafx.scene.control.TableColumn@a16f364 Created by jamyers on 2019-07-22T17:01:13.003
+New Appointment ID: javafx.scene.control.TableColumn@190c625d Created by jamyers on 2019-07-22T18:28:59.402
+New Appointment ID: javafx.scene.control.TableColumn@a8b8daf Created by jamyers on 2019-07-22T18:29:16.912
+New Appointment ID: javafx.scene.control.TableColumn@4d775b0c Created by jamyers on 2019-07-22T18:30:54.231
+New Appointment ID: 14 Created by skyman on 2019-07-22T20:28:00.632
+New Appointment ID: 15 Created by skyman on 2019-07-22T20:28:59.486

@@ -7,6 +7,10 @@ package c195customertracker;
 
 import data.FetchData;
 import data.SaveData;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -60,6 +64,8 @@ public class AddAppointmentController implements Initializable {
     
     private void setEventHandlers() {
         submit.setOnMouseClicked((MouseEvent e) -> {
+            int id = -1;
+            
             Appointment a = new Appointment();
             a.setSubject(subject.getText());
             a.setLocation(location.getText());
@@ -89,10 +95,33 @@ public class AddAppointmentController implements Initializable {
             
             SaveData data = new SaveData();
             try{
-                data.saveNewAppointment(a);
+                id = data.saveNewAppointment(a);
             }catch(SQLException ex) {
-                
+                System.err.println(ex.toString());
             }
+            
+            File dir = new File("logs/");
+            boolean success =  dir.mkdir();
+
+            if(success)
+                System.out.println("Directory created");
+            else
+                System.out.println("Directory already exists");
+            
+            File file = new File("logs/transactions.txt");
+            
+            String message = "New Appointment ID: " + id + " Created by " + 
+                            FXMLDocumentController.authorizedUser + " on " + LocalDateTime.now().toString();
+                    
+            try {
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
+                bufferedWriter.newLine();
+                bufferedWriter.append(message);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+            } catch(IOException ex) {
+
+            } 
             
             Stage stage = (Stage)submit.getScene().getWindow();
             stage.close();

@@ -92,7 +92,7 @@ public class AddCustomerController implements Initializable {
                     data = new SaveData();
                     
                     if(isEditing == false) {
-                        data.saveNewAddress(a);
+                        id = data.saveNewAddress(a);
                         data.close();
                     }
                     
@@ -119,7 +119,7 @@ public class AddCustomerController implements Initializable {
                     
                     File file = new File("logs/transactions.txt");
                     
-                    String message = "Customer ID: " + id + " Created by " + 
+                    String message = "New Customer ID: " + id + " Created by " + 
                             FXMLDocumentController.authorizedUser + " on " + LocalDateTime.now().toString();
                     
                     try {

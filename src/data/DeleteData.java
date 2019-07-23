@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import models.Customer;
 
 /**
  *
@@ -30,5 +31,28 @@ public class DeleteData {
         
         statement = conn.createStatement();
         statement.execute(sql);
+        
+        conn.close();
+    }
+    
+    public void DeleteCustomer(Customer customer) throws SQLException {
+        try {
+            conn = DBConnect.makeConnection();
+        } catch(SQLException ex) {
+            
+        }
+        
+        String sql = "DELETE appointments "
+                + ""
+                + "FROM appointments WHERE ID = " + customer.getId() + "; " +
+                     "DELETE FROM addresses WHERE customersId = " + customer.getId() + "; " +
+                     "DELETE FROM phoneNumbers WHERE customersId = " + customer.getId() + ";";
+        
+        System.out.println(sql);
+        
+        statement = conn.createStatement();
+        statement.execute(sql);
+        
+        conn.close();
     }
 }
