@@ -343,7 +343,9 @@ public class CustomersController implements Initializable {
                 stage.initModality(Modality.APPLICATION_MODAL);
                 stage.setScene(scene);
                 stage.showAndWait();
-            } catch(IOException ex) {
+                
+                loadCustomerSpecificAppointments(customer);
+            } catch(SQLException | IOException ex) {
                 System.err.println(ex.toString());
             }
         }) ;

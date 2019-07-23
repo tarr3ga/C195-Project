@@ -7,15 +7,25 @@ package c195customertracker;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import models.AppointmentAlert;
+import util.Scan;
 
 /**
  * FXML Controller class
@@ -54,6 +64,29 @@ public class MainSceneController implements Initializable {
         
     }
     
+    private static void startTimer() {
+        Date start = new Date();
+        
+        TimerTask task = new Scan();
+        Timer t = new Timer();
+        t.scheduleAtFixedRate(task, start, 60000);
+    }
+    
+    private static void scan() {
+        
+    } 
+    
+    public static void setAlert(int id, LocalDateTime time, String firstName, String lastName, String subject) {
+        String name = firstName + " " + lastName;
+        
+        AppointmentAlert alert = new AppointmentAlert(id, time, name, subject);
+        Scan.alerts.add(alert);
+    }
+    
+    public static void cancelAlert(int id) {
+        
+    }
+    
     public void openWindow() throws Exception {
         root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
         
@@ -76,8 +109,9 @@ public class MainSceneController implements Initializable {
         try {
             loadOnInit();
         } catch(IOException ex) {
-            
+            System.err.println(ex.toString());
         }
+        
+        startTimer();
     }    
-    
 }

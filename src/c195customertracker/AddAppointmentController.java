@@ -100,6 +100,18 @@ public class AddAppointmentController implements Initializable {
                 System.err.println(ex.toString());
             }
             
+            // SET 15 MINUTE ALERT
+            FetchData fetch = new FetchData();
+            Customer c = new Customer();
+            try {
+                c = fetch.fetchSingleCustomer(a.getCustomerId());
+            } catch(SQLException ex) {
+                System.err.println(ex.toString());
+            }
+            
+            MainSceneController.setAlert(a.getId(), a.getStart(), c.getFirstName(), c.getLastName(), a.getSubject());
+            
+            // WRITE TRANSACTION TO LOG FILE
             File dir = new File("logs/");
             boolean success =  dir.mkdir();
 
