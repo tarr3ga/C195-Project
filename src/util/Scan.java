@@ -5,6 +5,7 @@
  */
 package util;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ import models.AppointmentAlert;
  *
  * @author jamyers
  */
-public class Scan extends TimerTask {
+public class Scan extends TimerTask implements Serializable {
         public static List<AppointmentAlert> alerts = new ArrayList<>();
         
         @Override
