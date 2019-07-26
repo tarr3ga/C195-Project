@@ -8,7 +8,7 @@ package c195customertracker;
 import data.FetchData;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 import javafx.fxml.FXML;
@@ -33,7 +33,7 @@ public class HomeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         String user = FXMLDocumentController.authorizedUser;
-        LocalDateTime time = LocalDateTime.now();
+        ZonedDateTime time = ZonedDateTime.now();
         
         String message = "Welcome " + user + ", you are logged in at " + time.toString();
         welcome.setText(message);

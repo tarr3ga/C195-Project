@@ -13,7 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -120,7 +120,7 @@ public class AddCustomerController implements Initializable {
                     File file = new File("logs/transactions.txt");
                     
                     String message = "New Customer ID: " + id + " Created by " + 
-                            FXMLDocumentController.authorizedUser + " on " + LocalDateTime.now().toString();
+                            FXMLDocumentController.authorizedUser + " on " + ZonedDateTime.now().toString();
                     
                     try {
                         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));

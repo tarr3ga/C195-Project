@@ -7,7 +7,7 @@ package c195customertracker;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.Timer;
@@ -72,7 +72,7 @@ public class MainSceneController implements Initializable {
         
     } 
     
-    public static void setAlert(int id, LocalDateTime time, String firstName, String lastName, String subject) {
+    public static void setAlert(int id, ZonedDateTime time, String firstName, String lastName, String subject) {
         String name = firstName + " " + lastName;
         
         AppointmentAlert alert = new AppointmentAlert(id, time, name, subject);

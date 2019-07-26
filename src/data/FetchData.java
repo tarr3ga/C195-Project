@@ -10,9 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -365,10 +365,18 @@ public class FetchData {
             index = resultSet.findColumn("customersId");
             int customersId = resultSet.getInt(index);
             
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            LocalDateTime startDateTime = LocalDateTime.parse(start, formatter);
-            LocalDateTime endDateTime = LocalDateTime.parse(end, formatter);
-           
+            ZonedDateTime startDateTime = ZonedDateTime.parse(start);
+            ZonedDateTime endDateTime = ZonedDateTime.parse(end);
+            
+            /*try {
+                DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+                startDateTime = ZonedDateTime.parse(start, formatter);
+                endDateTime = ZonedDateTime.parse(end, formatter);
+            } catch(DateTimeParseException ex) {
+                System.err.println("fetchAppointmentsForCustomerData");
+                System.err.println(ex.toString());
+            }*/
+            
             Appointment a = new Appointment();
             a.setId(id);
             a.setSubject(subject);
@@ -422,9 +430,17 @@ public class FetchData {
             index = resultSet.findColumn("customersId");
             int customersId = resultSet.getInt(index);
             
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            LocalDateTime startDateTime = LocalDateTime.parse(start, formatter);
-            LocalDateTime endDateTime = LocalDateTime.parse(end, formatter);
+            ZonedDateTime startDateTime = ZonedDateTime.parse(start);
+            ZonedDateTime endDateTime = ZonedDateTime.parse(end);
+            
+            /*try {
+                DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+                formatter.ofPattern("yyyy-MM-dd HH:mm z");
+                startDateTime = ZonedDateTime.parse(start, formatter);
+                endDateTime = ZonedDateTime.parse(end, formatter);
+            } catch(DateTimeParseException ex) {
+                System.err.println(ex.toString());
+            }*/
             
             Appointment a = new Appointment();
             a.setId(id);
@@ -464,7 +480,7 @@ public class FetchData {
         return appointments;
     }
     
-    public ObservableList fetchAppointmentsInDateRange(LocalDateTime startDate, LocalDateTime endDate) throws SQLException {
+    public ObservableList fetchAppointmentsInDateRange(ZonedDateTime startDate, ZonedDateTime endDate) throws SQLException {
         
         try {
             conn = DBConnect.makeConnection();
@@ -501,9 +517,8 @@ public class FetchData {
             index = resultSet.findColumn("customersId");
             int customersId = resultSet.getInt(index);
             
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            LocalDateTime startDateTime = LocalDateTime.parse(start, formatter);
-            LocalDateTime endDateTime = LocalDateTime.parse(end, formatter);
+            ZonedDateTime startDateTime = ZonedDateTime.parse(start);
+            ZonedDateTime endDateTime = ZonedDateTime.parse(end);
             
             if(startDateTime.isAfter(startDate) && startDateTime.isBefore(endDate)) {
                 Appointment a = new Appointment();

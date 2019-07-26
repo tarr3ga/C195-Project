@@ -8,7 +8,7 @@ package util;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.TimeZone;
@@ -19,8 +19,8 @@ import java.util.TimeZone;
  * @author jamyers
  */
 public class DateTimeUtils {
-    private static final String DATE_TIME_FORMAT = "MMM dd, yyyy hh:mm ";
-    private static final String STORABLE_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm";
+    private static final String DATE_TIME_FORMAT = "MMM dd, yyyy hh:mm z";
+    private static final String STORABLE_DATE_TIME_FORMAT = "yyyy-MM-ddTHH:mmZ";
     
     private static final String[] timezones = {"GMT", "EGT", "GST", 
         "ADT", "EST", "CST", "MST", "AST", "HST"};
@@ -35,8 +35,17 @@ public class DateTimeUtils {
         }
     }
     
-    public static String getFormatedDateTimeString(LocalDateTime dateTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
+    public static ZonedDateTime getZonedDateTimeFromString(String dateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+        formatter.ofPattern(DATE_TIME_FORMAT);
+        
+        ZonedDateTime parsed = ZonedDateTime.parse(dateTime, formatter);
+        return parsed;
+    }
+    
+    public static String getFormatedDateTimeString(ZonedDateTime dateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+        formatter.ofPattern(DATE_TIME_FORMAT);
         String formattedDateTime = dateTime.format(formatter);
         
         return formattedDateTime;
@@ -51,7 +60,7 @@ public class DateTimeUtils {
         return formattedDateTime;
     }
     
-    public static String getStorableDateTimeString(LocalDateTime dateTime) {
+    public static String getStorableDateTimeString(ZonedDateTime dateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(STORABLE_DATE_TIME_FORMAT);
         String formattedDateTime = dateTime.format(formatter);
         

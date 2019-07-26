@@ -10,7 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.TimerTask;
 import javafx.application.Platform;
@@ -47,12 +47,12 @@ public class Scan extends TimerTask implements Serializable {
         @Override
         public void run() {
             Platform.runLater(() ->  {
-                LocalDateTime time = LocalDateTime.now();
+                ZonedDateTime time = ZonedDateTime.now();
 
-                System.out.println("Scan at" + LocalDateTime.now());
+                System.out.println("Scan at" + ZonedDateTime.now());
 
                 for(AppointmentAlert a : alerts) {
-                    LocalDateTime due = a.getAlertTime();
+                    ZonedDateTime due = a.getAlertTime();
 
                     if(time.isAfter(due.minusMinutes(15))){
                         String message = "The appoint with " + a.getCustomerName() +

@@ -61,6 +61,6 @@ public class C195CustomerTracker extends Application {
         
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             Scan.serialize();
-        }, "Shutdown-thread"));        
+        }, "Shutdown-thread"));
     }   
 }

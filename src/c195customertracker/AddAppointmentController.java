@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 import javafx.collections.FXCollections;
@@ -65,6 +68,8 @@ public class AddAppointmentController implements Initializable {
                                     "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45"};
     
     private final String[] timezones = { "EST", "CST", "MST", "AST", "HST" };
+    private final DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+    
     
     private void setEventHandlers() {
         submit.setOnMouseClicked((MouseEvent e) -> {
@@ -75,22 +80,25 @@ public class AddAppointmentController implements Initializable {
             a.setLocation(location.getText());
             a.setDescription(details.getText());
             
+            ZoneId zone = TimeZone.getDefault().toZoneId();
+            
             String[] dateTimeParts = DateTimeUtils.getDateParts(startDate.getValue().toString(), 
                     (String)startTime.getSelectionModel().getSelectedItem(), 
                     (String)startTimeAmPm.getSelectionModel().getSelectedItem());
-            LocalDateTime localDateTime = LocalDateTime.of(Integer.parseInt(dateTimeParts[0]), 
-                    Integer.parseInt(dateTimeParts[1]), Integer.parseInt(dateTimeParts[2]), 
-                    Integer.parseInt(dateTimeParts[3]), Integer.parseInt(dateTimeParts[4]));
+            ZonedDateTime localDateTime = ZonedDateTime.of(LocalDateTime.of(Integer.parseInt(dateTimeParts[0]), 
+                    Integer.parseInt(dateTimeParts[1]), Integer.parseInt(dateTimeParts[2]), Integer.parseInt(dateTimeParts[3]), 
+                    Integer.parseInt(dateTimeParts[4]) ), zone);
+            localDateTime.format(formatter);
             a.setStart(localDateTime);
             
             dateTimeParts = DateTimeUtils.getDateParts(endDate.getValue().toString(), 
                     (String)endTime.getSelectionModel().getSelectedItem(), 
                     (String)endTimeAmPm.getSelectionModel().getSelectedItem());
-            localDateTime = LocalDateTime.of(Integer.parseInt(dateTimeParts[0]), 
+            localDateTime = ZonedDateTime.of(LocalDateTime.of(Integer.parseInt(dateTimeParts[0]), 
                     Integer.parseInt(dateTimeParts[1]), Integer.parseInt(dateTimeParts[2]), 
-                    Integer.parseInt(dateTimeParts[3]), Integer.parseInt(dateTimeParts[4]));
+                    Integer.parseInt(dateTimeParts[3]), Integer.parseInt(dateTimeParts[4])), zone);
             a.setEnd(localDateTime);
-            
+            localDateTime.format(formatter);
             a.setUserId(FXMLDocumentController.authorizedUserId);
             
             String cbValue = (String)cbCustomers.getSelectionModel().getSelectedItem();
@@ -129,7 +137,7 @@ public class AddAppointmentController implements Initializable {
             File file = new File("logs/transactions.txt");
             
             String message = "New Appointment ID: " + id + " Created by " + 
-                            FXMLDocumentController.authorizedUser + " on " + LocalDateTime.now().toString();
+                            FXMLDocumentController.authorizedUser + " on " + ZonedDateTime.now().toString();
                     
             try {
                 BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));

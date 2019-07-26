@@ -12,8 +12,13 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -25,6 +30,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -48,6 +54,7 @@ public class AppointmentsController implements Initializable {
     @FXML private DatePicker endDate;
     
     private ObservableList<Appointment> appointments = FXCollections.observableArrayList();;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy  hh:mm a", Locale.US);
     
     private void populateTable() {
         TableColumn<Appointment, Integer> id = new TableColumn("ID");
@@ -62,13 +69,36 @@ public class AppointmentsController implements Initializable {
         location.setMinWidth(175);
         location.setCellValueFactory(new PropertyValueFactory("location"));
         
-        TableColumn<Appointment, String> start = new TableColumn<>("Start Date");
-        start.setMinWidth(175);
+        TableColumn<Appointment, ZonedDateTime> start = new TableColumn<>("Start Date");
+        start.setMinWidth(225);
         start.setCellValueFactory(new PropertyValueFactory("start"));
+        start.setCellFactory(col -> new TableCell<Appointment, ZonedDateTime>(){
+            @Override
+            protected void updateItem(ZonedDateTime item, boolean empty) {
+
+                super.updateItem(item, empty);
+                if (empty)
+                    setText(null);
+                else
+                    setText(String.format(item.format(formatter)));
+            }
+        });
         
-        TableColumn<Appointment, String> end = new TableColumn<>("End Date");
-        end.setMinWidth(175);
+        
+        TableColumn<Appointment, ZonedDateTime> end = new TableColumn<>("End Date");
+        end.setMinWidth(225);
         end.setCellValueFactory(new PropertyValueFactory("end"));
+        end.setCellFactory(col -> new TableCell<Appointment, ZonedDateTime>(){
+            @Override
+            protected void updateItem(ZonedDateTime item, boolean empty) {
+
+                super.updateItem(item, empty);
+                if (empty)
+                    setText(null);
+                else
+                    setText(String.format(item.format(formatter)));
+            }
+        });
         
         appointmentsTable.setItems(appointments);
         appointmentsTable.getColumns().setAll(id, subject, location, start, end);
@@ -158,8 +188,15 @@ public class AppointmentsController implements Initializable {
             if(startDate.getValue() != null && endDate.getValue() != null) {
                 LocalDate start = startDate.getValue();
                 LocalDate end = endDate.getValue();
-                LocalDateTime startDateTime = start.atStartOfDay();
-                LocalDateTime endDateTime = end.atTime(23, 59, 59);
+                
+                String zone = TimeZone.getDefault().getID();
+                
+                ZonedDateTime startDateTime = ZonedDateTime.of(LocalDateTime.of(start.getYear(), 
+                        start.getMonth(), start.getDayOfMonth(), 0, 0), ZoneId.of(zone));
+                startDateTime.format(formatter);
+                ZonedDateTime endDateTime = ZonedDateTime.of(LocalDateTime.of(end.getYear(), 
+                        end.getMonth(), end.getDayOfMonth(), 23, 59), ZoneId.of(zone));
+                startDateTime.format(formatter);
                 
                 appointments.clear();
                 
@@ -190,7 +227,7 @@ public class AppointmentsController implements Initializable {
      * @param rb
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb) {        
         try {
             FetchData data = new FetchData();
             appointments = data.fetchAppointmentData();
@@ -201,6 +238,5 @@ public class AppointmentsController implements Initializable {
         populateTable();
         
         setEventHandlers();
-    }    
-    
+    } 
 }

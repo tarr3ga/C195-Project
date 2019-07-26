@@ -126,15 +126,15 @@ public class SaveData {
             
         }
         
-        String start = DateTimeUtils.getStorableDateTimeString(appointment.getStart());
-        String end = DateTimeUtils.getStorableDateTimeString(appointment.getEnd());
+        //String start = DateTimeUtils.getStorableDateTimeString(appointment.getStart());
+        //String end = DateTimeUtils.getStorableDateTimeString(appointment.getEnd());
         
         String sql = "INSERT INTO appointments(subject, location, description, start, end, customersId, usersId) " +
                      "VALUES('" + appointment.getSubject() + "', '" + 
                      appointment.getLocation() + "', '" +
                      appointment.getDescription() + "', '" +
-                     start + "', '" +
-                     end + "', " +
+                     appointment.getStart().toString() + "', '" +
+                     appointment.getEnd().toString() + "', " +
                      appointment.getCustomerId() + ", " +
                      appointment.getUserId() + ");";
         

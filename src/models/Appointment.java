@@ -5,7 +5,7 @@
  */
 package models;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 /**
@@ -17,8 +17,8 @@ public class Appointment {
     private String subject;
     private String location;
     private String description;
-    private LocalDateTime start;
-    private LocalDateTime end;
+    private ZonedDateTime start;
+    private ZonedDateTime end;
     private String timezone;
     private Date createDate;
     private String createdBy;
@@ -37,11 +37,11 @@ public class Appointment {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public LocalDateTime getStart() { return start; }
-    public void setStart(LocalDateTime start) { this.start = start; }
+    public ZonedDateTime getStart() { return start; }
+    public void setStart(ZonedDateTime start) { this.start = start; }
 
-    public LocalDateTime getEnd() { return end; }
-    public void setEnd(LocalDateTime end) { this.end = end; }
+    public ZonedDateTime getEnd() { return end; }
+    public void setEnd(ZonedDateTime end) { this.end = end; }
     
     public void setTimezone(String timezone) { this.timezone = timezone; }
     public String getTimezone() { return timezone; }
@@ -63,7 +63,7 @@ public class Appointment {
     }
     
     public Appointment(int id, String subject, String location, String description, 
-            LocalDateTime start, LocalDateTime end, String timezone,  Date createDate, String createdBy, int userId, int customerId) {
+            ZonedDateTime start, ZonedDateTime end, String timezone,  Date createDate, String createdBy, int userId, int customerId) {
         this.id = id;
         this.subject = subject;
         this.location = location;
