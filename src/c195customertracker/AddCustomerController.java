@@ -74,6 +74,8 @@ public class AddCustomerController implements Initializable {
                     c.setFirstName(firstName.getText());
                     c.setLastName(lastName.getText());
                     
+                    c.setCustomerRep(FXMLDocumentController.authorizedUser);
+                    
                     SaveData data = new SaveData();
                     
                     if(isEditing == false) {
@@ -119,9 +121,15 @@ public class AddCustomerController implements Initializable {
                     
                     File file = new File("logs/transactions.txt");
                     
-                    String message = "New Customer ID: " + id + " Created by " + 
-                            FXMLDocumentController.authorizedUser + " on " + ZonedDateTime.now().toString();
+                    String message = "";
                     
+                    if(isEditing) {
+                    message = "Updated Customer ID: " + c.getId() + " Updated by " +        
+                            FXMLDocumentController.authorizedUser + " on " + ZonedDateTime.now().toString();    
+                    } else {
+                    message = "New Customer ID: " + id + " Created by " +        
+                            FXMLDocumentController.authorizedUser + " on " + ZonedDateTime.now().toString();
+                    }
                     try {
                         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
                         bufferedWriter.newLine();

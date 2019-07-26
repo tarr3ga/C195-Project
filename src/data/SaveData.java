@@ -16,7 +16,6 @@ import models.Appointment;
 import models.Country;
 import models.Customer;
 import models.PhoneNumber;
-import util.DateTimeUtils;
 
 /**
  *
@@ -41,8 +40,9 @@ public class SaveData {
             Logger.getLogger(data.FetchData.class.getName()).log(Level.SEVERE, null, ex);
         }
          
-        String sql = "INSERT INTO customers(firstName, lastName) " +
-                     "VALUES('" + customer.getFirstName() +"', '" + customer.getLastName() + "');";
+        String sql = "INSERT INTO customers(firstName, lastName, customerRep) " +
+                     "VALUES('" + customer.getFirstName() +"', '" + customer.getLastName() + 
+                             "', '" +customer.getCustomerRep() + "');";
         
         statement = conn.createStatement();
         statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
@@ -126,9 +126,6 @@ public class SaveData {
             
         }
         
-        //String start = DateTimeUtils.getStorableDateTimeString(appointment.getStart());
-        //String end = DateTimeUtils.getStorableDateTimeString(appointment.getEnd());
-        
         String sql = "INSERT INTO appointments(subject, location, description, start, end, customersId, usersId) " +
                      "VALUES('" + appointment.getSubject() + "', '" + 
                      appointment.getLocation() + "', '" +
@@ -172,15 +169,12 @@ public class SaveData {
             Logger.getLogger(data.FetchData.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        String start = DateTimeUtils.getStorableDateTimeString(appointment.getStart());
-        String end = DateTimeUtils.getStorableDateTimeString(appointment.getEnd());
-        
         String sql = "UPDATE appointments " +
                      "SET subject = '" + appointment.getSubject() + "', " + 
                      "    location = '" + appointment.getLocation() + "', " +
                      "    description = '" + appointment.getDescription() + "', " +
-                     "    start = '" + start + "', " +
-                     "    end = '" + end + "' " +
+                     "    start = '" + appointment.getStart() + "', " +
+                     "    end = '" + appointment.getEnd() + "' " +
                      "WHERE ID = " + appointment.getId() + ";";
                                               
         System.out.println("data.SaveData.saveAppointment()" + sql);

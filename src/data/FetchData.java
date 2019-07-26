@@ -129,6 +129,9 @@ public class FetchData {
             index = resultSet.findColumn("lastName");
             String lastName = resultSet.getString(index);
             
+            index = resultSet.findColumn("customerRep");
+            String customerRep = resultSet.getString(index);
+            
             index = resultSet.findColumn("addedOn");
             Timestamp addedOn = (Timestamp)resultSet.getObject(index);
             
@@ -136,6 +139,7 @@ public class FetchData {
             c.setId(id);
             c.setFirstName(firstName);
             c.setLastName(lastName);
+            c.setCustomerRep(customerRep);
             c.setAddedOn(addedOn);
             
             customers.add(c);

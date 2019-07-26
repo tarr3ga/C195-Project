@@ -65,9 +65,12 @@ public class AddAppointmentController implements Initializable {
                                     "4:00", "4:15", "4:30", "4:45", "5:00", "5:15", "5:30", "5:45",
                                     "6:00", "6:15", "6:30", "6:45", "7:00", "7:15", "7:30", "7:45",
                                     "8:00", "8:15", "8:30", "8:45", "9:00", "9:15", "9:30", "9:45",
-                                    "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45"};
-    
-    private final String[] timezones = { "EST", "CST", "MST", "AST", "HST" };
+                                    "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45"};   
+    private final String[] timezones = { "GMT+1  CET", "GMT+2  EET", "GMT+3  MSK", "GMT+4  SMT", "GMT+5  PKT", "GMT+6  OMSK", 
+                                         "GMT+7  CXT", "GMT+8  CST", "GMT+9  JST", "GMT+10 EAST", "GMT+11 SAKT", "GMT+12 NZT",
+                                         "GMT+0  GMT", "GMT-1  WAT", "GMT-2  AT", "GMT-3  ART", "GMT-4  AST", "GMT-5  EST", 
+                                         "GMT-6  CST", "GMT-7  MST", "GMT-8  PST", "GMT-9  AKST", 
+                                         "GMT-10 HST", "GMT-11 NT", "GMT-12 IDLW" };
     private final DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
     
     
@@ -136,9 +139,15 @@ public class AddAppointmentController implements Initializable {
             
             File file = new File("logs/transactions.txt");
             
-            String message = "New Appointment ID: " + id + " Created by " + 
+            String message = "";
+            
+            if(customerIsSelected) {
+                message = "Updated Appointment ID: " + id + " Updated by " + 
                             FXMLDocumentController.authorizedUser + " on " + ZonedDateTime.now().toString();
-                    
+            } else {
+                message = "New Appointment ID: " + id + " Created by " + 
+                            FXMLDocumentController.authorizedUser + " on " + ZonedDateTime.now().toString();
+            }
             try {
                 BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
                 bufferedWriter.newLine();
@@ -159,6 +168,30 @@ public class AddAppointmentController implements Initializable {
         });
     }
    
+    private void setDefaultTimeZone() {
+        String zone = TimeZone.getDefault().getDisplayName();
+        
+        switch(zone) {
+            case "Eastern Standard Time":
+                timezone.getSelectionModel().select("GMT-5  EST");
+                break;
+            case "Central Standard Time":
+                timezone.getSelectionModel().select("GMT-6  CST");
+                break;
+            case "Mountain Standard Time":
+                timezone.getSelectionModel().select("GMT-7  MST");
+                break;
+            case "Pacific Standard Time":
+                timezone.getSelectionModel().select("GMT-9  PST");
+                break;
+            case "Alaska Standard Time":
+                timezone.getSelectionModel().select("GMT-9 AKST");
+                break;
+            case "Hawaii Standard Time":
+                timezone.getSelectionModel().select("GMT-10 HST");
+                break;
+        }
+    }
     
     /**
      * Initializes the controller class.
@@ -199,25 +232,7 @@ public class AddAppointmentController implements Initializable {
             timezone.getItems().add(s);
         }
         
-        String zone = TimeZone.getDefault().getDisplayName();
-        
-        switch(zone) {
-            case "Eastern Standard Time":
-                timezone.getSelectionModel().select("EST");
-                break;
-            case "Central Standard Time":
-                timezone.getSelectionModel().select("CST");
-                break;
-            case "Mountain Standard Time":
-                timezone.getSelectionModel().select("MST");
-                break;
-            case "Alaska Standard Time":
-                timezone.getSelectionModel().select("AST");
-                break;
-            case "Hawaii Standard Time":
-                timezone.getSelectionModel().select("HST");
-                break;
-        }
+        setDefaultTimeZone();
         
         startTimeAmPm.getItems().add("AM");
         startTimeAmPm.getItems().add("PM");
@@ -230,5 +245,5 @@ public class AddAppointmentController implements Initializable {
         endTimeAmPm.getSelectionModel().selectFirst();
         
         setEventHandlers();
-    }     
+    }      
 }

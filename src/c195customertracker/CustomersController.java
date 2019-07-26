@@ -84,6 +84,10 @@ public class CustomersController implements Initializable {
         addedOn.setMinWidth(250);
         addedOn.setCellValueFactory(new PropertyValueFactory<>("addedOn"));
         
+        TableColumn<Customer, String> customerRep = new TableColumn<>("Customer Rep");
+        customerRep.setMinWidth(175);
+        customerRep.setCellValueFactory(new PropertyValueFactory<>("customerRep"));
+        
         btnAdd = new Button();
         btnAdd.setPrefWidth(200);
         btnAdd.setText("Add Customer");
@@ -104,7 +108,7 @@ public class CustomersController implements Initializable {
         hBoxButtons.getChildren().addAll(btnAdd, btnView, btnEdit, btnDelete);
         
         displayTable.setItems(customers);
-        displayTable.getColumns().setAll(id, firstName, lastName, addedOn);
+        displayTable.getColumns().setAll(id, firstName, lastName, addedOn, customerRep);
         
         displayTable.setOnMouseClicked((MouseEvent event) -> {
             if(event.getClickCount() >= 2) {
@@ -166,6 +170,8 @@ public class CustomersController implements Initializable {
                     stage.initModality(Modality.APPLICATION_MODAL);
                     stage.setScene(scene);
                     stage.showAndWait();
+                    
+                    populateTable();
                 } catch(IOException ex) {
 
                 }
@@ -387,15 +393,12 @@ public class CustomersController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 
                 if(result.get() == ButtonType.OK) {
+                    Appointment a = (Appointment)displayTable.getSelectionModel().getSelectedItem();
                     try {
-                        Appointment a = (Appointment)displayTable.getSelectionModel().getSelectedItem();
-                        
-                        DeleteData delete= new DeleteData();
-                        delete.deleteAppointment(a.getId());
-                    } catch(SQLException ex) {
+                        deleteAppointment(a, customer);
+                    } catch(SQLException | IOException ex) {
                         
                     }
-                
                 } else {
                     alert.close();
                 }
@@ -415,6 +418,36 @@ public class CustomersController implements Initializable {
         return hasAppoinyments;
     }
     
+    private void deleteAppointment(Appointment a, Customer c) throws SQLException, IOException {
+        DeleteData delete= new DeleteData();
+        delete.deleteAppointment(a.getId());
+        
+        File dir = new File("logs/");
+        boolean success =  dir.mkdir();
+
+        if(success)
+            System.out.println("Directory created");
+        else
+            System.out.println("Directory already exists");
+
+        File file = new File("logs/transactions.txt");
+
+        String message = "Appointment ID: " + a.getId() + " Deleted by " + 
+                        FXMLDocumentController.authorizedUser + " on " + ZonedDateTime.now().toString();
+
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
+            bufferedWriter.newLine();
+            bufferedWriter.append(message);
+            bufferedWriter.flush();
+            bufferedWriter.close();
+        } catch(IOException ex) {
+
+        } 
+        
+        loadCustomerSpecificAppointments(c);
+    }
+    
     private void deleteCustomer(Customer c) throws SQLException {
         DeleteData data = new DeleteData();
         data.DeleteCustomer(c);
@@ -429,7 +462,7 @@ public class CustomersController implements Initializable {
 
         File file = new File("logs/transactions.txt");
 
-        String message = "Appointment ID: " + c.getId() + " Deleted by " + 
+        String message = "Customer ID: " + c.getId() + " Deleted by " + 
                         FXMLDocumentController.authorizedUser + " on " + ZonedDateTime.now().toString();
 
         try {

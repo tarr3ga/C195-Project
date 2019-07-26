@@ -42,16 +42,21 @@ public class DeleteData {
             
         }
         
-        String sql = "DELETE appointments "
-                + ""
-                + "FROM appointments WHERE ID = " + customer.getId() + "; " +
-                     "DELETE FROM addresses WHERE customersId = " + customer.getId() + "; " +
-                     "DELETE FROM phoneNumbers WHERE customersId = " + customer.getId() + ";";
+        String sql1 = "SET FOREIGN_KEY_CHECKS = 0;";
+        String sql2 = "DELETE FROM customers WHERE ID = " + customer.getId() + ";";
+        String sql3 = "DELETE FROM addresses WHERE customersId + " + customer.getId() + ";";
+        String sql4 = "DELETE FROM pnoheNumbers WHERE customersId + " + customer.getId() + ";";
+        String sql5 = "SET FOREIGN_KEY_CHECKS = 1;";
         
-        System.out.println(sql);
+        System.out.println(sql2);
         
         statement = conn.createStatement();
-        statement.execute(sql);
+        
+        statement.execute(sql1);
+        statement.execute(sql2);
+        statement.execute(sql3);
+        statement.execute(sql4);
+        statement.execute(sql5);
         
         conn.close();
     }
