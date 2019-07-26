@@ -15,6 +15,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -50,6 +51,7 @@ public class AddAppointmentController implements Initializable {
     @FXML private DatePicker endDate;
     @FXML private ComboBox endTime;
     @FXML private ComboBox endTimeAmPm;
+    @FXML private ComboBox timezone;
     
     @FXML private Button submit;
     @FXML private Button cancel;
@@ -61,6 +63,8 @@ public class AddAppointmentController implements Initializable {
                                     "6:00", "6:15", "6:30", "6:45", "7:00", "7:15", "7:30", "7:45",
                                     "8:00", "8:15", "8:30", "8:45", "9:00", "9:15", "9:30", "9:45",
                                     "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45"};
+    
+    private final String[] timezones = { "EST", "CST", "MST", "AST", "HST" };
     
     private void setEventHandlers() {
         submit.setOnMouseClicked((MouseEvent e) -> {
@@ -92,6 +96,8 @@ public class AddAppointmentController implements Initializable {
             String cbValue = (String)cbCustomers.getSelectionModel().getSelectedItem();
             String[] parts = cbValue.split(" ");
             a.setCustomerId(Integer.parseInt(parts[0]));
+            
+            a.setTimezone((String)timezone.getSelectionModel().getSelectedItem());
             
             SaveData data = new SaveData();
             try{
@@ -179,6 +185,30 @@ public class AddAppointmentController implements Initializable {
         for(String s : times) {
             startTime.getItems().add(s);
             endTime.getItems().add(s);
+        }
+        
+        for(String s : timezones) {
+            timezone.getItems().add(s);
+        }
+        
+        String zone = TimeZone.getDefault().getDisplayName();
+        
+        switch(zone) {
+            case "Eastern Standard Time":
+                timezone.getSelectionModel().select("EST");
+                break;
+            case "Central Standard Time":
+                timezone.getSelectionModel().select("CST");
+                break;
+            case "Mountain Standard Time":
+                timezone.getSelectionModel().select("MST");
+                break;
+            case "Alaska Standard Time":
+                timezone.getSelectionModel().select("AST");
+                break;
+            case "Hawaii Standard Time":
+                timezone.getSelectionModel().select("HST");
+                break;
         }
         
         startTimeAmPm.getItems().add("AM");

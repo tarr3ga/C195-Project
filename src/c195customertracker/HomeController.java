@@ -10,6 +10,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -22,6 +23,7 @@ import javafx.scene.control.Label;
 public class HomeController implements Initializable {
 
     @FXML private Label welcome;
+    @FXML private Label location;
     @FXML private Label customerCount;
     @FXML private Label appointmentCount;
     
@@ -35,6 +37,11 @@ public class HomeController implements Initializable {
         
         String message = "Welcome " + user + ", you are logged in at " + time.toString();
         welcome.setText(message);
+        
+        String zone = TimeZone.getDefault().getDisplayName();
+        String locale = "You're current Time Zone is: " + zone;
+        
+        location.setText(locale);
         
         try {
             FetchData data = new FetchData();

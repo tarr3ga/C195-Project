@@ -10,6 +10,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.TimeZone;
 
 
 /**
@@ -19,6 +21,19 @@ import java.time.format.DateTimeFormatter;
 public class DateTimeUtils {
     private static final String DATE_TIME_FORMAT = "MMM dd, yyyy hh:mm ";
     private static final String STORABLE_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm";
+    
+    private static final String[] timezones = {"GMT", "EGT", "GST", 
+        "ADT", "EST", "CST", "MST", "AST", "HST"};
+    private static final HashMap<String, Integer> timezoneOffsets = new HashMap<>();
+    
+    private static void getTimeZones() {
+        int index = 2;
+        
+        for(String s : timezones) {
+            timezoneOffsets.put(s, index);
+            index--;
+        }
+    }
     
     public static String getFormatedDateTimeString(LocalDateTime dateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
@@ -67,5 +82,14 @@ public class DateTimeUtils {
         }
        
         return dateTimeParts;
+    }
+    
+    public static String adjustTimeForTimezone(String start, String end, String timezone) {
+        String time = "";
+        getTimeZones();
+        
+        String zone = TimeZone.getDefault().getDisplayName();
+        
+        return time;
     }
 }

@@ -32,6 +32,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.Appointment;
+import util.DateTimeUtils;
 
 /**
  * FXML Controller class
@@ -165,12 +166,22 @@ public class AppointmentsController implements Initializable {
                 try {
                     FetchData data = new FetchData();
                     appointments = data.fetchAppointmentsInDateRange(startDateTime, endDateTime);
+                    adjustForTimezones();
                     populateTable();
                 } catch(SQLException ex) {
                     
                 }
             }
         });
+    }
+    
+    private void adjustForTimezones() {
+        for(Appointment a : appointments) {
+            String start = DateTimeUtils.getFormatedDateTimeString(a.getStart());
+            String end = DateTimeUtils.getFormatedDateTimeString(a.getEnd());
+            
+            DateTimeUtils.adjustTimeForTimezone(start, end, a.getTimezone());
+        }
     }
     
     /**

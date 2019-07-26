@@ -19,6 +19,7 @@ public class Appointment {
     private String description;
     private LocalDateTime start;
     private LocalDateTime end;
+    private String timezone;
     private Date createDate;
     private String createdBy;
     private int userId;
@@ -41,7 +42,10 @@ public class Appointment {
 
     public LocalDateTime getEnd() { return end; }
     public void setEnd(LocalDateTime end) { this.end = end; }
-
+    
+    public void setTimezone(String timezone) { this.timezone = timezone; }
+    public String getTimezone() { return timezone; }
+    
     public Date getCreateDate() { return createDate; }
     public void setCreateDate(Date createDate) { this.createDate = createDate; }
 
@@ -58,13 +62,15 @@ public class Appointment {
         
     }
     
-    public Appointment(int id, String subject, String location, String description, LocalDateTime start, LocalDateTime end, Date createDate, String createdBy, int userId, int customerId) {
+    public Appointment(int id, String subject, String location, String description, 
+            LocalDateTime start, LocalDateTime end, String timezone,  Date createDate, String createdBy, int userId, int customerId) {
         this.id = id;
         this.subject = subject;
         this.location = location;
         this.description = description;
         this.start = start;
-        this.end = end;
+        this.end = end;      
+        this.timezone = timezone;
         this.createDate = createDate;
         this.createdBy = createdBy;
         this.userId = userId;

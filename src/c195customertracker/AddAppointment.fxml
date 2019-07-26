@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane id="AnchorPane" prefHeight="600.0" prefWidth="700.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="c195customertracker.AddAppointmentController">
+<GridPane id="AnchorPane" prefHeight="650.0" prefWidth="700.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="c195customertracker.AddAppointmentController">
     <stylesheets>
         <URL value="@/styles/stylesMain.css"/>
     </stylesheets>
@@ -39,8 +39,10 @@
         <ComboBox fx:id="endTime" />
         <ComboBox fx:id="endTimeAmPm" />
     </HBox>
+    <Label text="Timezone: " GridPane.columnIndex="0" GridPane.rowIndex="8" />
+    <ComboBox fx:id="timezone"  GridPane.columnIndex="1" GridPane.rowIndex="8"  />
     
-    <HBox GridPane.columnIndex="0" GridPane.rowIndex="8" >
+    <HBox GridPane.columnIndex="0" GridPane.rowIndex="9" >
         <Button text="Submit" fx:id="submit" />
         <Button text="Cancel" fx:id="cancel" />
     </HBox>

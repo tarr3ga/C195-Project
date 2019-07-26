@@ -5,10 +5,13 @@
  */
 package util;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.TimerTask;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -19,7 +22,27 @@ import models.AppointmentAlert;
  * @author jamyers
  */
 public class Scan extends TimerTask implements Serializable {
-        public static List<AppointmentAlert> alerts = new ArrayList<>();
+    
+    
+        private static final File FILENAME = new File("transactions.log");
+        
+        public static ArrayList<AppointmentAlert> alerts = new ArrayList<>();
+        
+        public static void serialize() {
+            try {
+                FileOutputStream file = new FileOutputStream(FILENAME); 
+                ObjectOutputStream out = new ObjectOutputStream(file);
+                
+                out.writeObject(Scan.alerts);
+                
+                out.close();
+                file.close();
+                
+                System.out.println("Object has been serialized");
+            } catch(IOException ex) {
+                System.err.println(ex.toString());
+            }
+        }
         
         @Override
         public void run() {
