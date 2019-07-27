@@ -57,7 +57,9 @@ public class Scan extends TimerTask implements Serializable {
                     if(time.isAfter(due.minusMinutes(15))){
                         String message = "The appoint with " + a.getCustomerName() +
                                 " is in 15 minutes.  The subject of the meeting is " + a.getSubject();
-
+                        
+                        alerts.remove(a);
+                        
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("15 minutes till appointment!");
                         alert.setContentText(message);

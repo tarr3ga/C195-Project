@@ -131,7 +131,7 @@ public class SaveData {
                      appointment.getLocation() + "', '" +
                      appointment.getDescription() + "', '" +
                      appointment.getStart().toString() + "', '" +
-                     appointment.getEnd().toString() + "', " +
+                     appointment.getEnd().toString() + "', '" +
                      appointment.getCustomerRep() + "', " +
                      appointment.getCustomerId() + ", " +
                      appointment.getUserId() + ");";

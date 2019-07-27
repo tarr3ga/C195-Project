@@ -208,6 +208,8 @@ public class AddCustomerController implements Initializable {
             System.err.println(ex.toString());
         }
         
+        country.getSelectionModel().select("US | United States");
+        
         if(isEditing == true) {
             FetchData data = new FetchData();
             Customer cto = new Customer();

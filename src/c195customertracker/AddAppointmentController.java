@@ -17,15 +17,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
-import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -139,6 +133,8 @@ public class AddAppointmentController implements Initializable {
                 a.setStart(localStartDateTime);
                 a.setEnd(localEndDateTime);
                 
+                a.setCustomerRep(customerSelected.getCustomerRep());
+                
                 a.setUserId(FXMLDocumentController.authorizedUserId);
 
                 String cbValue = (String)cbCustomers.getSelectionModel().getSelectedItem();
@@ -213,7 +209,7 @@ public class AddAppointmentController implements Initializable {
         FetchData data = new FetchData();
         
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
-        appointments = data.fetchAppointmentsForCustomerRep(FXMLDocumentController.authorizedUser);
+        appointments = data.fetchAppointmentsForCustomerRep(customerSelected.getCustomerRep());
         
         for(Appointment a : appointments) {
             if(start.isBefore(a.getEnd()) && start.isAfter(a.getEnd())) {
