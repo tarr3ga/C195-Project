@@ -126,12 +126,13 @@ public class SaveData {
             
         }
         
-        String sql = "INSERT INTO appointments(subject, location, description, start, end, customersId, usersId) " +
+        String sql = "INSERT INTO appointments(subject, location, description, start, end, customerRep, customersId, usersId) " +
                      "VALUES('" + appointment.getSubject() + "', '" + 
                      appointment.getLocation() + "', '" +
                      appointment.getDescription() + "', '" +
                      appointment.getStart().toString() + "', '" +
                      appointment.getEnd().toString() + "', " +
+                     appointment.getCustomerRep() + "', " +
                      appointment.getCustomerId() + ", " +
                      appointment.getUserId() + ");";
         

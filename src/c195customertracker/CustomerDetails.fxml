@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.Insets?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane id="AnchorPane" prefHeight="400.0" prefWidth="700.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="c195customertracker.CustomerDetailsController">
+    <stylesheets>
+        <URL value="@/styles/stylesMain.css"/>
+    </stylesheets>
+    <padding>
+        <Insets top="10" bottom="10" left="10" right="10" />
+    </padding>
+    <Label text="Customer Details" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="3" />
+    <Label text="First Name" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+    <Label text=" Last Name" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+    <TextField fx:id="firstName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+    <TextField fx:id="lastName" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+    <Label text="Address" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="3" />
+    <TextField fx:id="street" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="3" />
+    <TextField fx:id="city" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+    <TextField fx:id="state" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+    <TextField fx:id="zip" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+    <TextField fx:id="country" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+    <Label text="Phone Number" GridPane.columnIndex="0" GridPane.rowIndex="6" GridPane.columnSpan="3" />
+    <TextField fx:id="phone" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+    <TextField fx:id="phoneType" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+    <Label text="Customer Rep" GridPane.columnIndex="0" GridPane.rowIndex="8" GridPane.columnSpan="3" />
+    <TextField fx:id="rep" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+    <Button fx:id="btnClose" onAction="#onCloseClick" text="Close" GridPane.columnIndex="0" GridPane.rowIndex="10" />
+</GridPane>

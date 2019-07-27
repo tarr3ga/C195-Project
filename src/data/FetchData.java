@@ -11,8 +11,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,6 +36,7 @@ public class FetchData {
     private static final String SQL_CUSTOMERS = "SELECT * FROM customers;";
     private static final String SQL_APPOINTMENT = "SELECT * FROM appointments WHERE ID = ";
     private static final String SQL_APPOINTMENTS = "SELECT * FROM appointments;";
+    private static final String SQL_APPOINTMENTS_BY_REP = "SELECT * FROM appointments WHERE customerRep = '";
     private static final String SQL_ADDRESS = "SELECT * FROM addresses WHERE customersId = ";
     private static final String SQL_ADDRESSES = "SELECT * FROM addresses";
     private static final String SQL_PHONENUMBER = "SELECT * FROM phoneNumbers WHERE customersId = ";
@@ -372,14 +371,63 @@ public class FetchData {
             ZonedDateTime startDateTime = ZonedDateTime.parse(start);
             ZonedDateTime endDateTime = ZonedDateTime.parse(end);
             
-            /*try {
-                DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
-                startDateTime = ZonedDateTime.parse(start, formatter);
-                endDateTime = ZonedDateTime.parse(end, formatter);
-            } catch(DateTimeParseException ex) {
-                System.err.println("fetchAppointmentsForCustomerData");
-                System.err.println(ex.toString());
-            }*/
+            Appointment a = new Appointment();
+            a.setId(id);
+            a.setSubject(subject);
+            a.setLocation(location);
+            a.setDescription(description);
+            a.setStart(startDateTime);
+            a.setEnd(endDateTime);
+            a.setCustomerId(customersId);
+            
+            appointments.add(a);
+        }
+        
+        conn.close();
+        
+        return appointments;
+    }
+    
+    public ObservableList<Appointment> fetchAppointmentsForCustomerRep(String rep) throws SQLException {
+        try {
+            conn = DBConnect.makeConnection();
+        } catch(SQLException ex) {
+            System.err.println(ex.toString());
+        }
+        
+        String sql = SQL_APPOINTMENTS_BY_REP + rep + "';";
+        
+        System.out.println(sql);
+        
+        statement = conn.createStatement();
+        resultSet = statement.executeQuery(sql);
+        
+        int index;
+        
+        while(resultSet.next()) {
+            index = resultSet.findColumn("ID");
+            int id = resultSet.getInt(index);
+            
+            index = resultSet.findColumn("subject");
+            String subject = resultSet.getString(index);
+            
+            index = resultSet.findColumn("location");
+            String location = resultSet.getString(index);
+            
+            index = resultSet.findColumn("description");
+            String description = resultSet.getString(index);
+            
+            index = resultSet.findColumn("start");
+            String start = resultSet.getString(index);
+                    
+            index = resultSet.findColumn("end");
+            String end = resultSet.getString(index);
+            
+            index = resultSet.findColumn("customersId");
+            int customersId = resultSet.getInt(index);
+            
+            ZonedDateTime startDateTime = ZonedDateTime.parse(start);
+            ZonedDateTime endDateTime = ZonedDateTime.parse(end);
             
             Appointment a = new Appointment();
             a.setId(id);

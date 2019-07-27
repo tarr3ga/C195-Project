@@ -17,12 +17,19 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
+import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -72,94 +79,125 @@ public class AddAppointmentController implements Initializable {
                                          "GMT-6  CST", "GMT-7  MST", "GMT-8  PST", "GMT-9  AKST", 
                                          "GMT-10 HST", "GMT-11 NT", "GMT-12 IDLW" };
     private final DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
-    
+    private static final int OPENING_TIME = 659;
+    private static final int CLOSING_TIME = 1801;
     
     private void setEventHandlers() {
         submit.setOnMouseClicked((MouseEvent e) -> {
-            int id = -1;
-            
-            Appointment a = new Appointment();
-            a.setSubject(subject.getText());
-            a.setLocation(location.getText());
-            a.setDescription(details.getText());
-            
             ZoneId zone = TimeZone.getDefault().toZoneId();
             
-            String[] dateTimeParts = DateTimeUtils.getDateParts(startDate.getValue().toString(), 
+            
+            
+            ZonedDateTime localStartDateTime = ZonedDateTime.now();
+            
+            try {
+                String[] dateTimeParts = DateTimeUtils.getDateParts(startDate.getValue().toString(), 
                     (String)startTime.getSelectionModel().getSelectedItem(), 
                     (String)startTimeAmPm.getSelectionModel().getSelectedItem());
-            ZonedDateTime localDateTime = ZonedDateTime.of(LocalDateTime.of(Integer.parseInt(dateTimeParts[0]), 
-                    Integer.parseInt(dateTimeParts[1]), Integer.parseInt(dateTimeParts[2]), Integer.parseInt(dateTimeParts[3]), 
-                    Integer.parseInt(dateTimeParts[4]) ), zone);
-            localDateTime.format(formatter);
-            a.setStart(localDateTime);
-            
-            dateTimeParts = DateTimeUtils.getDateParts(endDate.getValue().toString(), 
-                    (String)endTime.getSelectionModel().getSelectedItem(), 
-                    (String)endTimeAmPm.getSelectionModel().getSelectedItem());
-            localDateTime = ZonedDateTime.of(LocalDateTime.of(Integer.parseInt(dateTimeParts[0]), 
-                    Integer.parseInt(dateTimeParts[1]), Integer.parseInt(dateTimeParts[2]), 
-                    Integer.parseInt(dateTimeParts[3]), Integer.parseInt(dateTimeParts[4])), zone);
-            a.setEnd(localDateTime);
-            localDateTime.format(formatter);
-            a.setUserId(FXMLDocumentController.authorizedUserId);
-            
-            String cbValue = (String)cbCustomers.getSelectionModel().getSelectedItem();
-            String[] parts = cbValue.split(" ");
-            a.setCustomerId(Integer.parseInt(parts[0]));
-            
-            a.setTimezone((String)timezone.getSelectionModel().getSelectedItem());
-            
-            SaveData data = new SaveData();
-            try{
-                id = data.saveNewAppointment(a);
-            }catch(SQLException ex) {
-                System.err.println(ex.toString());
+                
+                localStartDateTime = ZonedDateTime.of(LocalDateTime.of(Integer.parseInt(dateTimeParts[0]), 
+                        Integer.parseInt(dateTimeParts[1]), Integer.parseInt(dateTimeParts[2]), Integer.parseInt(dateTimeParts[3]), 
+                        Integer.parseInt(dateTimeParts[4]) ), zone);
+                localStartDateTime.format(formatter);
+            } catch(Exception ex) {
+                
             }
             
-            // SET 15 MINUTE ALERT
-            FetchData fetch = new FetchData();
-            Customer c = new Customer();
+            
+            
+            ZonedDateTime localEndDateTime = ZonedDateTime.now();
+            
             try {
-                c = fetch.fetchSingleCustomer(a.getCustomerId());
+                String[] dateTimeParts = DateTimeUtils.getDateParts(endDate.getValue().toString(), 
+                        (String)endTime.getSelectionModel().getSelectedItem(), 
+                        (String)endTimeAmPm.getSelectionModel().getSelectedItem());
+                
+                localEndDateTime = ZonedDateTime.of(LocalDateTime.of(Integer.parseInt(dateTimeParts[0]), 
+                            Integer.parseInt(dateTimeParts[1]), Integer.parseInt(dateTimeParts[2]), 
+                            Integer.parseInt(dateTimeParts[3]), Integer.parseInt(dateTimeParts[4])), zone);
+                localEndDateTime.format(formatter);
+            } catch(Exception ex) {
+                
+            }
+            
+            boolean overlap = true;
+            try {
+                overlap = checkForOverLappingAppointments(localStartDateTime, localEndDateTime);
             } catch(SQLException ex) {
-                System.err.println(ex.toString());
+                
             }
             
-            MainSceneController.setAlert(a.getId(), a.getStart(), c.getFirstName(), c.getLastName(), a.getSubject());
-            
-            // WRITE TRANSACTION TO LOG FILE
-            File dir = new File("logs/");
-            boolean success =  dir.mkdir();
+            if(validateForm() && checkDates(localStartDateTime, localEndDateTime) && 
+                    checkBusinessHours(localStartDateTime, localEndDateTime) && overlap) {
+                int id = -1;
 
-            if(success)
-                System.out.println("Directory created");
-            else
-                System.out.println("Directory already exists");
-            
-            File file = new File("logs/transactions.txt");
-            
-            String message = "";
-            
-            if(customerIsSelected) {
-                message = "Updated Appointment ID: " + id + " Updated by " + 
-                            FXMLDocumentController.authorizedUser + " on " + ZonedDateTime.now().toString();
-            } else {
-                message = "New Appointment ID: " + id + " Created by " + 
-                            FXMLDocumentController.authorizedUser + " on " + ZonedDateTime.now().toString();
+                Appointment a = new Appointment();
+                a.setSubject(subject.getText());
+                a.setLocation(location.getText());
+                a.setDescription(details.getText());
+                
+                a.setStart(localStartDateTime);
+                a.setEnd(localEndDateTime);
+                
+                a.setUserId(FXMLDocumentController.authorizedUserId);
+
+                String cbValue = (String)cbCustomers.getSelectionModel().getSelectedItem();
+                String[] parts = cbValue.split(" ");
+                a.setCustomerId(Integer.parseInt(parts[0]));
+
+                a.setTimezone((String)timezone.getSelectionModel().getSelectedItem());
+
+                SaveData data = new SaveData();
+                try{
+                    id = data.saveNewAppointment(a);
+                }catch(SQLException ex) {
+                    System.err.println(ex.toString());
+                }
+
+                // SET 15 MINUTE ALERT
+                FetchData fetch = new FetchData();
+                Customer c = new Customer();
+                try {
+                    c = fetch.fetchSingleCustomer(a.getCustomerId());
+                } catch(SQLException ex) {
+                    System.err.println(ex.toString());
+                }
+
+                MainSceneController.setAlert(a.getId(), a.getStart(), c.getFirstName(), c.getLastName(), a.getSubject());
+
+                // WRITE TRANSACTION TO LOG FILE
+                File dir = new File("logs/");
+                boolean success =  dir.mkdir();
+
+                if(success)
+                    System.out.println("Directory created");
+                else
+                    System.out.println("Directory already exists");
+
+                File file = new File("logs/transactions.txt");
+
+                String message = "";
+
+                if(customerIsSelected) {
+                    message = "Updated Appointment ID: " + id + " Updated by " + 
+                                FXMLDocumentController.authorizedUser + " on " + ZonedDateTime.now().toString();
+                } else {
+                    message = "New Appointment ID: " + id + " Created by " + 
+                                FXMLDocumentController.authorizedUser + " on " + ZonedDateTime.now().toString();
+                }
+                try {
+                    BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
+                    bufferedWriter.newLine();
+                    bufferedWriter.append(message);
+                    bufferedWriter.flush();
+                    bufferedWriter.close();
+                } catch(IOException ex) {
+
+                } 
+
+                Stage stage = (Stage)submit.getScene().getWindow();
+                stage.close();
             }
-            try {
-                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
-                bufferedWriter.newLine();
-                bufferedWriter.append(message);
-                bufferedWriter.flush();
-                bufferedWriter.close();
-            } catch(IOException ex) {
-
-            } 
-            
-            Stage stage = (Stage)submit.getScene().getWindow();
-            stage.close();
         });
         
         cancel.setOnMouseClicked((MouseEvent e) -> {
@@ -168,6 +206,108 @@ public class AddAppointmentController implements Initializable {
         });
     }
    
+    private boolean checkForOverLappingAppointments(ZonedDateTime start, ZonedDateTime end) throws SQLException {
+        boolean isValid = true;
+        Appointment conflict = new Appointment();
+        
+        FetchData data = new FetchData();
+        
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+        appointments = data.fetchAppointmentsForCustomerRep(FXMLDocumentController.authorizedUser);
+        
+        for(Appointment a : appointments) {
+            if(start.isBefore(a.getEnd()) && start.isAfter(a.getEnd())) {
+                isValid = false;
+                conflict = a;
+            }
+            
+            if(end.isAfter(start) && end.isBefore(end)) {
+                isValid = false;
+                conflict = a;
+            }
+        }
+        
+        if(isValid == false) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Error!");
+            alert.setContentText("Appointment conflics with " + conflict.getSubject() + 
+                                 "\nFrom: " + conflict.getStart() + "\nTo:" + conflict.getEnd());
+            
+            alert.showAndWait();
+        }
+        
+        return isValid;
+    }
+    
+    private boolean checkBusinessHours(ZonedDateTime start, ZonedDateTime end) {
+        boolean isValid = true;
+        
+        String startString;
+        String endString ;
+        
+        if(start.getMinute() == 0)
+            startString = "" + start.getHour() + "00";
+        else
+            startString = "" + start.getHour() + start.getMinute();
+        
+        if(end.getMinute() == 0)
+            endString = "" + end.getHour() + "0";
+        else
+            endString = "" + end.getHour() + end.getMinute();
+        
+        
+        int startTime = Integer.parseInt(startString);
+        int endTime = Integer.parseInt(endString);
+        
+        if(startTime < OPENING_TIME || endTime > CLOSING_TIME) {
+            isValid = false;
+            
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Error!");
+            alert.setContentText("Appointment is out of business hours (7:00 AM - 6:00 PM)");
+            
+            alert.showAndWait();
+        }
+        
+        return isValid;
+    }
+    
+    private boolean checkDates(ZonedDateTime start, ZonedDateTime end) {
+        boolean isValid = false;
+        
+        if(!start.isAfter(end))
+            isValid = true;
+        else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Error!");
+            alert.setContentText("End Date is before Start Date");
+            
+            alert.showAndWait();
+        }
+            
+        return isValid;
+    }
+    
+    private boolean validateForm() {
+        boolean isValid = false;
+        
+        if(!subject.getText().isEmpty() &&
+           !location.getText().isEmpty() &&
+           !details.getText().isEmpty() &&
+           startDate.getValue() != null &&
+           endDate.getValue() != null) {
+            isValid = true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Error!");
+            alert.setContentText("All fileds are required.");
+            
+            alert.showAndWait();
+        }
+        
+        return isValid;
+    }
+    
     private void setDefaultTimeZone() {
         String zone = TimeZone.getDefault().getDisplayName();
         

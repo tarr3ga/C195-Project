@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -63,26 +64,27 @@ public class AddCustomerController implements Initializable {
     
     private void setEventHandlers() {
         btnSubmit.setOnMouseClicked((MouseEvent e) -> {
-            if(firstName.lengthProperty().getValue() > 0 && lastName.lengthProperty().getValue() > 0) {
-                try {
+            try {
+                if(validateForm()) {
+
                     int id = -1;
-                    
+
                     Customer c = new Customer();
                     if(isEditing == true) {
                         c.setId(customerToEdit.getId());
                     }
                     c.setFirstName(firstName.getText());
                     c.setLastName(lastName.getText());
-                    
+
                     c.setCustomerRep(FXMLDocumentController.authorizedUser);
-                    
+
                     SaveData data = new SaveData();
-                    
+
                     if(isEditing == false) {
                         id = data.saveNewCustomer(c);
                         data.close();
                     }
-                    
+
                     Address a = new Address();
                     a.setStreet(street.getText());
                     a.setCity(city.getText());
@@ -90,39 +92,39 @@ public class AddCustomerController implements Initializable {
                     a.setZip(zip.getText());
                     a.setCountryId(country.getSelectionModel().getSelectedIndex() + 1);
                     a.setCustomerId(id);
-                    
+
                     data = new SaveData();
-                    
+
                     if(isEditing == false) {
                         id = data.saveNewAddress(a);
                         data.close();
                     }
-                    
+
                     PhoneNumber p = new PhoneNumber();
                     p.setPhone(phone.getText());
                     p.setPhoneType(phoneType.getSelectionModel().getSelectedItem().toString());
                     p.setCustomerId(id);
-                    
+
                     data = new SaveData();
-                    
+
                     if(isEditing == false) {
                         data.saveNewPhone(p);
                     } else {
                         data.updateCustomerRecord(c, a, p);
                     }
-                    
+
                     File dir = new File("logs/");
                     boolean success =  dir.mkdir();
-                    
+
                     if(success)
                         System.out.println("Directory created");
                     else
                         System.out.println("Directory already exists");
-                    
+
                     File file = new File("logs/transactions.txt");
-                    
+
                     String message = "";
-                    
+
                     if(isEditing) {
                     message = "Updated Customer ID: " + c.getId() + " Updated by " +        
                             FXMLDocumentController.authorizedUser + " on " + ZonedDateTime.now().toString();    
@@ -137,21 +139,44 @@ public class AddCustomerController implements Initializable {
                         bufferedWriter.flush();
                         bufferedWriter.close();
                     } catch(IOException ex) {
-                        
+
                     } 
-                    
+
                     Stage stage = (Stage)btnSubmit.getScene().getWindow();
                     stage.close();
-                } catch(SQLException ex) {
-                    System.out.println("Update Customer" + ex.toString());
                 }
-            }
+            } catch(SQLException ex) {
+                System.out.println("Update Customer" + ex.toString());
+            }        
         });
         
         btnCancel.setOnMouseClicked((MouseEvent e) -> {
             Stage stage = (Stage)btnCancel.getScene().getWindow();
             stage.close();
         });
+    }
+    
+    private boolean validateForm() {
+        boolean isValid = false;
+        
+        if(!lastName.getText().isEmpty() &&
+           !firstName.getText().isEmpty() &&
+           !phone.getText().isEmpty() &&
+           !street.getText().isEmpty() &&
+           !city.getText().isEmpty() &&
+           !zip.getText().isEmpty() &&
+           !state.getSelectionModel().isEmpty() &&
+           !country.getSelectionModel().isEmpty()) {
+            isValid = true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error!");
+            alert.setContentText("All Fields Are Required.");
+            
+            alert.showAndWait();
+        }
+        
+        return isValid;
     }
     
     /**

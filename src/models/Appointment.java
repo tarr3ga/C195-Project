@@ -20,6 +20,7 @@ public class Appointment {
     private ZonedDateTime start;
     private ZonedDateTime end;
     private String timezone;
+    private String customerRep;
     private Date createDate;
     private String createdBy;
     private int userId;
@@ -46,6 +47,9 @@ public class Appointment {
     public void setTimezone(String timezone) { this.timezone = timezone; }
     public String getTimezone() { return timezone; }
     
+    public void setCustomerRep(String customerRep) { this.customerRep = customerRep; }
+    public String getCustomerRep() { return customerRep; }
+    
     public Date getCreateDate() { return createDate; }
     public void setCreateDate(Date createDate) { this.createDate = createDate; }
 
@@ -63,7 +67,7 @@ public class Appointment {
     }
     
     public Appointment(int id, String subject, String location, String description, 
-            ZonedDateTime start, ZonedDateTime end, String timezone,  Date createDate, String createdBy, int userId, int customerId) {
+            ZonedDateTime start, ZonedDateTime end, String timezone, String customerRep,  Date createDate, String createdBy, int userId, int customerId) {
         this.id = id;
         this.subject = subject;
         this.location = location;
@@ -71,6 +75,7 @@ public class Appointment {
         this.start = start;
         this.end = end;      
         this.timezone = timezone;
+        this.customerRep = customerRep;
         this.createDate = createDate;
         this.createdBy = createdBy;
         this.userId = userId;

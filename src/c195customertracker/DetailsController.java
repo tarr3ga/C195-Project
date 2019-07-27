@@ -7,15 +7,20 @@ package c195customertracker;
 
 import data.FetchData;
 import data.SaveData;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.Address;
 import models.Appointment;
@@ -52,12 +57,31 @@ public class DetailsController implements Initializable {
     @FXML private Button btnClose;
     @FXML private Button btnSave;
     @FXML private Button btnCancel;
+    @FXML private Button onBtnCustomerDetailsClick;
     
     private Appointment appointment;
     private Customer customer;
     private Address address;
     private Country countryData;
     private PhoneNumber phoneNumber;
+    
+    @FXML 
+    private void onBtnCustomerDetailsClick() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("CustomerDetails.fxml"));
+        Parent root = loader.load();
+        
+        CustomerDetailsController controller = loader.getController();
+        
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(scene);
+
+        controller.customer = customer;
+
+        stage.showAndWait();
+    }
     
     @FXML
     private void onBtnEditClick() {

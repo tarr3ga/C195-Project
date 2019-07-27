@@ -6,8 +6,13 @@
 package c195customertracker;
 
 import data.FetchData;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -102,6 +107,20 @@ public class FXMLDocumentController implements Initializable {
                 response.setText(authorized);
                 
                 authorizedUser = username.getText();
+                
+                File file = new File("logs/transactions.txt");
+
+                String message = username.getText() + " logged in at " + LocalDateTime.now();
+                
+                 try {
+                    BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
+                    bufferedWriter.newLine();
+                    bufferedWriter.append(message);
+                    bufferedWriter.flush();
+                    bufferedWriter.close();
+                } catch(IOException ex) {
+
+                } 
                 
                 FetchData data = new FetchData();
                 authorizedUserId = data.getUserId(authorizedUser);
