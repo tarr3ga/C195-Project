@@ -17,9 +17,23 @@
     <stylesheets>
         <String fx:value="styles/stylesMain.css" />
     </stylesheets>
-    <Label fx:id="welcome" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+    <Label fx:id="welcome" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="bold" />
     <Label fx:id="location" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-    <Label text="System Information:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+    <Label text="System Information:" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="bold" />
     <Label fx:id="customerCount" GridPane.rowIndex="3" GridPane.columnIndex="0" />
     <Label fx:id="appointmentCount" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+    <Label text="Reports:" GridPane.rowIndex="5" GridPane.columnIndex="0" styleClass="bold" />
+    <HBox GridPane.rowIndex="6" GridPane.columnIndex="0" >
+        <Label text="Appointment Type Report" prefWidth="250" />
+        <Button fx:id="btnTypeReport" text="Generate Report" />
+    </HBox>
+    <HBox GridPane.rowIndex="7" GridPane.columnIndex="0" >
+        <Label text="Appointments by Rep" prefWidth="250" />
+        <ComboBox fx:id="cbUsers" GridPane.rowIndex="7" />
+        <Button fx:id="btnAppointments" text="Generate Report" />
+    </HBox>
+    <HBox GridPane.rowIndex="8" GridPane.columnIndex="0" >
+        <Label text="Appointments per Month" prefWidth="250" />
+        <Button fx:id="btnAppointmentsPerMonth" text="Generate Report" />
+    </HBox>
 </GridPane>

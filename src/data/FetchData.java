@@ -32,6 +32,7 @@ public class FetchData {
     private final ObservableList<Address> addressess = FXCollections.observableArrayList();
     private final ObservableList<PhoneNumber> phoneNumber = FXCollections.observableArrayList();
     
+    private static final String SQL_GET_USERNAMES = "SELECT * FROM users;";
     private static final String SQL_CUSTOMER = "SELECT * FROM customers WHERE ID = ";
     private static final String SQL_CUSTOMERS = "SELECT * FROM customers;";
     private static final String SQL_APPOINTMENT = "SELECT * FROM appointments WHERE ID = ";
@@ -74,6 +75,28 @@ public class FetchData {
         return properties;
     }
     // </editor-fold>
+    
+    public ArrayList fetchUserNames() throws SQLException{
+        ArrayList<String> userNames = new ArrayList<>();
+        
+        conn = DBConnect.makeConnection();
+        
+        statement = conn.createStatement();
+        resultSet = statement.executeQuery(SQL_GET_USERNAMES);
+        
+        int index;
+        
+        while(resultSet.next()) {
+            index = resultSet.findColumn("username");
+            String username = resultSet.getString(index);
+            
+            userNames.add(username);
+        }
+        
+        conn.close();
+        
+        return userNames;
+    }
     
     public Customer fetchSingleCustomer(int customerId) throws SQLException {
         Customer c = new Customer();
@@ -229,7 +252,7 @@ public class FetchData {
         index = resultSet.findColumn("state");
         a.setState(resultSet.getString(index));           
 
-        index = resultSet.findColumn("ZIP");
+        index = resultSet.findColumn("zip");
         a.setZip(resultSet.getString(index));
         
         index = resultSet.findColumn("countryId");
@@ -668,6 +691,115 @@ public class FetchData {
         int count = resultSet.getInt(1);
         
         System.out.println("Appointment count = " + count);
+        
+        return count;
+    }
+    
+    public int getConsultationCount() throws SQLException {
+        int count;
+        
+        try {
+            conn = DBConnect.makeConnection();
+        } catch(SQLException ex) {
+            
+        }
+        
+        String sql = "SELECT COUNT(*) FROM appointments WHERE type = 'Consultation'";
+        
+        statement = conn.createStatement();
+        resultSet = statement.executeQuery(sql);
+        
+        resultSet.next();
+        
+        count = resultSet.getInt(1);
+        
+        conn.close();
+        
+        return count;
+    }
+    
+    public int getPlanningCount() throws SQLException {
+        int count = 0;
+        
+        try {
+            conn = DBConnect.makeConnection();
+        } catch(SQLException ex) {
+            
+        }
+        
+        String sql = "SELECT COUNT(*) FROM appointments WHERE type = 'Planning'";
+        
+        statement = conn.createStatement();
+        resultSet = statement.executeQuery(sql);
+        
+        resultSet.next();
+        
+        count = resultSet.getInt(1);
+        
+        conn.close();
+        
+        return count;
+    }
+    
+    public int getWorkingCount() throws SQLException {
+        int count = 0;
+        
+        String sql = "SELECT COUNT(*) FROM appointments WHERE type = 'Working'";
+        
+        statement = conn.createStatement();
+        resultSet = statement.executeQuery(sql);
+        
+        resultSet.next();
+        
+        count = resultSet.getInt(1);
+        
+        conn.close();
+        
+        return count;
+    }
+    
+    public int getCasualCount() throws SQLException {
+        int count = 0;
+        
+        try {
+            conn = DBConnect.makeConnection();
+        } catch(SQLException ex) {
+            
+        }
+        
+        String sql = "SELECT COUNT(*) FROM appointments WHERE type = 'Casual'";
+        
+        statement = conn.createStatement();
+        resultSet = statement.executeQuery(sql);
+        
+        resultSet.next();
+        
+        count = resultSet.getInt(1);
+        
+        conn.close();
+        
+        return count;
+    }
+    
+    public int getOtherCount() throws SQLException {
+        int count = 0;
+        
+        try {
+            conn = DBConnect.makeConnection();
+        } catch(SQLException ex) {
+            
+        }
+        
+        String sql = "SELECT COUNT(*) FROM appointments WHERE type = 'Other'";
+        
+        statement = conn.createStatement();
+        resultSet = statement.executeQuery(sql);
+        
+        resultSet.next();
+        
+        count = resultSet.getInt(1);
+        
+        conn.close();
         
         return count;
     }

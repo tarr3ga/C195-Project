@@ -19,6 +19,10 @@ and open the template in the editor.
     -fx-background-insets: 10px;
 }
 
+.bold {
+    -fx-font-weight: bold;
+}
+
 #appointmentDetails {
     -fx-font-family: Helvitica;
     -fx-font-size: 20px;

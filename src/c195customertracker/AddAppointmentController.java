@@ -56,6 +56,7 @@ public class AddAppointmentController implements Initializable {
     @FXML private ComboBox endTime;
     @FXML private ComboBox endTimeAmPm;
     @FXML private ComboBox timezone;
+    @FXML private ComboBox cbType;
     
     @FXML private Button submit;
     @FXML private Button cancel;
@@ -129,6 +130,7 @@ public class AddAppointmentController implements Initializable {
                 a.setSubject(subject.getText());
                 a.setLocation(location.getText());
                 a.setDescription(details.getText());
+                a.setType((String)cbType.getSelectionModel().getSelectedItem());
                 
                 a.setStart(localStartDateTime);
                 a.setEnd(localEndDateTime);
@@ -379,6 +381,13 @@ public class AddAppointmentController implements Initializable {
         endTime.getSelectionModel().selectFirst();
         startTimeAmPm.getSelectionModel().selectFirst();
         endTimeAmPm.getSelectionModel().selectFirst();
+        
+        cbType.getItems().add("Consultation");
+        cbType.getItems().add("Planning");
+        cbType.getItems().add("Working");
+        cbType.getItems().add("Casual");
+        cbType.getItems().add("Other");
+        cbType.getSelectionModel().selectFirst();
         
         setEventHandlers();
     }      

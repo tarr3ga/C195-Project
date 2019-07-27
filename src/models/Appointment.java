@@ -17,6 +17,7 @@ public class Appointment {
     private String subject;
     private String location;
     private String description;
+    private String type;
     private ZonedDateTime start;
     private ZonedDateTime end;
     private String timezone;
@@ -38,6 +39,9 @@ public class Appointment {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
+    
     public ZonedDateTime getStart() { return start; }
     public void setStart(ZonedDateTime start) { this.start = start; }
 

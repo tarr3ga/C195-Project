@@ -1,134 +1,21 @@
-Customer ID: 0 Created by jamyers on 2019-07-22T02:26:48.710
-Customer ID: 0 Created by jamyers on 2019-07-22T09:41:03.018
 
-Customer ID: 0 Created by jamyers on 2019-07-22T09:43:07.375
-Customer ID: 0 Created by jamyers on 2019-07-22T09:45:38.567
-New Customer ID: 3 Created by skyman on 2019-07-22T14:34:58.178
-New Appointment ID: 1 Created by jamyers on 2019-07-22T14:58:52.657
-New Appointment ID: 2 Created by superdude on 2019-07-22T15:31:41.748
-New Appointment ID: 13 Created by skyman on 2019-07-22T15:37:00.028
-New Customer ID: 19 Created by skyman on 2019-07-22T15:38:30.711
-New Appointment ID: javafx.scene.control.TableColumn@58f71974 Created by jamyers on 2019-07-22T15:49:14.364
-New Appointment ID: javafx.scene.control.TableColumn@464ddb8d Created by jamyers on 2019-07-22T16:03:08.605
-New Appointment ID: javafx.scene.control.TableColumn@5d8aacc Created by jamyers on 2019-07-22T16:35:24.888
-New Appointment ID: javafx.scene.control.TableColumn@5d8aacc Created by jamyers on 2019-07-22T16:36:14.255
-New Appointment ID: javafx.scene.control.TableColumn@25cc7b87 Created by jamyers on 2019-07-22T16:37:25.160
-New Appointment ID: javafx.scene.control.TableColumn@25cc7b87 Created by jamyers on 2019-07-22T16:37:31.530
-New Appointment ID: javafx.scene.control.TableColumn@1a921ceb Created by jamyers on 2019-07-22T16:39:30.750
-New Appointment ID: javafx.scene.control.TableColumn@4d775b0c Created by jamyers on 2019-07-22T16:46:47.917
-New Appointment ID: javafx.scene.control.TableColumn@4d775b0c Created by jamyers on 2019-07-22T16:46:51.264
-New Appointment ID: javafx.scene.control.TableColumn@4054de96 Created by jamyers on 2019-07-22T16:59:28.606
-New Appointment ID: javafx.scene.control.TableColumn@4054de96 Created by jamyers on 2019-07-22T17:00:09.767
-New Appointment ID: javafx.scene.control.TableColumn@a16f364 Created by jamyers on 2019-07-22T17:01:05.182
-New Appointment ID: javafx.scene.control.TableColumn@a16f364 Created by jamyers on 2019-07-22T17:01:13.003
-New Appointment ID: javafx.scene.control.TableColumn@190c625d Created by jamyers on 2019-07-22T18:28:59.402
-New Appointment ID: javafx.scene.control.TableColumn@a8b8daf Created by jamyers on 2019-07-22T18:29:16.912
-New Appointment ID: javafx.scene.control.TableColumn@4d775b0c Created by jamyers on 2019-07-22T18:30:54.231
-New Appointment ID: 14 Created by skyman on 2019-07-22T20:28:00.632
-New Appointment ID: 15 Created by skyman on 2019-07-22T20:28:59.486
-New Appointment ID: 16 Created by jamyers on 2019-07-23T13:49:27.849
-New Appointment ID: 17 Created by jamyers on 2019-07-23T13:50:24.754
-New Appointment ID: 18 Created by jamyers on 2019-07-23T13:51:06.632
-New Appointment ID: -1 Created by jamyers on 2019-07-23T14:26:17.196
-New Appointment ID: 19 Created by jamyers on 2019-07-23T14:27:30.086
-New Appointment ID: 20 Created by jamyers on 2019-07-23T14:29:43.569
-New Appointment ID: 21 Created by jamyers on 2019-07-23T16:42:16.345
-New Appointment ID: 22 Created by jamyers on 2019-07-23T17:10:40.412
-New Appointment ID: 23 Created by jamyers on 2019-07-23T17:18:47.355
-New Appointment ID: 24 Created by jamyers on 2019-07-23T17:34:28.496
-New Appointment ID: 25 Created by jamyers on 2019-07-23T20:40:21.548
-New Appointment ID: 26 Created by jamyers on 2019-07-23T20:44:35.230
-New Appointment ID: 27 Created by jamyers on 2019-07-23T20:47:40.544
-New Appointment ID: 28 Created by jamyers on 2019-07-24T09:49:43.462
-New Appointment ID: 29 Created by jamyers on 2019-07-24T09:51:15.880
-New Appointment ID: 30 Created by jamyers on 2019-07-25T11:55:46.785
-New Customer ID: 5 Created by jamyers on 2019-07-25T23:51:27.874-04:00[America/New_York]
-New Appointment ID: 5 Created by jamyers on 2019-07-25T23:52:14.626-04:00[America/New_York]
-New Customer ID: 1 Created by jamyers on 2019-07-25T23:58:46.148-04:00[America/New_York]
-New Appointment ID: 1 Created by jamyers on 2019-07-25T23:59:18.614-04:00[America/New_York]
-New Appointment ID: 6 Created by jamyers on 2019-07-26T00:59:39.921-04:00[America/New_York]
-New Appointment ID: 5 Created by jamyers on 2019-07-26T01:03:58.158-04:00[America/New_York]
-New Appointment ID: 5 Created by jamyers on 2019-07-26T11:51:16.743-04:00[America/New_York]
-New Appointment ID: 6 Created by jamyers on 2019-07-26T11:58:03.979-04:00[America/New_York]
-New Appointment ID: 7 Created by jamyers on 2019-07-26T12:07:06.825-04:00[America/New_York]
-New Customer ID: 1 Created by jamyers on 2019-07-26T12:14:34.453-04:00[America/New_York]
-New Appointment ID: 1 Created by jamyers on 2019-07-26T12:15:07.547-04:00[America/New_York]
-New Appointment ID: 2 Created by jamyers on 2019-07-26T13:13:47.327-04:00[America/New_York]
-New Appointment ID: 3 Created by jamyers on 2019-07-26T13:14:35.579-04:00[America/New_York]
-Appointment ID: 1 Deleted by jamyers on 2019-07-26T14:35:18.417-04:00[America/New_York]
-Appointment ID: 3 Deleted by jamyers on 2019-07-26T14:38:43.824-04:00[America/New_York]
-Appointment ID: 2 Deleted by jamyers on 2019-07-26T14:39:08.424-04:00[America/New_York]
-New Customer ID: -1 Created by jamyers on 2019-07-26T16:37:29.585-04:00[America/New_York]
-Updated Customer ID: -1 Updated by jamyers on 2019-07-26T16:42:10.247-04:00[America/New_York]
-Updated Customer ID: 1 Updated by jamyers on 2019-07-26T16:44:33.152-04:00[America/New_York]
-New Customer ID: 1 Created by jamyers on 2019-07-26T17:25:28.957-04:00[America/New_York]
-New Customer ID: 2 Created by jamyers on 2019-07-26T17:36:20.847-04:00[America/New_York]
-New Customer ID: 3 Created by bobvilla on 2019-07-26T17:42:00.204-04:00[America/New_York]
-New Customer ID: 1 Created by bobvilla on 2019-07-26T17:54:59.522-04:00[America/New_York]
-New Customer ID: 2 Created by jamyers on 2019-07-26T18:20:34.605-04:00[America/New_York]
-Updated Appointment ID: 1 Updated by jamyers on 2019-07-26T18:42:28.226-04:00[America/New_York]
-Updated Appointment ID: 2 Updated by jamyers on 2019-07-26T18:43:39.748-04:00[America/New_York]
-Updated Appointment ID: 3 Updated by jamyers on 2019-07-26T18:45:44.510-04:00[America/New_York]
-smyers logged in at 2019-07-26T18:55:57.826
-smyers logged in at 2019-07-26T20:02:36.433
-jamyers logged in at 2019-07-26T20:08:07.139
-jamyers logged in at 2019-07-26T20:09:22.154
-jamyers logged in at 2019-07-27T11:19:50.281
-jamyers logged in at 2019-07-27T11:20:35.961
-jamyers logged in at 2019-07-27T11:21:45.419
-jamyers logged in at 2019-07-27T11:22:22.638
-jamyers logged in at 2019-07-27T11:49:30.990
-bobvilla logged in at 2019-07-27T11:51:13.081
-jamyers logged in at 2019-07-27T12:46:41.278
-jamyers logged in at 2019-07-27T13:03:24.265
-bobvilla logged in at 2019-07-27T13:04:46.995
-jamyers logged in at 2019-07-27T13:08:39.782
-fflintstone logged in at 2019-07-27T13:09:50.055
-jamyers logged in at 2019-07-27T13:33:10.575
-jamyers logged in at 2019-07-27T14:04:17.727
-Updated Appointment ID: 4 Updated by jamyers on 2019-07-27T14:04:41.425-04:00[America/New_York]
-bobvilla logged in at 2019-07-27T14:17:59.799
-Updated Appointment ID: 5 Updated by bobvilla on 2019-07-27T14:18:31.236-04:00[America/New_York]
-jamyers logged in at 2019-07-27T14:19:29.503
-smyers logged in at 2019-07-27T15:02:27.563
-New Customer ID: 3 Created by smyers on 2019-07-27T15:02:47.670-04:00[America/New_York]
-smyers logged in at 2019-07-27T15:04:19.485
-smyers logged in at 2019-07-27T15:06:07.899
-smyers logged in at 2019-07-27T15:10:31.153
-Updated Appointment ID: 6 Updated by smyers on 2019-07-27T15:11:00.237-04:00[America/New_York]
-smyers logged in at 2019-07-27T15:11:43.083
-smyers logged in at 2019-07-27T15:13:20.371
-smyers logged in at 2019-07-27T15:14:22.110
-smyers logged in at 2019-07-27T15:18:33.250
-Updated Appointment ID: 7 Updated by smyers on 2019-07-27T15:18:56.889-04:00[America/New_York]
-smyers logged in at 2019-07-27T15:22:44.479
-Updated Appointment ID: 8 Updated by smyers on 2019-07-27T15:23:05.799-04:00[America/New_York]
-jamyers logged in at 2019-07-27T15:39:33.881
-jamyers logged in at 2019-07-27T15:42:02.055
-jamyers logged in at 2019-07-27T15:43:34.822
-Updated Appointment ID: 9 Updated by jamyers on 2019-07-27T15:44:06.271-04:00[America/New_York]
-jamyers logged in at 2019-07-27T15:47:24.676
-jamyers logged in at 2019-07-27T15:49:08.861
-Updated Appointment ID: 10 Updated by jamyers on 2019-07-27T15:50:24.584-04:00[America/New_York]
-smyers logged in at 2019-07-27T15:52:39.509
-jamyers logged in at 2019-07-27T15:54:50.289
-Updated Appointment ID: 11 Updated by jamyers on 2019-07-27T15:55:21.875-04:00[America/New_York]
-jamyers logged in at 2019-07-27T15:55:54.581
-jamyers logged in at 2019-07-27T15:58:03.824
-Updated Appointment ID: 12 Updated by jamyers on 2019-07-27T15:58:26.310-04:00[America/New_York]
-jamyers logged in at 2019-07-27T16:01:13.498
-jamyers logged in at 2019-07-27T16:31:44.997
-New Customer ID: 1 Created by jamyers on 2019-07-27T16:32:44.021-04:00[America/New_York]
-Updated Appointment ID: -1 Updated by jamyers on 2019-07-27T16:33:44.023-04:00[America/New_York]
-jamyers logged in at 2019-07-27T16:35:22.479
-Updated Appointment ID: 1 Updated by jamyers on 2019-07-27T16:35:54.407-04:00[America/New_York]
-Updated Appointment ID: 2 Updated by jamyers on 2019-07-27T16:36:56.420-04:00[America/New_York]
-jamyers logged in at 2019-07-27T16:38:54.981
-jamyers logged in at 2019-07-27T16:40:38.484
-jamyers logged in at 2019-07-27T16:43:14.627
-skyler logged in at 2019-07-27T16:49:47.899
-New Customer ID: 2 Created by skyler on 2019-07-27T16:50:53.363-04:00[America/New_York]
-Updated Appointment ID: 3 Updated by skyler on 2019-07-27T16:52:16.262-04:00[America/New_York]
-Updated Appointment ID: 4 Updated by skyler on 2019-07-27T16:53:22.135-04:00[America/New_York]
-Updated Appointment ID: 5 Updated by skyler on 2019-07-27T16:55:45.663-04:00[America/New_York]
-jamyers logged in at 2019-07-27T17:11:13.371
+jamyers logged in at 2019-07-27T18:38:56.096
+New Customer ID: 1 Created by jamyers on 2019-07-27T18:39:47.033-04:00[America/New_York]
+New Customer ID: 3 Created by jamyers on 2019-07-27T18:40:46.226-04:00[America/New_York]
+Updated Appointment ID: -1 Updated by jamyers on 2019-07-27T18:41:56.365-04:00[America/New_York]
+jamyers logged in at 2019-07-27T18:43:17.289
+Updated Appointment ID: 1 Updated by jamyers on 2019-07-27T18:43:47.779-04:00[America/New_York]
+Updated Appointment ID: 2 Updated by jamyers on 2019-07-27T18:44:48.805-04:00[America/New_York]
+jamyers logged in at 2019-07-27T18:46:11.642
+skyler logged in at 2019-07-27T18:48:43.674
+skyler logged in at 2019-07-27T18:49:34.680
+skyler logged in at 2019-07-27T18:52:38.647
+New Customer ID: 4 Created by skyler on 2019-07-27T18:54:51.258-04:00[America/New_York]
+jamyers logged in at 2019-07-27T18:55:20.125
+Updated Customer ID: 1 Updated by jamyers on 2019-07-27T18:56:19.436-04:00[America/New_York]
+jamyers logged in at 2019-07-27T18:57:33.025
+New Customer ID: 1 Created by jamyers on 2019-07-27T18:58:13.282-04:00[America/New_York]
+Updated Appointment ID: 1 Updated by jamyers on 2019-07-27T18:58:51.305-04:00[America/New_York]
+jamyers logged in at 2019-07-27T19:19:30.232
+jamyers logged in at 2019-07-27T19:29:11.139
+jamyers logged in at 2019-07-27T19:29:49.954
