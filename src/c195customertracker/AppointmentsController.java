@@ -84,6 +84,9 @@ public class AppointmentsController implements Initializable {
             }
         });
         
+        TableColumn<Appointment, String> customerRep = new TableColumn<>("Customer Rep");
+        customerRep.setMinWidth(175);
+        customerRep.setCellValueFactory(new PropertyValueFactory("customerRep"));
         
         TableColumn<Appointment, ZonedDateTime> end = new TableColumn<>("End Date");
         end.setMinWidth(225);
@@ -101,7 +104,7 @@ public class AppointmentsController implements Initializable {
         });
         
         appointmentsTable.setItems(appointments);
-        appointmentsTable.getColumns().setAll(id, subject, location, start, end);
+        appointmentsTable.getColumns().setAll(id, subject, location, start, end, customerRep);
     }
     
     private void setEventHandlers() {
@@ -230,7 +233,7 @@ public class AppointmentsController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {        
         try {
             FetchData data = new FetchData();
-            appointments = data.fetchAppointmentData();
+            appointments = data.fetchAppointmentData();          
         } catch(SQLException ex) {
             System.err.println(ex.toString());
         }

@@ -14,7 +14,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -28,6 +31,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -52,6 +56,7 @@ public class CustomersController implements Initializable {
 
     private ObservableList<Customer> customers = FXCollections.observableArrayList();
     private ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+    //private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy  hh:mm a");
     
     public ObservableList<Customer> getCustomers() {
         return customers;
@@ -83,6 +88,19 @@ public class CustomersController implements Initializable {
         TableColumn<Customer, Timestamp> addedOn = new TableColumn<>("Added On");
         addedOn.setMinWidth(250);
         addedOn.setCellValueFactory(new PropertyValueFactory<>("addedOn"));
+        /*addedOn.setCellFactory(col -> new TableCell<Customer, Timestamp>(){
+            @Override
+            protected void updateItem(Timestamp item, boolean empty) {
+                LocalDateTime ldt = item.toLocalDateTime();
+                
+                super.updateItem(item, empty);
+                if (empty)
+                    setText(null);
+                else
+                    setText(String.format(ldt.format(formatter)));
+            }
+        });*/
+        
         
         TableColumn<Customer, String> customerRep = new TableColumn<>("Customer Rep");
         customerRep.setMinWidth(175);

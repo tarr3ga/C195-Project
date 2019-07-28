@@ -56,10 +56,6 @@ public class MainSceneController implements Initializable {
         display.add(newPane, 0, 0);
     }
     
-    public static void loadCustomerAppointments(int index) throws IOException {
-        
-    }
-    
     private static void startTimer() {
         Date start = new Date();
         

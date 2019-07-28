@@ -411,7 +411,7 @@ public class FetchData {
         return appointments;
     }
     
-    public ObservableList<Appointment> fetchAppointmentsForCustomerRep(String rep) throws SQLException {
+    public ObservableList fetchAppointmentsForCustomerRep(String rep) throws SQLException {
         try {
             conn = DBConnect.makeConnection();
         } catch(SQLException ex) {
@@ -440,6 +440,9 @@ public class FetchData {
             index = resultSet.findColumn("description");
             String description = resultSet.getString(index);
             
+            index = resultSet.findColumn("customerRep");
+            String customerRep = resultSet.getString(index);
+            
             index = resultSet.findColumn("start");
             String start = resultSet.getString(index);
                     
@@ -457,6 +460,7 @@ public class FetchData {
             a.setSubject(subject);
             a.setLocation(location);
             a.setDescription(description);
+            a.setCustomerRep(customerRep);
             a.setStart(startDateTime);
             a.setEnd(endDateTime);
             a.setCustomerId(customersId);
@@ -496,6 +500,9 @@ public class FetchData {
             index = resultSet.findColumn("description");
             String description = resultSet.getString(index);
             
+            index = resultSet.findColumn("customerRep");
+            String customerRep = resultSet.getString(index);
+            
             index = resultSet.findColumn("start");
             String start = resultSet.getString(index);
             
@@ -508,20 +515,12 @@ public class FetchData {
             ZonedDateTime startDateTime = ZonedDateTime.parse(start);
             ZonedDateTime endDateTime = ZonedDateTime.parse(end);
             
-            /*try {
-                DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
-                formatter.ofPattern("yyyy-MM-dd HH:mm z");
-                startDateTime = ZonedDateTime.parse(start, formatter);
-                endDateTime = ZonedDateTime.parse(end, formatter);
-            } catch(DateTimeParseException ex) {
-                System.err.println(ex.toString());
-            }*/
-            
             Appointment a = new Appointment();
             a.setId(id);
             a.setSubject(subject);
             a.setLocation(location);
             a.setDescription(description);
+            a.setCustomerRep(customerRep);
             a.setStart(startDateTime);
             a.setEnd(endDateTime);
             a.setCustomerId(customersId);

@@ -19,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 
 /**
  * FXML Controller class
@@ -27,6 +28,7 @@ import javafx.scene.input.MouseEvent;
  */
 public class HomeController implements Initializable {
 
+    @FXML GridPane display;
     @FXML private Label welcome;
     @FXML private Label location;
     @FXML private Label customerCount;
@@ -65,7 +67,7 @@ public class HomeController implements Initializable {
         });
         
         btnAppointments.setOnMouseClicked((MouseEvent e) -> {
-        
+            
         });
         
         btnAppointmentsPerMonth.setOnMouseClicked((MouseEvent e) -> {
@@ -105,6 +107,8 @@ public class HomeController implements Initializable {
             for(String u : userNames) {
                 cbUsers.getItems().add(u);
             }
+            
+            cbUsers.getSelectionModel().selectFirst();
         } catch(SQLException ex) {
             
         }
