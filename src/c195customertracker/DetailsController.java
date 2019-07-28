@@ -41,6 +41,7 @@ public class DetailsController implements Initializable {
     @FXML private TextField lastName;
     @FXML private TextField subject;
     @FXML private TextField location;
+    @FXML private TextField type;
     @FXML private TextField dateTime;
     @FXML private TextField endTime;
     @FXML private TextArea details;
@@ -233,6 +234,7 @@ public class DetailsController implements Initializable {
         dateTime.setText(formattedStartDate);
         endTime.setText(formattedEndDate);
         details.setText(appointment.getDescription());
+        type.setText(appointment.getType());
         
         
         FetchData data = new FetchData();

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.Insets?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="c195customertracker.AppointmentsForRepController">
+   <padding>
+        <Insets right="10" left="10" top="10" bottom="10" />
+    </padding>
+    <stylesheets>
+        <String fx:value="styles/stylesMain.css" />
+    </stylesheets>
+    <stylesheets>
+        <String fx:value="styles/editable.css" />
+    </stylesheets>
+
+    <TableView fx:id="appointmentsTable" 
+               id="appointmentInfo"
+               minWidth="1200" minHeight="400" >   
+    
+    </TableView>
+    <HBox GridPane.columnIndex= "0" GridPane.rowIndex="1" >
+        <Button fx:id="btnView" text="View" minWidth="160.0" 
+                prefWidth="160.0" styleClass="mainFxmlClass" />
+        <Button fx:id="btnDelete" text="Delete" minWidth="160.0" 
+                prefWidth="160.0" styleClass="mainFxmlClass" />
+    </HBox>
+    <HBox GridPane.columnIndex= "0" GridPane.rowIndex="2" >
+        <Label text="Filter by Date:" />
+    </HBox>
+    <HBox GridPane.columnIndex= "0" GridPane.rowIndex="3" >
+        <GridPane>
+            <Label text="Start Date" GridPane.columnIndex= "0" GridPane.rowIndex="0" />
+            <Label text="End Date"  GridPane.columnIndex= "1" GridPane.rowIndex="0" />
+            <DatePicker fx:id="startDate" GridPane.columnIndex= "0" GridPane.rowIndex="1" />
+            <DatePicker fx:id="endDate" GridPane.columnIndex= "1" GridPane.rowIndex="1" />
+            <Button fx:id="btnFilter" text="Filter" GridPane.columnIndex= "0" GridPane.rowIndex="2" />
+        </GridPane>     
+    </HBox>
+</GridPane>

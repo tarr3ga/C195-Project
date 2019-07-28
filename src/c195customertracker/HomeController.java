@@ -6,6 +6,7 @@
 package c195customertracker;
 
 import data.FetchData;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.ZonedDateTime;
@@ -13,13 +14,18 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -67,7 +73,26 @@ public class HomeController implements Initializable {
         });
         
         btnAppointments.setOnMouseClicked((MouseEvent e) -> {
+            String rep = (String)cbUsers.getSelectionModel().getSelectedItem();
             
+            try {                    
+                
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("AppointmentsForRep.fxml"));
+                    Parent root = loader.load();
+                    
+                    AppointmentsForRepController controller = loader.getController();
+                    controller.rep = rep;
+                    
+                    Stage stage = new Stage();
+                    Scene scene = new Scene(root);
+                    
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.setScene(scene);
+                                 
+                    stage.showAndWait();
+                } catch(IOException ex) {
+                    System.err.println(ex.toString());
+                }      
         });
         
         btnAppointmentsPerMonth.setOnMouseClicked((MouseEvent e) -> {
