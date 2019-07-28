@@ -740,7 +740,13 @@ public class FetchData {
         return count;
     }
     
-    public int getWorkingCount() throws SQLException {
+    public int getWorkingCount() throws SQLException {        
+        try {
+            conn = DBConnect.makeConnection();
+        } catch(SQLException ex) {
+            
+        }
+        
         int count = 0;
         
         String sql = "SELECT COUNT(*) FROM appointments WHERE type = 'Working'";

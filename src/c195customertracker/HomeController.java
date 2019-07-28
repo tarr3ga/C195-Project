@@ -11,21 +11,30 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import models.Appointment;
+import util.DateTimeUtils;
 
 /**
  * FXML Controller class
@@ -54,20 +63,46 @@ public class HomeController implements Initializable {
             
             try {
                 FetchData data = new FetchData();
-                
                 countConsult = data.getConsultationCount();
+                
+                data = new FetchData();
                 countPlan = data.getPlanningCount();
+                
+                data = new FetchData();
                 countWork = data.getWorkingCount();
+                
+                data = new FetchData();
                 countCasual = data.getCasualCount();
                 countOther = data.getOtherCount();
             } catch(SQLException ex) {
                 
             }
             
+            GridPane grid = new GridPane();
+            grid.setHgap(10);
+            grid.setVgap(10);
+            grid.setPadding(new Insets(20, 20, 20, 20));
+            
+            grid.add(new Label("Consulting: "), 0, 0);
+            grid.add(new Label(String.valueOf(countConsult)), 1, 0);
+            grid.add(new Label("Planning: "), 0, 1);
+            grid.add(new Label(String.valueOf(countPlan)), 1, 1);
+            grid.add(new Label("Working: "), 0, 2);
+            grid.add(new Label(String.valueOf(countWork)), 1, 2);
+            grid.add(new Label("Casual: "), 0, 3);
+            grid.add(new Label(String.valueOf(countCasual)), 1, 3);
+            grid.add(new Label("Other: "), 0, 4);
+            grid.add(new Label(String.valueOf(countOther)), 1, 4);
+            
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.initStyle(StageStyle.DECORATED);
+            alert.initModality(Modality.WINDOW_MODAL);
             alert.setHeaderText("Appointment Type Report");
-            alert.setContentText("Consulting: " + countConsult + "\nPlanning:   " + countPlan +
-                    "\nWorking:    " + countWork + "\nCasual:    " + countCasual + "\nOther:      " + countOther);
+            alert.getDialogPane().setContent(grid);
+            
+            DialogPane pane = alert.getDialogPane();
+            pane.getStylesheets().add(getClass().getResource("/styles/myDialogs.css").toExternalForm());
+            pane.getStyleClass().add("myDialog");
             
             alert.showAndWait();
         });
@@ -78,11 +113,10 @@ public class HomeController implements Initializable {
             try {                    
                 
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("AppointmentsForRep.fxml"));
-                    Parent root = loader.load();
-                    
                     AppointmentsForRepController controller = loader.getController();
                     controller.rep = rep;
-                    
+                    Parent root = loader.load();
+             
                     Stage stage = new Stage();
                     Scene scene = new Scene(root);
                     
@@ -96,7 +130,48 @@ public class HomeController implements Initializable {
         });
         
         btnAppointmentsPerMonth.setOnMouseClicked((MouseEvent e) -> {
-        
+            ObservableList<Appointment> list = FXCollections.observableArrayList();
+            ArrayList<ZonedDateTime> dates = new ArrayList<>();
+            
+            try {
+                FetchData data = new FetchData();
+                list = data.fetchAppointmentData();
+            } catch(SQLException ex) {
+                
+            }
+            
+            for(Appointment a : list) {
+                ZonedDateTime z = a.getStart();
+                dates.add(z);
+            }
+            
+            HashMap<String, Integer> monthCount = DateTimeUtils.getAppointmentPerMonth(dates);
+            
+            int index = 0;
+            
+            GridPane grid = new GridPane();
+            grid.setHgap(10);
+            grid.setVgap(10);
+            grid.setPadding(new Insets(20, 20, 20, 20));
+            
+            for(Map.Entry<String, Integer> entry : monthCount.entrySet()) {
+                grid.add(new Label(entry.getKey()), 0, index);
+                grid.add(new Label(String.valueOf(entry.getValue())), 1, index);
+                
+                index++;
+            }
+            
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.initStyle(StageStyle.DECORATED);
+            alert.initModality(Modality.WINDOW_MODAL);
+            alert.setHeaderText("Appointment by Month Report");
+            alert.getDialogPane().setContent(grid);
+            
+            DialogPane pane = alert.getDialogPane();
+            pane.getStylesheets().add(getClass().getResource("/styles/myDialogs.css").toExternalForm());
+            pane.getStyleClass().add("myDialog");
+            
+            alert.showAndWait();
         });
     }
     
