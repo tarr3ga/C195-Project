@@ -13,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TimeZone;
@@ -87,11 +88,15 @@ public class DateTimeUtils {
         dateTimeParts[4] = hourMinutes[1];
         
         if(AmPm.equals("AM") && hourMinutes[0] != "12") {
-            dateTimeParts[3] = hourMinutes[0];
-        } else if(AmPm.equals("PM") && hourMinutes[0] != "12") {
+            Integer convert = Integer.parseInt(dateTimeParts[3]);
+            convert -= 1;
+            dateTimeParts[3] = String.valueOf(convert);
+        } else if(AmPm.equals("PM") && !hourMinutes[0].equals("12")) {
             Integer hour = Integer.parseInt(hourMinutes[0]);
-            hour += 12;
+            hour += 11;
             dateTimeParts[3] = hour.toString();
+        } else {
+            dateTimeParts[3] = "11";
         }
        
         return dateTimeParts;
@@ -147,6 +152,97 @@ public class DateTimeUtils {
         sorted = sortHashMapByDate(sorted);
         
         return sorted;
+    }
+    
+    public static ArrayList<ZonedDateTime> adjustForTimeZones(ArrayList<ZonedDateTime> dateTimes) {
+        
+        
+        
+        return dateTimes;
+    }
+    
+    public static String getTimeZoneName(String gmt) {
+        String timeZoneName = "";
+        
+        switch(gmt) {
+            case "GMT+1  CET":
+                timeZoneName = "";
+                break;
+            case "GMT+2  EET":
+                timeZoneName = "";
+                break;
+            case "GMT+3  MSK":
+                timeZoneName = "";
+                break;
+            case "GMT+4  SMT":
+                timeZoneName = "";
+                break;
+            case "GMT+5  PKT":
+                timeZoneName = "";
+                break;
+            case "GMT+6  OMSK":
+                timeZoneName = "";
+                break;
+            case "GMT+7  CXT":
+                timeZoneName = "";
+                break;
+            case "GMT+8  CST":
+                timeZoneName = "";
+                break;
+            case "GMT+9  JST":
+                timeZoneName = "";
+                break;
+            case "GMT+10 EAST":
+                timeZoneName = "";
+                break;
+            case "GMT+11 SAKT":
+                timeZoneName = "";
+                break;
+            case "MT+12 NZT":
+                timeZoneName = "";
+                break;
+            case "GMT+0  GMT":
+                timeZoneName = "";
+                break;
+            case "GMT-1  WAT":
+                timeZoneName = "";
+                break;
+            case "GMT-2  AT":
+                timeZoneName = "";
+                break;
+            case "GMT-3  ART":
+                timeZoneName = "";
+                break;
+            case "GMT-4  AST":
+                timeZoneName = "";
+                break;  
+            case "GMT-5  EST":
+                timeZoneName = "Eastern Standard Time";
+                break;  
+            case "GMT-6  CST":
+                timeZoneName = "Central Standard Time";
+                break;  
+            case "GMT-7  MST":
+                timeZoneName = "Mountain Standard Time";
+                break;
+            case "GMT-8  PST":
+                timeZoneName = "Pacific Standard Time";
+                break;
+            case "GMT-9  AKST":
+                timeZoneName = "Alaska Standard Time";
+                break;
+            case "GMT-10 HST":
+                timeZoneName = "Hawaii Standard Time";
+                break;
+            case "GMT-11 NT":
+                timeZoneName = "";
+                break;
+            case "GMT-12 IDLW":
+                timeZoneName = "";
+                break;
+        }   
+        
+        return timeZoneName;
     }
     
     private static String getMonth(int month) {
@@ -212,7 +308,7 @@ public class DateTimeUtils {
         
         Collections.sort(years);
         
-        HashMap<String, Integer> sorted = new HashMap<>();
+        LinkedHashMap<String, Integer> sorted = new LinkedHashMap<>();
         
         for(int i = 0; i < years.size(); i++) {
             for(int i2 = 0; i2 < 12; i2++){
@@ -228,4 +324,6 @@ public class DateTimeUtils {
         }
         return sorted;
     }
+    
+    
 }

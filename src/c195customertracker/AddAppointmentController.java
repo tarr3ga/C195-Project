@@ -79,9 +79,9 @@ public class AddAppointmentController implements Initializable {
     
     private void setEventHandlers() {
         submit.setOnMouseClicked((MouseEvent e) -> {
+            String timeZoneName = DateTimeUtils.getTimeZoneName((String)timezone.getSelectionModel().getSelectedItem());
+            
             ZoneId zone = TimeZone.getDefault().toZoneId();
-            
-            
             
             ZonedDateTime localStartDateTime = ZonedDateTime.now();
             
@@ -97,9 +97,7 @@ public class AddAppointmentController implements Initializable {
             } catch(Exception ex) {
                 
             }
-            
-            
-            
+          
             ZonedDateTime localEndDateTime = ZonedDateTime.now();
             
             try {
