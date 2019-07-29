@@ -14,12 +14,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -56,7 +56,7 @@ public class CustomersController implements Initializable {
 
     private ObservableList<Customer> customers = FXCollections.observableArrayList();
     private ObservableList<Appointment> appointments = FXCollections.observableArrayList();
-    //private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy  hh:mm a");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy  hh:mm a");
     
     public ObservableList<Customer> getCustomers() {
         return customers;
@@ -241,23 +241,36 @@ public class CustomersController implements Initializable {
         FetchData data = new FetchData();
         appointments = data.fetchAppointmentsForCustomerData(customer.getId());
         
+        adjustTimeZones();
+        
         displayTable.getItems().clear();
        
-        TableColumn<Customer, Integer> id = new TableColumn<>("ID");
+        TableColumn<Appointment, Integer> id = new TableColumn<>("ID");
         id.setMinWidth(20);
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
        
-        TableColumn<Customer, String> subject = new TableColumn<>("Subject");
+        TableColumn<Appointment, String> subject = new TableColumn<>("Subject");
         subject.setMinWidth(175);
         subject.setCellValueFactory(new PropertyValueFactory<>("subject"));
 
-        TableColumn<Customer, String> location = new TableColumn<>("Location");
+        TableColumn<Appointment, String> location = new TableColumn<>("Location");
         location.setMinWidth(175);
         location.setCellValueFactory(new PropertyValueFactory<>("location"));
         
-        TableColumn<Customer, String> time = new TableColumn<>("Date and Time");
+        TableColumn<Appointment, ZonedDateTime> time = new TableColumn<>("Date and Time");
         time.setMinWidth(250);
         time.setCellValueFactory(new PropertyValueFactory<>("start"));
+        time.setCellFactory(col -> new TableCell<Appointment, ZonedDateTime>(){
+            @Override
+            protected void updateItem(ZonedDateTime item, boolean empty) {
+
+                super.updateItem(item, empty);
+                if (empty)
+                    setText(null);
+                else
+                    setText(String.format(item.format(formatter)));
+            }
+        });
         
         btnAdd = new Button();
         btnAdd.setPrefWidth(200);
@@ -492,6 +505,28 @@ public class CustomersController implements Initializable {
         } catch(IOException ex) {
 
         } 
+    }
+    
+    private void adjustTimeZones() {
+        TimeZone defaultTimeZone = TimeZone.getDefault();
+        ZoneId defaultZoneId = ZoneId.of(defaultTimeZone.getID());
+        
+        for(Appointment a : appointments) {
+            ZonedDateTime zdtStart = DateTimeUtils.getUnalteredZonedDateTimeFromString(String.valueOf(a.getStart()));
+            ZoneId customerZoneId =  zdtStart.getZone();
+            
+            ZonedDateTime zdtEnd = DateTimeUtils.getUnalteredZonedDateTimeFromString(String.valueOf(a.getEnd()));
+            
+            if(!customerZoneId.equals(defaultZoneId)) {
+                TimeZone customerTimeZone = TimeZone.getTimeZone(customerZoneId);
+                zdtStart = DateTimeUtils.adjustForTimeZones(zdtStart, customerTimeZone);
+                
+                zdtEnd = DateTimeUtils.adjustForTimeZones(zdtEnd, customerTimeZone);
+            }
+            
+            a.setStart(zdtStart);
+            a.setEnd(zdtEnd);
+        }
     }
     
     /**

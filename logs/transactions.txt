@@ -94,3 +94,41 @@ New Customer ID: 5 Created by smyers on 2019-07-28T19:04:06.627-04:00[America/Ne
 smyers logged in at 2019-07-28T19:06:07.130
 smyers logged in at 2019-07-28T19:12:28.850
 Updated Appointment ID: 13 Updated by smyers on 2019-07-28T19:13:02.169-04:00[America/New_York]
+jamyers logged in at 2019-07-28T20:17:01.260
+Updated Appointment ID: 14 Updated by jamyers on 2019-07-28T20:18:53.638-04:00[America/New_York]
+jamyers logged in at 2019-07-28T20:42:17.916
+jamyers logged in at 2019-07-28T20:45:09.599
+jamyers logged in at 2019-07-28T20:46:44.372
+jamyers logged in at 2019-07-28T20:50:09.159
+jamyers logged in at 2019-07-28T21:08:55.803
+jamyers logged in at 2019-07-28T21:16:33.613
+jamyers logged in at 2019-07-28T21:21:01.876
+jamyers logged in at 2019-07-28T21:40:41.715
+jamyers logged in at 2019-07-28T21:43:22.055
+jamyers logged in at 2019-07-28T21:44:48.707
+jamyers logged in at 2019-07-28T21:46:06.277
+jamyers logged in at 2019-07-28T21:57:23.347
+jamyers logged in at 2019-07-28T21:59:20.565
+jamyers logged in at 2019-07-28T22:02:12.253
+jamyers logged in at 2019-07-28T22:07:33.210
+jamyers logged in at 2019-07-28T22:09:36.489
+jamyers logged in at 2019-07-28T22:10:25.370
+jamyers logged in at 2019-07-28T22:13:16.157
+jamyers logged in at 2019-07-28T22:15:45.335
+jamyers logged in at 2019-07-28T22:23:05.317
+jamyers logged in at 2019-07-28T22:28:14.458
+jamyers logged in at 2019-07-28T22:34:51.373
+jamyers logged in at 2019-07-28T22:38:33.408
+Updated Appointment ID: 15 Updated by jamyers on 2019-07-28T22:39:28.194-04:00[America/New_York]
+jamyers logged in at 2019-07-28T22:45:30.284
+Updated Appointment ID: 16 Updated by jamyers on 2019-07-28T22:46:10.528-04:00[America/New_York]
+jamyers logged in at 2019-07-28T22:47:00.811
+jamyers logged in at 2019-07-28T23:08:46.363
+Updated Appointment ID: 17 Updated by jamyers on 2019-07-28T23:09:51.907-04:00[America/New_York]
+jamyers logged in at 2019-07-28T23:11:07.278
+jamyers logged in at 2019-07-28T23:13:06.067
+jamyers logged in at 2019-07-28T23:14:13.314
+jamyers logged in at 2019-07-28T23:15:24.219
+jamyers logged in at 2019-07-28T23:16:10.163
+jamyers logged in at 2019-07-28T23:16:50.400
+jamyers logged in at 2019-07-28T23:26:23.562

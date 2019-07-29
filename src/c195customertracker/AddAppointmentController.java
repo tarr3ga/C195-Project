@@ -76,12 +76,19 @@ public class AddAppointmentController implements Initializable {
     private final DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
     private static final int OPENING_TIME = 659;
     private static final int CLOSING_TIME = 1801;
+    private String defaultTimeZone = "";
     
     private void setEventHandlers() {
         submit.setOnMouseClicked((MouseEvent e) -> {
             String timeZoneName = DateTimeUtils.getTimeZoneName((String)timezone.getSelectionModel().getSelectedItem());
             
             ZoneId zone = TimeZone.getDefault().toZoneId();
+            
+            if(!timeZoneName.equals(defaultTimeZone)) {
+                zone = ZoneId.of(timeZoneName);
+            } else {
+                zone = TimeZone.getDefault().toZoneId();
+            }
             
             ZonedDateTime localStartDateTime = ZonedDateTime.now();
             
@@ -143,6 +150,8 @@ public class AddAppointmentController implements Initializable {
 
                 a.setTimezone((String)timezone.getSelectionModel().getSelectedItem());
 
+                
+                
                 SaveData data = new SaveData();
                 try{
                     id = data.saveNewAppointment(a);
@@ -212,12 +221,15 @@ public class AddAppointmentController implements Initializable {
         appointments = data.fetchAppointmentsForCustomerRep(customerSelected.getCustomerRep());
         
         for(Appointment a : appointments) {
-            if(start.isBefore(a.getEnd()) && start.isAfter(a.getEnd())) {
+            ZonedDateTime t1 =  DateTimeUtils.getUnalteredZonedDateTimeFromString(String.valueOf(a.getStart()));
+            ZonedDateTime t2 =  DateTimeUtils.getUnalteredZonedDateTimeFromString(String.valueOf(a.getEnd()));
+            
+            if(start.isBefore(t2) && start.isAfter(t1)) {
                 isValid = false;
                 conflict = a;
             }
             
-            if(end.isAfter(start) && end.isBefore(end)) {
+            if(end.isAfter(t1) && end.isBefore(t2)) {
                 isValid = false;
                 conflict = a;
             }
@@ -227,7 +239,7 @@ public class AddAppointmentController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Error!");
             alert.setContentText("Appointment conflics with " + conflict.getSubject() + 
-                                 "\nFrom: " + conflict.getStart() + "\nTo:" + conflict.getEnd());
+                                 "\nFrom: " + conflict.getStart() + "\nTo: " + conflict.getEnd());
             
             alert.showAndWait();
         }
@@ -310,21 +322,27 @@ public class AddAppointmentController implements Initializable {
         switch(zone) {
             case "Eastern Standard Time":
                 timezone.getSelectionModel().select("GMT-5  EST");
+                defaultTimeZone = "GMT-5  EST";
                 break;
             case "Central Standard Time":
                 timezone.getSelectionModel().select("GMT-6  CST");
+                defaultTimeZone = "GMT-6  CST";
                 break;
             case "Mountain Standard Time":
                 timezone.getSelectionModel().select("GMT-7  MST");
+                defaultTimeZone = "GMT-7  MST";
                 break;
             case "Pacific Standard Time":
                 timezone.getSelectionModel().select("GMT-9  PST");
+                defaultTimeZone = "GMT-9  PST";
                 break;
             case "Alaska Standard Time":
                 timezone.getSelectionModel().select("GMT-9 AKST");
+                defaultTimeZone = "GMT-9 AKST";
                 break;
             case "Hawaii Standard Time":
                 timezone.getSelectionModel().select("GMT-10 HST");
+                defaultTimeZone = "GMT-10 HST";
                 break;
         }
     }

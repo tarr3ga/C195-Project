@@ -8,15 +8,18 @@ package util;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -24,7 +27,7 @@ import java.util.TimeZone;
  * @author jamyers
  */
 public class DateTimeUtils {
-    private static final String DATE_TIME_FORMAT = "MMM dd, yyyy hh:mm z";
+    private static final String DATE_TIME_FORMAT = "MMM dd, yyyy hh:mm a";
     private static final String STORABLE_DATE_TIME_FORMAT = "yyyy-MM-ddTHH:mmZ";
     
     private static final String[] timezones = {"GMT", "EGT", "GST", 
@@ -48,9 +51,34 @@ public class DateTimeUtils {
         return parsed;
     }
     
+    public static ZonedDateTime getUnalteredZonedDateTimeFromString(String dateTime) {
+        String[] date = dateTime.split("T");
+        String[] timeWithOffset = date[1].split("\\[");
+        String[] time = timeWithOffset[0].split("-");
+        
+        String[] dateParts = date[0].split("-");
+        String[] timeParts = time[0].split(":");
+        
+        String zoneName = timeWithOffset[1].substring(0, timeWithOffset[1].length() - 1);
+        
+        ZoneId zone = ZoneId.of(zoneName);
+        
+        int year = Integer.parseInt(dateParts[0]);
+        int month = Integer.parseInt(dateParts[1]);
+        int day = Integer.parseInt(dateParts[2]);
+        int hour = Integer.parseInt(timeParts[0]);
+        int minute = Integer.parseInt(timeParts[1]);
+        
+        ZonedDateTime parsed = ZonedDateTime.of(year, month, day, hour, minute, 0, 0, zone);
+        
+        return parsed;
+    }
+    
     public static String getFormatedDateTimeString(ZonedDateTime dateTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
-        formatter.ofPattern(DATE_TIME_FORMAT);
+        //DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+        //formatter.ofPattern(DATE_TIME_FORMAT);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
+        
         String formattedDateTime = dateTime.format(formatter);
         
         return formattedDateTime;
@@ -154,11 +182,26 @@ public class DateTimeUtils {
         return sorted;
     }
     
-    public static ArrayList<ZonedDateTime> adjustForTimeZones(ArrayList<ZonedDateTime> dateTimes) {
+    public static ZonedDateTime adjustForTimeZones(ZonedDateTime dateTime, TimeZone offset) {
+        TimeZone timezone = TimeZone.getDefault();
+        TimeZone offsetTimeZone = TimeZone.getTimeZone(dateTime.getZone());
+
         
         
+        long differenceInMillis = timezone.getRawOffset() - offsetTimeZone.getRawOffset() + 
+                timezone.getDSTSavings() - offsetTimeZone.getDSTSavings();
+        System.out.println("util.DateTimeUtils.adjustForTimeZones() differenceInMillis = " + differenceInMillis);
         
-        return dateTimes;
+        System.out.println("util.DateTimeUtils.adjustForTimeZones() hour = " + dateTime.getHour());
+        
+        long hour = TimeUnit.MILLISECONDS.toHours(differenceInMillis);
+        dateTime = dateTime.minusHours(hour);
+        
+        System.out.println("util.DateTimeUtils.adjustForTimeZones() millis to hours = " + hour);
+        
+        System.out.println("util.DateTimeUtils.adjustForTimeZones() hour = " + dateTime.getHour());
+        
+        return dateTime;
     }
     
     public static String getTimeZoneName(String gmt) {
@@ -202,40 +245,40 @@ public class DateTimeUtils {
                 timeZoneName = "";
                 break;
             case "GMT+0  GMT":
-                timeZoneName = "";
+                timeZoneName = "Atlantic/Azores";
                 break;
             case "GMT-1  WAT":
-                timeZoneName = "";
+                timeZoneName = "Atlantic/Azores";
                 break;
             case "GMT-2  AT":
-                timeZoneName = "";
+                timeZoneName = "Atlantic/South_Georgia";
                 break;
             case "GMT-3  ART":
-                timeZoneName = "";
+                timeZoneName = "America/Buenos_Aires";
                 break;
             case "GMT-4  AST":
-                timeZoneName = "";
+                timeZoneName = "America/Goose_Bay";
                 break;  
             case "GMT-5  EST":
-                timeZoneName = "Eastern Standard Time";
+                timeZoneName = "America/New_York";
                 break;  
             case "GMT-6  CST":
-                timeZoneName = "Central Standard Time";
+                timeZoneName = "America/Chicago";
                 break;  
             case "GMT-7  MST":
-                timeZoneName = "Mountain Standard Time";
+                timeZoneName = "America/Boise";
                 break;
             case "GMT-8  PST":
-                timeZoneName = "Pacific Standard Time";
+                timeZoneName = "America/Los_Angeles";
                 break;
             case "GMT-9  AKST":
-                timeZoneName = "Alaska Standard Time";
+                timeZoneName = "America/Anchorage";
                 break;
             case "GMT-10 HST":
-                timeZoneName = "Hawaii Standard Time";
+                timeZoneName = "Pacific/Honolulu";
                 break;
             case "GMT-11 NT":
-                timeZoneName = "";
+                timeZoneName = "Pacific/Midway";
                 break;
             case "GMT-12 IDLW":
                 timeZoneName = "";
@@ -323,7 +366,5 @@ public class DateTimeUtils {
             }
         }
         return sorted;
-    }
-    
-    
+    }   
 }

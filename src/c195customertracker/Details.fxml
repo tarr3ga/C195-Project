@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane id="details" prefHeight="700.0" prefWidth="800.0" 
+<GridPane id="details" prefHeight="700.0" prefWidth="1000.0" 
           vgap="10" hgap="10"
           xmlns:fx="http://javafx.com/fxml/1" 
           fx:controller="c195customertracker.DetailsController">
@@ -22,7 +22,7 @@
     </stylesheets>
 
     <Label text="Customer: " minWidth="120" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-    <TextField fx:id="firstName" editable="false" focusTraversable="false" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+    <TextField fx:id="firstName" minWidth="250"  editable="false" focusTraversable="false" GridPane.rowIndex="0" GridPane.columnIndex="1" />
     <TextField fx:id="lastName" editable="false" GridPane.rowIndex="0" GridPane.columnIndex="2" />
     <!--<Button fx:id="btnCustomerDetails" text="Customer Details" onAction="#onBtnCustomerDetailsClick" GridPane.rowIndex="0" GridPane.columnIndex="3" />-->
     
@@ -31,7 +31,7 @@
     <Label text="Subject: " GridPane.rowIndex="2" GridPane.columnIndex="0" />
     <TextField fx:id="subject" editable="false" focusTraversable="false" layoutX="100" GridPane.rowIndex="2" GridPane.columnIndex="1" />
     <Label text="Location: " GridPane.rowIndex="2" GridPane.columnIndex="2" />
-    <TextField fx:id="location" editable="false" focusTraversable="false" layoutX="100" GridPane.rowIndex="2" GridPane.columnIndex="3" />
+    <TextField fx:id="location" minWidth="250" editable="false" focusTraversable="false" layoutX="100" GridPane.rowIndex="2" GridPane.columnIndex="3" />
     
     <Label text="Type: " GridPane.rowIndex="3" GridPane.columnIndex="0" />
     <TextField fx:id="type" GridPane.rowIndex="3" GridPane.columnIndex="1" />
