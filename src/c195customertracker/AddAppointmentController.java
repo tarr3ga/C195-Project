@@ -233,6 +233,11 @@ public class AddAppointmentController implements Initializable {
                 isValid = false;
                 conflict = a;
             }
+            
+            if(start.isBefore(t1) && end.isAfter(t2)) {
+                isValid = false;
+                conflict = a;
+            }
         }
         
         if(isValid == false) {

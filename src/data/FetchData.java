@@ -382,6 +382,9 @@ public class FetchData {
             index = resultSet.findColumn("description");
             String description = resultSet.getString(index);
             
+            index = resultSet.findColumn("type");
+            String type = resultSet.getString(index);
+            
             index = resultSet.findColumn("start");
             String start = resultSet.getString(index);
                     
@@ -399,6 +402,7 @@ public class FetchData {
             a.setSubject(subject);
             a.setLocation(location);
             a.setDescription(description);
+            a.setType(type);
             a.setStart(startDateTime);
             a.setEnd(endDateTime);
             a.setCustomerId(customersId);
