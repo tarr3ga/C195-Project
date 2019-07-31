@@ -96,7 +96,7 @@ public class DetailsController implements Initializable {
     }
     
     @FXML
-    private void onBtnSaveClick() throws SQLException {
+    private void onBtnSaveClick() throws SQLException, ClassNotFoundException {
         setData();  
         //checkText();
         saveChanges();
@@ -105,7 +105,7 @@ public class DetailsController implements Initializable {
     }
     
     @FXML 
-    private void onBtnCancelClick() throws SQLException {
+    private void onBtnCancelClick() throws SQLException, ClassNotFoundException {
         disableEditing();
         getData();
     }
@@ -208,7 +208,7 @@ public class DetailsController implements Initializable {
         phoneType.setFocusTraversable(false);
     }
     
-    private void saveChanges() throws SQLException {
+    private void saveChanges() throws SQLException, ClassNotFoundException {
         SaveData data = new SaveData();
         data.updateFullRecord(appointment, customer, address, countryData, phoneNumber);
     }
@@ -224,7 +224,7 @@ public class DetailsController implements Initializable {
         this.appointment = appointment;
     }
     
-    public void getData() throws SQLException {
+    public void getData() throws SQLException, ClassNotFoundException {
         subject.setText(appointment.getSubject());
         location.setText(appointment.getLocation());
         

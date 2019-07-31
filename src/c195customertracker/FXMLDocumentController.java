@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -177,11 +178,31 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
+    private void selectLanguageByLocale() {
+        Locale locale = Locale.getDefault();
+        //Locale locale = new Locale("es", "ES");
+        //Locale locale = Locale.FRENCH;
+        
+        if(locale.getLanguage().equals("en")) {
+            language.getSelectionModel().select("English");
+            selectedLanguage = Language.ENGLISH;
+            changeLanguage();
+        } else if(locale.getLanguage().equals("es")) {
+            language.getSelectionModel().select("Spanish");
+            selectedLanguage = Language.SPANISH;
+            changeLanguage();
+        } else if(locale.getLanguage().equals("fr")) {
+            language.getSelectionModel().select("French");
+            selectedLanguage = Language.FRENCH;
+            changeLanguage();
+        }
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         languages.addAll("English", "Spanish", "French");
         language.setItems(languages);
-        language.getSelectionModel().selectFirst();
-    }    
-    
+        
+        selectLanguageByLocale();
+    }       
 }

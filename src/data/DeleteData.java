@@ -20,7 +20,7 @@ public class DeleteData {
     private Statement statement;
     private ResultSet resultSet;
     
-    public void deleteAppointment(int appointmentId) throws SQLException {
+    public void deleteAppointment(int appointmentId) throws SQLException, ClassNotFoundException {
         try {
             conn = DBConnect.makeConnection();
         } catch(SQLException ex) {
@@ -35,7 +35,7 @@ public class DeleteData {
         conn.close();
     }
     
-    public void DeleteCustomer(Customer customer) throws SQLException {
+    public void DeleteCustomer(Customer customer) throws SQLException, ClassNotFoundException {
         try {
             conn = DBConnect.makeConnection();
         } catch(SQLException ex) {

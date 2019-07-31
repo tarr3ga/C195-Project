@@ -24,7 +24,7 @@ import models.AppointmentAlert;
 public class Scan extends TimerTask implements Serializable {
     
     
-        private static final File FILENAME = new File("transactions.log");
+        private static final File FILENAME = new File("alerts.log");
         
         public static ArrayList<AppointmentAlert> alerts = new ArrayList<>();
         

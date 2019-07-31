@@ -27,7 +27,7 @@ public class AppointmentDetail {
         this.appointment = appointment;
     }
     
-    public GridPane getGridPane() throws SQLException {
+    public GridPane getGridPane() throws SQLException, ClassNotFoundException {
         AppointmentDetail detail = new AppointmentDetail(appointment);
         
         FetchData data = new FetchData(); 

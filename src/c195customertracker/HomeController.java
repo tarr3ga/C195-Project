@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -76,6 +78,8 @@ public class HomeController implements Initializable {
                 countOther = data.getOtherCount();
             } catch(SQLException ex) {
                 
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
             }
             
             GridPane grid = new GridPane();
@@ -138,6 +142,8 @@ public class HomeController implements Initializable {
                 list = data.fetchAppointmentData();
             } catch(SQLException ex) {
                 
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
             }
             
             for(Appointment a : list) {
@@ -211,6 +217,8 @@ public class HomeController implements Initializable {
             cbUsers.getSelectionModel().selectFirst();
         } catch(SQLException ex) {
             
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         setEventHandlers();

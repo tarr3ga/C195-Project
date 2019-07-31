@@ -20,6 +20,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -137,6 +139,8 @@ public class CustomersController implements Initializable {
                     loadCustomerSpecificAppointments(c);
                 } catch(IOException | SQLException ex) {
                     System.err.println(ex.toString());
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(CustomersController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }       
         });
@@ -168,6 +172,8 @@ public class CustomersController implements Initializable {
                     loadCustomerSpecificAppointments(c);
                 } catch(IOException | SQLException ex) {
                     System.err.println(ex.toString());
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(CustomersController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }           
         });
@@ -222,6 +228,8 @@ public class CustomersController implements Initializable {
                         }
                     } catch(SQLException ex) {
                         System.err.println(ex.toString());
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(CustomersController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
                     alert.close();
@@ -236,7 +244,7 @@ public class CustomersController implements Initializable {
         });
     }
     
-    private void loadCustomerSpecificAppointments(Customer customer) throws SQLException, IOException {
+    private void loadCustomerSpecificAppointments(Customer customer) throws SQLException, IOException, ClassNotFoundException {
         
         FetchData data = new FetchData();
         appointments = data.fetchAppointmentsForCustomerData(customer.getId());
@@ -362,6 +370,8 @@ public class CustomersController implements Initializable {
                     stage.showAndWait();
                 } catch(IOException | SQLException ex) {
                     System.err.println(ex.toString());
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(CustomersController.class.getName()).log(Level.SEVERE, null, ex);
                 }      
             }       
         });
@@ -384,6 +394,8 @@ public class CustomersController implements Initializable {
                 loadCustomerSpecificAppointments(customer);
             } catch(SQLException | IOException ex) {
                 System.err.println(ex.toString());
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(CustomersController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }) ;
         
@@ -410,6 +422,8 @@ public class CustomersController implements Initializable {
                     stage.showAndWait();
                 } catch(SQLException | IOException ex) {
                     System.err.println(ex.toString());
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(CustomersController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }           
         });
@@ -429,6 +443,8 @@ public class CustomersController implements Initializable {
                         deleteAppointment(a, customer);
                     } catch(SQLException | IOException ex) {
                         
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(CustomersController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
                     alert.close();
@@ -437,7 +453,7 @@ public class CustomersController implements Initializable {
         });
     }
     
-    private boolean checkIfCustomerHasAppointments(Customer c) throws SQLException {
+    private boolean checkIfCustomerHasAppointments(Customer c) throws SQLException, ClassNotFoundException {
         boolean hasAppoinyments = true;
         
         FetchData data = new FetchData();
@@ -449,7 +465,7 @@ public class CustomersController implements Initializable {
         return hasAppoinyments;
     }
     
-    private void deleteAppointment(Appointment a, Customer c) throws SQLException, IOException {
+    private void deleteAppointment(Appointment a, Customer c) throws SQLException, IOException, ClassNotFoundException {
         DeleteData delete= new DeleteData();
         delete.deleteAppointment(a.getId());
         
@@ -479,7 +495,7 @@ public class CustomersController implements Initializable {
         loadCustomerSpecificAppointments(c);
     }
     
-    private void deleteCustomer(Customer c) throws SQLException {
+    private void deleteCustomer(Customer c) throws SQLException, ClassNotFoundException {
         DeleteData data = new DeleteData();
         data.DeleteCustomer(c);
         
@@ -542,6 +558,8 @@ public class CustomersController implements Initializable {
             customers = data.fetchCustomerData();
         } catch (SQLException ex) {
             System.out.println(ex.toString());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CustomersController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         populateTable();  

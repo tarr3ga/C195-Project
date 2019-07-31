@@ -25,7 +25,7 @@ public class CheckCredentials {
     private String password;
     
     
-    public CheckCredentials(String username, String password) {
+    public CheckCredentials(String username, String password) throws ClassNotFoundException {
         this.username = username;
         this.password = password;
         

@@ -30,7 +30,7 @@ public class SaveData {
         conn.close();
     }
     
-    public int saveNewCustomer(Customer customer) throws SQLException {
+    public int saveNewCustomer(Customer customer) throws SQLException, ClassNotFoundException {
         int id = 0;
         
         try {
@@ -59,14 +59,14 @@ public class SaveData {
     }
     
     public void updateCustomerRecord(Customer customer, Address address,
-            PhoneNumber phoneNumber) throws SQLException {
+            PhoneNumber phoneNumber) throws SQLException, ClassNotFoundException {
         
         updateCustomer(customer);
         updateAddress(address, customer.getId());
         updatePhoneNumber(phoneNumber, customer.getId());
     }
     
-    public int saveNewAddress(Address address) throws SQLException {
+    public int saveNewAddress(Address address) throws SQLException, ClassNotFoundException {
         int id = 0;
         
         try {
@@ -94,7 +94,7 @@ public class SaveData {
         return id;
     }
     
-    public void saveNewPhone(PhoneNumber phoneNumber) throws SQLException {
+    public void saveNewPhone(PhoneNumber phoneNumber) throws SQLException, ClassNotFoundException {
         try {
             conn = DBConnect.makeConnection();
         } catch(SQLException ex) {
@@ -117,7 +117,7 @@ public class SaveData {
         conn.close();
     }
     
-    public int saveNewAppointment(Appointment appointment) throws SQLException {
+    public int saveNewAppointment(Appointment appointment) throws SQLException, ClassNotFoundException {
         int id = 0;
         
         try {
@@ -155,7 +155,7 @@ public class SaveData {
     }
     
     public void updateFullRecord(Appointment appointment, Customer customer, Address address,
-            Country country, PhoneNumber phoneNumber) throws SQLException {
+            Country country, PhoneNumber phoneNumber) throws SQLException, ClassNotFoundException {
         
         updateAppointment(appointment);
         updateCustomer(customer);
@@ -164,7 +164,7 @@ public class SaveData {
         updatePhoneNumber(phoneNumber, customer.getId());
     }
     
-    public void updateAppointment(Appointment appointment) throws SQLException{
+    public void updateAppointment(Appointment appointment) throws SQLException, ClassNotFoundException{
         try {
             conn = DBConnect.makeConnection();
         } catch(SQLException ex) {
@@ -188,7 +188,7 @@ public class SaveData {
         conn.close();
     }
     
-    public void updateCustomer(Customer customer) throws SQLException {
+    public void updateCustomer(Customer customer) throws SQLException, ClassNotFoundException {
         try {
             conn = DBConnect.makeConnection();
         } catch(SQLException ex) {
@@ -207,7 +207,7 @@ public class SaveData {
         conn.close();
     }
     
-    public void updateAddress(Address address, int customerId) throws SQLException {
+    public void updateAddress(Address address, int customerId) throws SQLException, ClassNotFoundException {
         try {
             conn = DBConnect.makeConnection();
         } catch(SQLException ex) {
@@ -228,7 +228,7 @@ public class SaveData {
         conn.close();
     }
     
-    public void updateCountry(Country country) throws SQLException{
+    public void updateCountry(Country country) throws SQLException, ClassNotFoundException{
         try {
             conn = DBConnect.makeConnection();
         } catch(SQLException ex) {
@@ -246,7 +246,7 @@ public class SaveData {
         conn.close();
     } 
     
-    public void updatePhoneNumber(PhoneNumber phoneNumber, int customerId) throws SQLException {
+    public void updatePhoneNumber(PhoneNumber phoneNumber, int customerId) throws SQLException, ClassNotFoundException {
         try {
             conn = DBConnect.makeConnection();
         } catch(SQLException ex) {

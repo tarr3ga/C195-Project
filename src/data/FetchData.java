@@ -76,7 +76,7 @@ public class FetchData {
     }
     // </editor-fold>
     
-    public ArrayList fetchUserNames() throws SQLException{
+    public ArrayList fetchUserNames() throws SQLException, ClassNotFoundException{
         ArrayList<String> userNames = new ArrayList<>();
         
         conn = DBConnect.makeConnection();
@@ -98,7 +98,7 @@ public class FetchData {
         return userNames;
     }
     
-    public Customer fetchSingleCustomer(int customerId) throws SQLException {
+    public Customer fetchSingleCustomer(int customerId) throws SQLException, ClassNotFoundException {
         Customer c = new Customer();
         
          try {
@@ -127,7 +127,7 @@ public class FetchData {
         return c;
     }
     
-    public ObservableList fetchCustomerData() throws SQLException {
+    public ObservableList fetchCustomerData() throws SQLException, ClassNotFoundException {
         
         try {
             conn = DBConnect.makeConnection();
@@ -172,7 +172,7 @@ public class FetchData {
         return customers;
     }
     
-    public ObservableList fetchAddresses() throws SQLException {
+    public ObservableList fetchAddresses() throws SQLException, ClassNotFoundException {
         
          try {
             conn = DBConnect.makeConnection();
@@ -225,7 +225,7 @@ public class FetchData {
         return addressess;
     }
     
-    public Address fetchAddress(int id) throws SQLException {
+    public Address fetchAddress(int id) throws SQLException, ClassNotFoundException {
         
         Address a = new Address();
         
@@ -263,7 +263,7 @@ public class FetchData {
         return a;
     }
     
-    public PhoneNumber fetchPhoneNumber(int id) throws SQLException {
+    public PhoneNumber fetchPhoneNumber(int id) throws SQLException, ClassNotFoundException {
         PhoneNumber p = new PhoneNumber();
         
          try {
@@ -291,7 +291,7 @@ public class FetchData {
         return p;
     }
     
-    public Country fetchCountry(int countryId) throws SQLException {
+    public Country fetchCountry(int countryId) throws SQLException, ClassNotFoundException {
         
         Country c = new Country();
         
@@ -320,7 +320,7 @@ public class FetchData {
         return c;
     }
     
-    public ArrayList<Country> fetchCountries() throws SQLException {
+    public ArrayList<Country> fetchCountries() throws SQLException, ClassNotFoundException {
         
         ArrayList<Country> countries = new ArrayList<>();
         
@@ -355,7 +355,7 @@ public class FetchData {
         return countries;
     }
     
-    public ObservableList fetchAppointmentsForCustomerData(int userId) throws SQLException {
+    public ObservableList fetchAppointmentsForCustomerData(int userId) throws SQLException, ClassNotFoundException {
         
          try {
             conn = DBConnect.makeConnection();
@@ -415,7 +415,7 @@ public class FetchData {
         return appointments;
     }
     
-    public ObservableList fetchAppointmentsForCustomerRep(String rep) throws SQLException {
+    public ObservableList fetchAppointmentsForCustomerRep(String rep) throws SQLException, ClassNotFoundException {
         try {
             conn = DBConnect.makeConnection();
         } catch(SQLException ex) {
@@ -477,7 +477,7 @@ public class FetchData {
         return appointments;
     }
     
-    public ObservableList fetchAppointmentData() throws SQLException {
+    public ObservableList fetchAppointmentData() throws SQLException, ClassNotFoundException {
         
         try {
             conn = DBConnect.makeConnection();
@@ -537,7 +537,7 @@ public class FetchData {
         return appointments;
     }
     
-    public ObservableList fetchAppointmentDetails(Appointment a) throws SQLException {
+    public ObservableList fetchAppointmentDetails(Appointment a) throws SQLException, ClassNotFoundException {
         
         try {
             conn = DBConnect.makeConnection();
@@ -558,7 +558,7 @@ public class FetchData {
         return appointments;
     }
     
-    public ObservableList fetchAppointmentsInDateRange(ZonedDateTime startDate, ZonedDateTime endDate) throws SQLException {
+    public ObservableList fetchAppointmentsInDateRange(ZonedDateTime startDate, ZonedDateTime endDate) throws SQLException, ClassNotFoundException {
         
         try {
             conn = DBConnect.makeConnection();
@@ -615,7 +615,7 @@ public class FetchData {
         return appointments;
     }
     
-    public int getUserId(String userName) throws SQLException {
+    public int getUserId(String userName) throws SQLException, ClassNotFoundException {
         try {
             conn = DBConnect.makeConnection();
         } catch(SQLException ex) {
@@ -635,7 +635,7 @@ public class FetchData {
         return id;
     }
     
-    public int getCustomerCount() throws SQLException {
+    public int getCustomerCount() throws SQLException, ClassNotFoundException {
         try {
             conn = DBConnect.makeConnection();
         } catch(SQLException ex) {
@@ -656,7 +656,7 @@ public class FetchData {
         return count;
     }
     
-    public int getAppointmentCount() throws SQLException {
+    public int getAppointmentCount() throws SQLException, ClassNotFoundException {
         try {
             conn = DBConnect.makeConnection();
         } catch(SQLException ex) {
@@ -677,7 +677,7 @@ public class FetchData {
         return count;
     }
     
-    public int getAppointmentCountPerCustomer(Customer customer) throws SQLException{        
+    public int getAppointmentCountPerCustomer(Customer customer) throws SQLException, ClassNotFoundException{        
         try {
             conn = DBConnect.makeConnection();
         } catch(SQLException ex) {
@@ -698,7 +698,7 @@ public class FetchData {
         return count;
     }
     
-    public int getConsultationCount() throws SQLException {
+    public int getConsultationCount() throws SQLException, ClassNotFoundException {
         int count;
         
         try {
@@ -721,7 +721,7 @@ public class FetchData {
         return count;
     }
     
-    public int getPlanningCount() throws SQLException {
+    public int getPlanningCount() throws SQLException, ClassNotFoundException {
         int count = 0;
         
         try {
@@ -744,7 +744,7 @@ public class FetchData {
         return count;
     }
     
-    public int getWorkingCount() throws SQLException {        
+    public int getWorkingCount() throws SQLException, ClassNotFoundException {        
         try {
             conn = DBConnect.makeConnection();
         } catch(SQLException ex) {
@@ -767,7 +767,7 @@ public class FetchData {
         return count;
     }
     
-    public int getCasualCount() throws SQLException {
+    public int getCasualCount() throws SQLException, ClassNotFoundException {
         int count = 0;
         
         try {
@@ -790,7 +790,7 @@ public class FetchData {
         return count;
     }
     
-    public int getOtherCount() throws SQLException {
+    public int getOtherCount() throws SQLException, ClassNotFoundException {
         int count = 0;
         
         try {

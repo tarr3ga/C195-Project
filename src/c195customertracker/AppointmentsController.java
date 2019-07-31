@@ -19,6 +19,8 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -131,6 +133,8 @@ public class AppointmentsController implements Initializable {
                     stage.showAndWait();
                 } catch(IOException | SQLException ex) {
                     System.err.println(ex.toString());
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(AppointmentsController.class.getName()).log(Level.SEVERE, null, ex);
                 }      
             }       
         });
@@ -158,7 +162,9 @@ public class AppointmentsController implements Initializable {
                     stage.showAndWait();
                 } catch(SQLException | IOException ex) {
                     System.err.println(ex.toString());
-                }
+                } catch (ClassNotFoundException ex) {
+                   Logger.getLogger(AppointmentsController.class.getName()).log(Level.SEVERE, null, ex);
+               }
             }           
         });
         
@@ -177,8 +183,12 @@ public class AppointmentsController implements Initializable {
                         
                         DeleteData delete= new DeleteData();
                         delete.deleteAppointment(a.getId());
+                        
+                        populateTable();
                     } catch(SQLException ex) {
                         
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(AppointmentsController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 
                 } else {
@@ -210,6 +220,8 @@ public class AppointmentsController implements Initializable {
                     populateTable();
                 } catch(SQLException ex) {
                     
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(AppointmentsController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -236,6 +248,8 @@ public class AppointmentsController implements Initializable {
             appointments = data.fetchAppointmentData();          
         } catch(SQLException ex) {
             System.err.println(ex.toString());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AppointmentsController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         populateTable();

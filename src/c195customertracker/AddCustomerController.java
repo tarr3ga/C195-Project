@@ -16,6 +16,8 @@ import java.sql.SQLException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -147,6 +149,8 @@ public class AddCustomerController implements Initializable {
                 }
             } catch(SQLException ex) {
                 System.out.println("Update Customer" + ex.toString());
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(AddCustomerController.class.getName()).log(Level.SEVERE, null, ex);
             }        
         });
         
@@ -230,6 +234,8 @@ public class AddCustomerController implements Initializable {
                 co = data.fetchCountry(a.getCountryId());
             } catch(SQLException ex) {
                 
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(AddCustomerController.class.getName()).log(Level.SEVERE, null, ex);
             }
             
             firstName.setText(cto.getFirstName());

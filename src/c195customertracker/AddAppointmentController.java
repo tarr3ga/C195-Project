@@ -19,6 +19,8 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -82,7 +84,7 @@ public class AddAppointmentController implements Initializable {
         submit.setOnMouseClicked((MouseEvent e) -> {
             String timeZoneName = DateTimeUtils.getTimeZoneName((String)timezone.getSelectionModel().getSelectedItem());
             
-            ZoneId zone = TimeZone.getDefault().toZoneId();
+            ZoneId zone;// = TimeZone.getDefault().toZoneId();
             
             if(!timeZoneName.equals(defaultTimeZone)) {
                 zone = ZoneId.of(timeZoneName);
@@ -101,7 +103,7 @@ public class AddAppointmentController implements Initializable {
                         Integer.parseInt(dateTimeParts[1]), Integer.parseInt(dateTimeParts[2]), Integer.parseInt(dateTimeParts[3]), 
                         Integer.parseInt(dateTimeParts[4]) ), zone);
                 localStartDateTime.format(formatter);
-            } catch(Exception ex) {
+            } catch(NumberFormatException ex) {
                 
             }
           
@@ -116,8 +118,8 @@ public class AddAppointmentController implements Initializable {
                             Integer.parseInt(dateTimeParts[1]), Integer.parseInt(dateTimeParts[2]), 
                             Integer.parseInt(dateTimeParts[3]), Integer.parseInt(dateTimeParts[4])), zone);
                 localEndDateTime.format(formatter);
-            } catch(Exception ex) {
-                
+            } catch(NumberFormatException ex) {
+                System.err.println(ex.toString());
             }
             
             boolean overlap = true;
@@ -125,6 +127,8 @@ public class AddAppointmentController implements Initializable {
                 overlap = checkForOverLappingAppointments(localStartDateTime, localEndDateTime);
             } catch(SQLException ex) {
                 
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(AddAppointmentController.class.getName()).log(Level.SEVERE, null, ex);
             }
             
             if(validateForm() && checkDates(localStartDateTime, localEndDateTime) && 
@@ -157,6 +161,8 @@ public class AddAppointmentController implements Initializable {
                     id = data.saveNewAppointment(a);
                 }catch(SQLException ex) {
                     System.err.println(ex.toString());
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(AddAppointmentController.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
                 // SET 15 MINUTE ALERT
@@ -166,6 +172,8 @@ public class AddAppointmentController implements Initializable {
                     c = fetch.fetchSingleCustomer(a.getCustomerId());
                 } catch(SQLException ex) {
                     System.err.println(ex.toString());
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(AddAppointmentController.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
                 MainSceneController.setAlert(a.getId(), a.getStart(), c.getFirstName(), c.getLastName(), a.getSubject());
@@ -181,7 +189,7 @@ public class AddAppointmentController implements Initializable {
 
                 File file = new File("logs/transactions.txt");
 
-                String message = "";
+                String message;// = "";
 
                 if(customerIsSelected) {
                     message = "Updated Appointment ID: " + id + " Updated by " + 
@@ -211,7 +219,7 @@ public class AddAppointmentController implements Initializable {
         });
     }
    
-    private boolean checkForOverLappingAppointments(ZonedDateTime start, ZonedDateTime end) throws SQLException {
+    private boolean checkForOverLappingAppointments(ZonedDateTime start, ZonedDateTime end) throws SQLException, ClassNotFoundException {
         boolean isValid = true;
         Appointment conflict = new Appointment();
         
@@ -364,6 +372,8 @@ public class AddAppointmentController implements Initializable {
             customers = data.fetchCustomerData();
         } catch(SQLException ex) {
             
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AddAppointmentController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         for(Customer c : customers) {
