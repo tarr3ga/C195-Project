@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -40,7 +39,7 @@ public class C195CustomerTracker extends Application {
     public static void main(String[] args) {
         launch(args);
         
-        File filename = new File("transactions.log");
+        File filename = new File("alerts.log");
         boolean exists = filename.exists();
         
         if(!exists) {

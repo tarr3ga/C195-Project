@@ -26,6 +26,9 @@ public class CheckCredentials {
     
     
     public CheckCredentials(String username, String password) throws ClassNotFoundException {
+        System.out.println("c195customertracker.FXMLDocumentController.checkCreds() username = " + username);
+        System.out.println("c195customertracker.FXMLDocumentController.checkCreds() password = " + password);
+        
         this.username = username;
         this.password = password;
         
@@ -40,9 +43,15 @@ public class CheckCredentials {
     public boolean Check() throws SQLException {
         boolean isAuthorized = false;
         
-        String sql = "SELECT password FROM mydb.users WHERE username = '" + username + "';";
-        statement = conn.createStatement();
-        resultSet = statement.executeQuery(sql);
+        String sql = "SELECT password FROM users WHERE username = '" + username + "';";
+        
+        
+        try {
+            statement = conn.createStatement();
+            resultSet = statement.executeQuery(sql);
+        } catch(SQLException ex) {
+            System.err.println(ex.toString());
+        }
         
         if(ChecDbResults())
             isAuthorized = true;

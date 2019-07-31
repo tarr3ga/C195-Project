@@ -51,10 +51,9 @@ public class Scan extends TimerTask implements Serializable {
 
                 System.out.println("Scan at" + ZonedDateTime.now());
 
-                for(AppointmentAlert a : alerts) {
+                alerts.forEach((a) -> {
                     ZonedDateTime due = a.getAlertTime();
-
-                    if(time.isAfter(due.minusMinutes(15))){
+                    if (time.isAfter(due.minusMinutes(15))) {
                         String message = "The appoint with " + a.getCustomerName() +
                                 " is in 15 minutes.  The subject of the meeting is " + a.getSubject();
                         
@@ -65,7 +64,7 @@ public class Scan extends TimerTask implements Serializable {
                         alert.setContentText(message);
                         alert.show();
                     }
-                }
+                });
             }) ;
         }
     }

@@ -102,6 +102,9 @@ public class FXMLDocumentController implements Initializable {
         if(username.getLength()== 0 || password.getLength() == 0) {
             response.setText(required);
         } else {
+            System.out.println("c195customertracker.FXMLDocumentController.checkCreds() username = " + username);
+            System.out.println("c195customertracker.FXMLDocumentController.checkCreds() password = " + password);
+            
             CheckCredentials check = new CheckCredentials(username.getText(), password.getText());
             
             if(check.Check()) {
