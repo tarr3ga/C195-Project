@@ -113,7 +113,7 @@ public class AppointmentsController implements Initializable {
         appointmentsTable.setOnMouseClicked((MouseEvent event) -> {
             if(event.getClickCount() >= 2) {
                 Appointment a = (Appointment)appointmentsTable.getSelectionModel().getSelectedItem();           
-                int index = a.getId();
+                int index = a.getAppointmentId();
                 
                 try {                    
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Details.fxml"));
@@ -142,7 +142,7 @@ public class AppointmentsController implements Initializable {
         btnView.setOnMouseClicked((MouseEvent e) -> {
            if(appointmentsTable.getSelectionModel().getSelectedItem() != null) {
                 Appointment a = (Appointment)appointmentsTable.getSelectionModel().getSelectedItem();           
-                int index = a.getId();
+                int index = a.getAppointmentId();
                 
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Details.fxml"));
@@ -182,7 +182,7 @@ public class AppointmentsController implements Initializable {
                         Appointment a = (Appointment)appointmentsTable.getSelectionModel().getSelectedItem();
                         
                         DeleteData delete= new DeleteData();
-                        delete.deleteAppointment(a.getId());
+                        delete.deleteAppointment(a.getAppointmentId());
                         
                         populateTable();
                     } catch(SQLException ex) {
@@ -229,10 +229,11 @@ public class AppointmentsController implements Initializable {
     
     private void adjustForTimezones() {
         for(Appointment a : appointments) {
-            String start = DateTimeUtils.getFormatedDateTimeString(a.getStart());
-            String end = DateTimeUtils.getFormatedDateTimeString(a.getEnd());
+            ZonedDateTime adjustedStart = DateTimeUtils.adjustForTimeZones(a.getStart());
+            ZonedDateTime adjustedEnd = DateTimeUtils.adjustForTimeZones(a.getEnd());
             
-            DateTimeUtils.adjustTimeForTimezone(start, end, a.getTimezone());
+            String start = DateTimeUtils.getFormatedDateTimeString(adjustedStart);
+            String end = DateTimeUtils.getFormatedDateTimeString(adjustedEnd);  
         }
     }
     

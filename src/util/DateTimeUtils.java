@@ -74,6 +74,21 @@ public class DateTimeUtils {
         return parsed;
     }
     
+    public static Timestamp getTimeStampFromStrng(String s) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+        Date parsedDate = new Date();
+        
+        try {
+            parsedDate = dateFormat.parse(s);
+        } catch (Exception ex) {
+            
+        }
+        
+        Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+        
+        return timestamp;
+    }
+    
     public static String getFormatedDateTimeString(ZonedDateTime dateTime) {
         //DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
         //formatter.ofPattern(DATE_TIME_FORMAT);
@@ -182,10 +197,10 @@ public class DateTimeUtils {
         return sorted;
     }
     
-    public static ZonedDateTime adjustForTimeZones(ZonedDateTime dateTime, TimeZone offset) {
+    public static ZonedDateTime adjustForTimeZones(ZonedDateTime dateTime) {
         TimeZone timezone = TimeZone.getDefault();
         TimeZone offsetTimeZone = TimeZone.getTimeZone(dateTime.getZone());
-
+        
         
         
         long differenceInMillis = timezone.getRawOffset() - offsetTimeZone.getRawOffset() + 

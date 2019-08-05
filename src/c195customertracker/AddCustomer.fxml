@@ -15,27 +15,22 @@
     <padding>
         <Insets right="10" left="10" top="10" bottom="10" />
     </padding>
-    <Label text="First Name: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
-    <Label text="Last Name:  " GridPane.columnIndex="0" GridPane.rowIndex="1" />
+    <Label text="Name: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
     <Label text="Phone:      " GridPane.columnIndex="0" GridPane.rowIndex="2" />
-    <Label text="Phone Type: " GridPane.columnIndex="0" GridPane.rowIndex="3" />
-    <Label text="Street:     " GridPane.columnIndex="0" GridPane.rowIndex="4" />
+
+    <Label text="Address:    " GridPane.columnIndex="0" GridPane.rowIndex="4" />
     <Label text="City:       " GridPane.columnIndex="0" GridPane.rowIndex="5" />
-    <Label text="State:      " GridPane.columnIndex="0" GridPane.rowIndex="6" />
-    <Label text="Zip:        " GridPane.columnIndex="0" GridPane.rowIndex="7" />
+
     <Label text="Country:    " GridPane.columnIndex="0" GridPane.rowIndex="8" />
     
-    <TextField fx:id="firstName" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-    <TextField fx:id="lastName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+    <TextField fx:id="name" GridPane.columnIndex="1" GridPane.rowIndex="0" />
     <TextField fx:id="phone" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-    <ComboBox fx:id="phoneType" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-    <TextField fx:id="street" GridPane.columnIndex="1" GridPane.rowIndex="4" /> 
-    <TextField fx:id="city" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-    <ComboBox fx:id="state" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-    <TextField fx:id="zip" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-    <ComboBox fx:id="country" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+    <TextField fx:id="address" GridPane.columnIndex="1" GridPane.rowIndex="4" /> 
+    <TextField fx:id="address2" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+    <TextField fx:id="city" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+    <ComboBox fx:id="country" GridPane.columnIndex="1" GridPane.rowIndex="9" />
     
-    <HBox GridPane.columnIndex="0" GridPane.rowIndex="9" GridPane.columnSpan="2" >
+    <HBox GridPane.columnIndex="0" GridPane.rowIndex="10" GridPane.columnSpan="2" >
         <Button fx:id="btnSubmit" text="Submit" />
         <Button fx:id="btnCancel" text="Cancel" />
     </HBox>

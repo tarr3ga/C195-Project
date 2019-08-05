@@ -17,8 +17,8 @@
     </padding>
     <Label text="Choose a Customer: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
     <ComboBox minWidth="300" fx:id="cbCustomers" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-    <Label text="Subject: " GridPane.columnIndex="0" GridPane.rowIndex="1" />
-    <TextField fx:id="subject" minWidth="300" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+    <Label text="Title: " GridPane.columnIndex="0" GridPane.rowIndex="1" />
+    <TextField fx:id="title" minWidth="300" GridPane.columnIndex="1" GridPane.rowIndex="1" />
     <Label text="Location: " GridPane.columnIndex="0" GridPane.rowIndex="2" />
     <TextField fx:id="location" minWidth="300" GridPane.columnIndex="1" GridPane.rowIndex="2" />
     <Label text="Details: " GridPane.rowIndex="3" GridPane.columnIndex="0" />
@@ -34,8 +34,6 @@
         <ComboBox fx:id="startTime"  />
         <ComboBox fx:id="startTimeAmPm" />
     </HBox>
-    <Label text="End Date: " GridPane.columnIndex="0" GridPane.rowIndex="7" />
-    <DatePicker fx:id="endDate" GridPane.columnIndex="1" GridPane.rowIndex="7" />
     <Label text="End Time: " GridPane.columnIndex="0" GridPane.rowIndex="8" />
     <HBox GridPane.columnIndex="1" GridPane.rowIndex="8" >
         <ComboBox fx:id="endTime" />

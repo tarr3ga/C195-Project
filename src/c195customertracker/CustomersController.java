@@ -44,6 +44,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.Address;
 import models.Appointment;
+import models.City;
 import models.Country;
 import models.Customer;
 import models.PhoneNumber;
@@ -247,7 +248,7 @@ public class CustomersController implements Initializable {
     private void loadCustomerSpecificAppointments(Customer customer) throws SQLException, IOException, ClassNotFoundException {
         
         FetchData data = new FetchData();
-        appointments = data.fetchAppointmentsForCustomerData(customer.getId());
+        appointments = data.fetchAppointmentsForCustomerData(customer);
         
         adjustTimeZones();
         
@@ -296,53 +297,54 @@ public class CustomersController implements Initializable {
         hBoxButtons.getChildren().addAll(btnAdd, btnViewAppointmentDetails, btnDeleteAppointment);
         
         Label customerLabel = new Label();
-        customerLabel.setText("Details for " + customer.getFirstName() + " " + customer.getLastName());
+        customerLabel.setText("Details for " + customer.getName());
         
         Label customerDate = new Label();
-        String formattedDateTime = DateTimeUtils.getFormatedDateTimeStringFromTimestamp(customer.getAddedOn());
+        String formattedDateTime = DateTimeUtils.getFormatedDateTimeStringFromTimestamp(customer.getCreateDate());
         customerDate.setText("Added on " + formattedDateTime);
         
         Address add = new Address();
         
         try {
             data = new FetchData();
-            add = data.fetchAddress(customer.getId());
+            add = data.fetchAddress(customer.getCustomerId());
         } catch(SQLException ex) {
             
         }
         
-        Label street = new Label();
-        street.setText(add.getStreet());
-        
         Label address = new Label();
-        address.setText(add.getCity() + ", " + add.getState() + " " + add.getZip());
+        address.setText(add.getAddress());
         
-        Country c = new Country();
+        Label address2 = new Label();
+        address.setText(add.getAddress2());
+        
+        City city = new City();
         
         try {
             data = new FetchData();
-            c = data.fetchCountry(add.getCountryId());
+            city = data.fetchCity(0);
+        } catch(SQLException ex) {
+            
+        }
+        
+        Country co = new Country();
+        
+        try {
+            data = new FetchData();
+            co = data.fetchCountry(city.getCountryId());
         } catch(SQLException ex) {
             
         }
         
         Label country = new Label();
-        country.setText(c.getCountryAbreviation() + " | " + c.getCountry());
-        
-        PhoneNumber p = new PhoneNumber();
-        
-        try {
-            data = new FetchData();
-            p = data.fetchPhoneNumber(customer.getId());
-        } catch(SQLException ex) {
-            
-        }
+        country.setText(co.getCountryAbreviation() + " | " + co.getCountry());
         
         Label phone = new Label();
-        phone.setText(p.getPhone() + " (" + p.getPhoneType() + ")");
+        //TODO Check if phone needs to be added to DB
+        //phone.setText(customer.getPhone());
         
         hBoxCustomer.getChildren().clear();
-        hBoxCustomer.getChildren().addAll(customerLabel, customerDate, street, address, country, phone);
+        hBoxCustomer.getChildren().addAll(customerLabel, customerDate, address, address2, country, phone);
         
         displayTable.setItems(appointments);
         displayTable.getColumns().setAll(id, subject, location, time);
@@ -350,7 +352,7 @@ public class CustomersController implements Initializable {
         displayTable.setOnMouseClicked((MouseEvent event) -> {
             if(event.getClickCount() >= 2) {
                 Appointment a = (Appointment)displayTable.getSelectionModel().getSelectedItem();           
-                int index = a.getId();
+                int index = a.getAppointmentId();
                 
                 try {                    
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Details.fxml"));
@@ -402,7 +404,7 @@ public class CustomersController implements Initializable {
         btnViewAppointmentDetails.setOnMouseClicked((MouseEvent e) -> {
             if(displayTable.getSelectionModel().getSelectedItem() != null) {
                 Appointment a = (Appointment)displayTable.getSelectionModel().getSelectedItem();           
-                int index = a.getId();
+                int index = a.getAppointmentId();
                 
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Details.fxml"));
@@ -467,7 +469,7 @@ public class CustomersController implements Initializable {
     
     private void deleteAppointment(Appointment a, Customer c) throws SQLException, IOException, ClassNotFoundException {
         DeleteData delete= new DeleteData();
-        delete.deleteAppointment(a.getId());
+        delete.deleteAppointment(a.getAppointmentId());
         
         File dir = new File("logs/");
         boolean success =  dir.mkdir();
@@ -479,7 +481,7 @@ public class CustomersController implements Initializable {
 
         File file = new File("logs/transactions.txt");
 
-        String message = "Appointment ID: " + a.getId() + " Deleted by " + 
+        String message = "Appointment ID: " + a.getAppointmentId()+ " Deleted by " + 
                         FXMLDocumentController.authorizedUser + " on " + ZonedDateTime.now().toString();
 
         try {
@@ -509,7 +511,7 @@ public class CustomersController implements Initializable {
 
         File file = new File("logs/transactions.txt");
 
-        String message = "Customer ID: " + c.getId() + " Deleted by " + 
+        String message = "Customer ID: " + c.getCustomerId()+ " Deleted by " + 
                         FXMLDocumentController.authorizedUser + " on " + ZonedDateTime.now().toString();
 
         try {
@@ -535,9 +537,9 @@ public class CustomersController implements Initializable {
             
             if(!customerZoneId.equals(defaultZoneId)) {
                 TimeZone customerTimeZone = TimeZone.getTimeZone(customerZoneId);
-                zdtStart = DateTimeUtils.adjustForTimeZones(zdtStart, customerTimeZone);
+                zdtStart = DateTimeUtils.adjustForTimeZones(zdtStart);
                 
-                zdtEnd = DateTimeUtils.adjustForTimeZones(zdtEnd, customerTimeZone);
+                zdtEnd = DateTimeUtils.adjustForTimeZones(zdtEnd);
             }
             
             a.setStart(zdtStart);

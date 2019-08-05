@@ -5,53 +5,58 @@
  */
 package models;
 
+import java.sql.Timestamp;
+
 /**
  *
  * @author jamyers
  */
 public class Address {
-    private int id;
-    private String street;
-    private String city;
-    private String state;
-    private String zip;
-    private int countryId;
-    private int customerId;
+    private int addressId;
+    private String address;
+    private String address2;
+    private int cityId;
+    private Timestamp createDate;
+    private int createdBy;
+    private Timestamp lastUpdate;
+    private int updatedBy;
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
 
-    public String getStreet() { return street; }
-    public void setStreet(String street) { this.street = street; }
+    public int getAddressId() { return addressId; }
+    public void setAddressId(int addressId) { this.addressId = addressId; }
 
-    public String getCity() { return city; }
-    public void setCity(String city) { this.city = city; }
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
 
-    public String getState() { return state; }
-    public void setState(String state) { this.state = state; }
+    public String getAddress2() { return address2; }
+    public void setAddress2(String address2) { this.address2 = address2; }
 
-    public String getZip() { return zip; }
-    public void setZip(String zip) { this.zip = zip; }
+    public int getCityId() { return cityId; }
+    public void setCityId(int cityId) { this.cityId = cityId; }
 
-    public int getCountryId() { return countryId; }
-    public void setCountryId(int countryId) { this.countryId = countryId; }
+    public Timestamp getCreateDate() { return createDate; }
+    public void setCreateDate(Timestamp createDate) { this.createDate = createDate; }
 
-    public int getCustomerId() { return customerId; }
-    public void setCustomerId(int customerId) { this.customerId = customerId; }
+    public int getCreatedBy() { return createdBy; }
+    public void setCreatedBy(int createdBy) { this.createdBy = createdBy; }
 
+    public Timestamp getLastUpdate() { return lastUpdate; }
+    public void setLastUpdate(Timestamp lastUpdate) { this.lastUpdate = lastUpdate; }
+
+    public int getUpdatedBy() { return updatedBy; }
+    public void setUpdatedBy(int updatedBy) { this.updatedBy = updatedBy; }
+    
     public Address() {
         
     }
     
-    public Address(int id, String street, String city, String state, String zip, int countryId, int customerId) {
-        this.id = id;
-        this.street = street;
-        this.city = city;
-        this.state = state;
-        this.zip = zip;
-        this.countryId = countryId;
-        this.customerId = customerId;
-    }
-    
-    
+    public Address(int addressId, String address, int cityId, Timestamp createDate, int createdBy, Timestamp lastUpdate, int updatedBy) {
+        this.addressId = addressId;
+        this.address = address;
+        this.cityId = cityId;
+        this.createDate = createDate;
+        this.createdBy = createdBy;
+        this.lastUpdate = lastUpdate;
+        this.updatedBy = updatedBy;
+    }   
 }

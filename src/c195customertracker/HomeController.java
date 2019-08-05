@@ -115,10 +115,12 @@ public class HomeController implements Initializable {
             String rep = (String)cbUsers.getSelectionModel().getSelectedItem();
             
             try {                    
+                    FetchData data = new FetchData();
+                    int repId = data.getUserId(rep);
                 
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("AppointmentsForRep.fxml"));
                     AppointmentsForRepController controller = loader.getController();
-                    controller.rep = rep;
+                    controller.rep = repId;
                     Parent root = loader.load();
              
                     Stage stage = new Stage();
@@ -128,7 +130,7 @@ public class HomeController implements Initializable {
                     stage.setScene(scene);
                                  
                     stage.showAndWait();
-                } catch(IOException ex) {
+                } catch(SQLException | ClassNotFoundException | IOException ex) {
                     System.err.println(ex.toString());
                 }      
         });

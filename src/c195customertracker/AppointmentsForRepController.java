@@ -58,7 +58,7 @@ public class AppointmentsForRepController implements Initializable {
     private ObservableList<Appointment> appointments = FXCollections.observableArrayList();;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy  hh:mm a", Locale.US);
     
-    public static String rep;
+    public static int rep;
     
     private void populateTable() {
         TableColumn<Appointment, Integer> id = new TableColumn("ID");
@@ -115,7 +115,7 @@ public class AppointmentsForRepController implements Initializable {
         appointmentsTable.setOnMouseClicked((MouseEvent event) -> {
             if(event.getClickCount() >= 2) {
                 Appointment a = (Appointment)appointmentsTable.getSelectionModel().getSelectedItem();           
-                int index = a.getId();
+                int index = a.getAppointmentId();
                 
                 try {                    
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Details.fxml"));
@@ -144,7 +144,7 @@ public class AppointmentsForRepController implements Initializable {
         btnView.setOnMouseClicked((MouseEvent e) -> {
            if(appointmentsTable.getSelectionModel().getSelectedItem() != null) {
                 Appointment a = (Appointment)appointmentsTable.getSelectionModel().getSelectedItem();           
-                int index = a.getId();
+                int index = a.getAppointmentId();
                 
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Details.fxml"));
@@ -184,7 +184,7 @@ public class AppointmentsForRepController implements Initializable {
                         Appointment a = (Appointment)appointmentsTable.getSelectionModel().getSelectedItem();
                         
                         DeleteData delete= new DeleteData();
-                        delete.deleteAppointment(a.getId());
+                        delete.deleteAppointment(a.getAppointmentId());
                     } catch(SQLException ex) {
                         
                     } catch (ClassNotFoundException ex) {
@@ -229,10 +229,11 @@ public class AppointmentsForRepController implements Initializable {
     
     private void adjustForTimezones() {
         for(Appointment a : appointments) {
-            String start = DateTimeUtils.getFormatedDateTimeString(a.getStart());
-            String end = DateTimeUtils.getFormatedDateTimeString(a.getEnd());
+            ZonedDateTime adjustedStart = DateTimeUtils.adjustForTimeZones(a.getStart());
+            ZonedDateTime adjustedEnd = DateTimeUtils.adjustForTimeZones(a.getEnd());
             
-            DateTimeUtils.adjustTimeForTimezone(start, end, a.getTimezone());
+            String start = DateTimeUtils.getFormatedDateTimeString(adjustedStart);
+            String end = DateTimeUtils.getFormatedDateTimeString(adjustedEnd);
         }
     }
     

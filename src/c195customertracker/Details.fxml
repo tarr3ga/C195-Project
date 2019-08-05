@@ -48,11 +48,9 @@
 
     <Label text="Address: " GridPane.rowIndex="6" GridPane.columnIndex="1" />       
 
-    <TextField  fx:id="street" editable="false" focusTraversable="false"  GridPane.rowIndex="7" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+    <TextField  fx:id="address" editable="false" focusTraversable="false"  GridPane.rowIndex="7" GridPane.columnIndex="1" GridPane.columnSpan="2" />
 
-    <TextField fx:id="city" editable="false" focusTraversable="false" GridPane.rowIndex="8" GridPane.columnIndex="1" />
-    <TextField fx:id="state" editable="false" focusTraversable="false" GridPane.rowIndex="8" GridPane.columnIndex="2" />
-    <TextField fx:id="zip" editable="false" focusTraversable="false" GridPane.rowIndex="8" GridPane.columnIndex="3" />
+    <TextField fx:id="address2" editable="false" focusTraversable="false" GridPane.rowIndex="8" GridPane.columnIndex="1" />
 
     <TextField  fx:id="country" editable="false" focusTraversable="false" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
     

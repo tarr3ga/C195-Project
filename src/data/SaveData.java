@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.Address;
 import models.Appointment;
+import models.City;
 import models.Country;
 import models.Customer;
 import models.PhoneNumber;
@@ -40,9 +41,9 @@ public class SaveData {
             Logger.getLogger(data.FetchData.class.getName()).log(Level.SEVERE, null, ex);
         }
          
-        String sql = "INSERT INTO customers(firstName, lastName, customerRep) " +
-                     "VALUES('" + customer.getFirstName() +"', '" + customer.getLastName() + 
-                             "', '" +customer.getCustomerRep() + "');";
+        String sql = "INSERT INTO customers(name, addressId, active, createdBy) " +
+                     "VALUES('" + customer.getName() + ", " + customer.getAddressId() + ", '" + 
+                     customer.getIsActive() + "', " + customer.getCreatedBy() + ";" ;
         
         statement = conn.createStatement();
         statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
@@ -58,12 +59,10 @@ public class SaveData {
         return id;
     }
     
-    public void updateCustomerRecord(Customer customer, Address address,
-            PhoneNumber phoneNumber) throws SQLException, ClassNotFoundException {
+    public void updateCustomerRecord(Customer customer, Address address) throws SQLException, ClassNotFoundException {
         
         updateCustomer(customer);
-        updateAddress(address, customer.getId());
-        updatePhoneNumber(phoneNumber, customer.getId());
+        updateAddress(address, customer.getCustomerId());
     }
     
     public int saveNewAddress(Address address) throws SQLException, ClassNotFoundException {
@@ -76,9 +75,9 @@ public class SaveData {
             System.err.println(ex.toString());
         }
         
-        String sql = "INSERT INTO addresses(street, city, state, zip, countryId, customersId) " +
-                     "VALUES('" + address.getStreet() + "', '" + address.getCity() + "', '" + address.getState() +"', '" +
-                     address.getZip() + "', " + address.getCountryId() + ", " + address.getCustomerId() +");";
+        String sql = "INSERT INTO addresses(address, address2,  cityId, createdBy) " +
+                     "VALUES('" + address.getAddress()+ "', '" + address.getAddress2()+ "', " + address.getCityId() + 
+                     ", " + address.getCreatedBy()  + ");";
         
         statement = conn.createStatement();
         statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
@@ -94,29 +93,6 @@ public class SaveData {
         return id;
     }
     
-    public void saveNewPhone(PhoneNumber phoneNumber) throws SQLException, ClassNotFoundException {
-        try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            System.err.println("saveNewAddress");
-            System.err.println(ex.toString());
-        }
-        
-        String sql = "INSERT INTO phoneNumbers(phone, phoneType, customersId) " +
-                     "VALUES('" + phoneNumber.getPhone() + "', '" + phoneNumber.getPhoneType() +"', " + 
-                     phoneNumber.getCustomerId() + ");";
-        
-        statement = conn.createStatement();
-        try {
-            statement.execute(sql);
-        } catch(SQLException ex) {
-            System.err.println("saveNewAddress");
-            System.err.println(ex.toString());
-        }
-        
-        conn.close();
-    }
-    
     public int saveNewAppointment(Appointment appointment) throws SQLException, ClassNotFoundException {
         int id = 0;
         
@@ -126,17 +102,46 @@ public class SaveData {
             
         }
         
-        String sql = "INSERT INTO appointments(subject, location, description, type, start, end, timezone, customerRep, customersId, usersId) " +
-                     "VALUES('" + appointment.getSubject() + "', '" + 
-                     appointment.getLocation() + "', '" +
+        String sql = "INSERT INTO appointments(customerId, usersId, title, description, location, contact, type, url, start, end, createdBy) " +
+                     "VALUES(" + appointment.getCustomerId() + ", " + 
+                     appointment.getUserId() + ", '" +
+                     appointment.getTitle() + "', '" +
                      appointment.getDescription() + "', '" +
+                     appointment.getLocation() + "', '" +
+                     appointment.getContact() + "', '" +
                      appointment.getType() + "', '" +
-                     appointment.getStart().toString() + "', '" +
-                     appointment.getEnd().toString() + "', '" +
-                     appointment.getTimezone() + "', '" +
-                     appointment.getCustomerRep() + "', " +
-                     appointment.getCustomerId() + ", " +
-                     appointment.getUserId() + ");";
+                     appointment.getUrl() + "', '" +
+                     appointment.getStart().toString() + "', " +
+                     appointment.getEnd().toString() + 
+                     appointment.getCreatedBy() + ");";
+        
+        statement = conn.createStatement();
+        statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
+
+        ResultSet rs = statement.getGeneratedKeys();
+        
+        if(rs.next()) {
+            id = rs.getInt(1);
+        }
+
+        System.out.println("ID = " + id);
+        
+        conn.close();
+        
+        return id;
+    }
+    
+    public int saveNewCity(City city) throws SQLException, ClassNotFoundException {
+        int id = 0;
+        
+        conn = DBConnect.makeConnection();
+
+        String sql = "INSERT INTO city(city, countryId, createdBy) " +
+                     "VALUES(" +
+                     "  city = '" + "', " +
+                     "  countryId =" + ", " +
+                     "  createdBy = " +
+                     ");";
         
         statement = conn.createStatement();
         statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
@@ -155,30 +160,34 @@ public class SaveData {
     }
     
     public void updateFullRecord(Appointment appointment, Customer customer, Address address,
-            Country country, PhoneNumber phoneNumber) throws SQLException, ClassNotFoundException {
+            Country country) throws SQLException, ClassNotFoundException {
         
         updateAppointment(appointment);
         updateCustomer(customer);
-        updateAddress(address, customer.getId());
-        updateCountry(country);
-        updatePhoneNumber(phoneNumber, customer.getId());
+        updateAddress(address, customer.getAddressId());
     }
     
     public void updateAppointment(Appointment appointment) throws SQLException, ClassNotFoundException{
         try {
             conn = DBConnect.makeConnection();
         } catch(SQLException ex) {
-            System.out.println("fetchSingleCustomer");
+            System.out.println("updateFullRecord");
             Logger.getLogger(data.FetchData.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         String sql = "UPDATE appointments " +
-                     "SET subject = '" + appointment.getSubject() + "', " + 
-                     "    location = '" + appointment.getLocation() + "', " +
+                     "SET userId = " + appointment.getUserId() + ", " + 
+                     "    title = '" + appointment.getTitle() + "', " +
                      "    description = '" + appointment.getDescription() + "', " +
-                     "    start = '" + appointment.getStart() + "', " +
-                     "    end = '" + appointment.getEnd() + "' " +
-                     "WHERE ID = " + appointment.getId() + ";";
+                     "    location = '" + appointment.getLocation() + "', " +
+                     "    contact = '" + appointment.getContact() + "' " +
+                     "    type = '" + appointment.getType() + "', " +
+                     "    url'" + appointment.getUrl() + "', '" +
+                     "    start'" + appointment.getStart().toString() + "', '" +
+                     "    end'" + appointment.getEnd().toString() + "', '" +
+                     "    lastUpdate" + appointment.getLastUpdate() + "', '" +
+                     "    updatedBy" + appointment.getUpdatedBy() + "', '" +
+                     "WHERE ID = '" + appointment.getAppointmentId() + "';";
                                               
         System.out.println("data.SaveData.saveAppointment()" + sql);
         
@@ -197,9 +206,9 @@ public class SaveData {
         }
         
         String sql = "UPDATE customers " +
-              "SET firstName = '" + customer.getFirstName() + "', " +
-              "    lastName = '"  + customer.getLastName() + "' " +
-              "WHERE ID = " + customer.getId() + ";";
+              "SET firstName = '" + customer.getName() + "', " +
+              "    addressId = "  + customer.getAddressId()+ " " +
+              "WHERE ID = " + customer.getCustomerId()+ ";";
                                               
         statement = conn.createStatement();
         statement.execute(sql);
@@ -216,47 +225,11 @@ public class SaveData {
         }
         
         String sql = "UPDATE addresses " +
-              "SET street = '"  + address.getStreet() + "', " +
-              "    city = '" + address.getCity() + "', " +
-              "    state = '" + address.getState() + "', " +                 
-              "    zip = '" + address.getZip() + "' " +                   
-              "WHERE ID = " + customerId + ";";
-                                              
-        statement = conn.createStatement();
-        statement.execute(sql);
-        
-        conn.close();
-    }
-    
-    public void updateCountry(Country country) throws SQLException, ClassNotFoundException{
-        try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            System.out.println("fetchSingleCustomer");
-            Logger.getLogger(data.FetchData.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        String sql = "UPDATE countries " + 
-              "SET countryAbreviation = '" + country.getCountry() + "' " +
-              "WHERE ID = " + country.getId() + ";";
-                                              
-        statement = conn.createStatement();
-        statement.execute(sql);
-        
-        conn.close();
-    } 
-    
-    public void updatePhoneNumber(PhoneNumber phoneNumber, int customerId) throws SQLException, ClassNotFoundException {
-        try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            System.out.println("fetchSingleCustomer");
-            Logger.getLogger(data.FetchData.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        String sql = "UPDATE phoneNumbers " +
-              "SET phone = '" + phoneNumber.getPhone() + "', " +
-              "    phoneType = '" + phoneNumber.getPhoneType() + "' " +
+              "SET address = '"  + address.getAddress() + "', " +
+              "    address2 = '" + address.getAddress2() + "', " +
+              "    cityd = " + address.getCityId() + ", " +                 
+              "    lastUpdate = " + address.getLastUpdate() + " " +  
+              "    updatedBy = " + address.getUpdatedBy() + " " +    
               "WHERE ID = " + customerId + ";";
                                               
         statement = conn.createStatement();

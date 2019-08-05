@@ -24,6 +24,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.Address;
 import models.Appointment;
+import models.City;
 import models.Country;
 import models.Customer;
 import models.PhoneNumber;
@@ -37,18 +38,17 @@ import util.TextSanitizer;
  */
 public class DetailsController implements Initializable {
 
-    @FXML private TextField firstName;
-    @FXML private TextField lastName;
+    @FXML private TextField name;
     @FXML private TextField subject;
     @FXML private TextField location;
     @FXML private TextField type;
     @FXML private TextField dateTime;
     @FXML private TextField endTime;
     @FXML private TextArea details;
-    @FXML private TextField street;
-    @FXML private TextField city;
-    @FXML private TextField state;
-    @FXML private TextField zip;
+    @FXML private TextField tfAddress;
+    @FXML private TextField tfAddress2;
+    @FXML private TextField tfCity;
+   
     @FXML private TextField country;
     @FXML private TextField phone;
     @FXML private TextField phoneType;
@@ -64,7 +64,7 @@ public class DetailsController implements Initializable {
     private Customer customer;
     private Address address;
     private Country countryData;
-    private PhoneNumber phoneNumber;
+    private City city;
     
     @FXML 
     private void onBtnCustomerDetailsClick() throws IOException {
@@ -143,66 +143,53 @@ public class DetailsController implements Initializable {
     private void makeEditable() {
         enableSaveCancel();
         
-        firstName.setEditable(true);
-        lastName.setEditable(true);
+        name.setEditable(true);
         subject.setEditable(true);
         location.setEditable(true);
         dateTime.setEditable(true);
         endTime.setEditable(true);
         details.setEditable(true);
-        street.setEditable(true);
-        city.setEditable(true);
-        state.setEditable(true);
-        zip.setEditable(true);
+        tfAddress.setEditable(true);
+        tfAddress2.setEditable(true);
+        tfCity.setEditable(true);
         country.setEditable(true);
         phone.setEditable(true);
-        phoneType.setEditable(true);
         
-        firstName.setFocusTraversable(true);
-        lastName.setFocusTraversable(true);
+        name.setFocusTraversable(true);
         subject.setFocusTraversable(true);
         location.setFocusTraversable(true);
         dateTime.setFocusTraversable(true);
         endTime.setFocusTraversable(true);
         details.setFocusTraversable(true);
-        street.setFocusTraversable(true);
-        city.setFocusTraversable(true);
-        state.setFocusTraversable(true);
-        zip.setFocusTraversable(true);
+        tfAddress.setFocusTraversable(true);
+        tfAddress2.setFocusTraversable(true);
         country.setFocusTraversable(true);
         phone.setFocusTraversable(true);
-        phoneType.setFocusTraversable(true);
     }
     
     private void disableEditing() {
         enableEditClose();
         
-        firstName.setEditable(false);
-        lastName.setEditable(false);
+        name.setEditable(false);
         subject.setEditable(false);
         location.setEditable(false);
         dateTime.setEditable(false);
         endTime.setEditable(false);
         details.setEditable(false);
-        street.setEditable(false);
-        city.setEditable(false);
-        state.setEditable(false);
-        zip.setEditable(false);
+        tfAddress.setEditable(false);
+        tfAddress2.setEditable(false);
         country.setEditable(false);
         phone.setEditable(false);
         phoneType.setEditable(false);
         
-        firstName.setFocusTraversable(false);
-        lastName.setFocusTraversable(false);
+        name.setFocusTraversable(false);
         subject.setFocusTraversable(false);
         location.setFocusTraversable(false);
         dateTime.setFocusTraversable(false);
         endTime.setFocusTraversable(false);
         details.setFocusTraversable(false);
-        street.setFocusTraversable(false);
-        city.setFocusTraversable(false);
-        state.setFocusTraversable(false);
-        zip.setFocusTraversable(false);
+        tfAddress.setFocusTraversable(false);
+        tfAddress2.setFocusTraversable(false);
         country.setFocusTraversable(false);
         phone.setFocusTraversable(false);
         phoneType.setFocusTraversable(false);
@@ -210,11 +197,11 @@ public class DetailsController implements Initializable {
     
     private void saveChanges() throws SQLException, ClassNotFoundException {
         SaveData data = new SaveData();
-        data.updateFullRecord(appointment, customer, address, countryData, phoneNumber);
+        data.updateFullRecord(appointment, customer, address, countryData);
     }
     
     private void setData() {
-        appointment.setSubject(subject.getText());
+        appointment.setTitle(subject.getText());
         appointment.setLocation(location.getText());
         appointment.setDescription(details.getText());
         
@@ -225,7 +212,7 @@ public class DetailsController implements Initializable {
     }
     
     public void getData() throws SQLException, ClassNotFoundException {
-        subject.setText(appointment.getSubject());
+        subject.setText(appointment.getTitle());
         location.setText(appointment.getLocation());
         
         String formattedStartDate = DateTimeUtils.getFormatedDateTimeString(appointment.getStart());
@@ -239,21 +226,24 @@ public class DetailsController implements Initializable {
         
         FetchData data = new FetchData();
         customer = data.fetchSingleCustomer(appointment.getCustomerId());
-        firstName.setText(customer.getFirstName());
-        lastName.setText(customer.getLastName());
+        name.setText(customer.getName());
         
-        address = data.fetchAddress(customer.getId());
-        street.setText(address.getStreet());
-        city.setText(address.getCity());
-        state.setText(address.getState());
-        zip.setText(address.getZip());
+        address = data.fetchAddress(customer.getCustomerId());
+        tfAddress.setText(address.getAddress());
+        tfAddress2.setText(address.getAddress2());
         
-        countryData = data.fetchCountry(address.getCountryId());
+        
+        data = new FetchData();
+        city = data.fetchCity(customer.getCustomerId());
+        
+        countryData = data.fetchCountry(city.getCountryId());
         country.setText(countryData.getCountry());
         
-        phoneNumber = data.fetchPhoneNumber(customer.getId());
-        phone.setText(phoneNumber.getPhone());
-        phoneType.setText(phoneNumber.getPhoneType());
+        tfCity.setText(city.getCity());
+        
+        //phoneNumber = data.fetchPhoneNumber(customer.getId());
+        //phone .setText(phoneNumber.getPhone());
+        //phoneType.setText(phoneNumber.getPhoneType());
     }
     
     /**

@@ -68,10 +68,8 @@ public class MainSceneController implements Initializable {
         
     } 
     
-    public static void setAlert(int id, ZonedDateTime time, String firstName, String lastName, String subject) {
-        String name = firstName + " " + lastName;
-        
-        AppointmentAlert alert = new AppointmentAlert(id, time, name, subject);
+    public static void setAlert(int id, ZonedDateTime time, String name, String title) {        
+        AppointmentAlert alert = new AppointmentAlert(id, time, name, title);
         Scan.alerts.add(alert);
     }
     

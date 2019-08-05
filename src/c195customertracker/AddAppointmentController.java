@@ -48,13 +48,12 @@ public class AddAppointmentController implements Initializable {
     public static Customer customerSelected;
     
     @FXML private ComboBox cbCustomers;
-    @FXML private TextField subject;
+    @FXML private TextField title;
     @FXML private TextField location;
     @FXML private TextArea details;
     @FXML private DatePicker startDate;
     @FXML private ComboBox startTime;
     @FXML private ComboBox startTimeAmPm;
-    @FXML private DatePicker endDate;
     @FXML private ComboBox endTime;
     @FXML private ComboBox endTimeAmPm;
     @FXML private ComboBox timezone;
@@ -84,7 +83,7 @@ public class AddAppointmentController implements Initializable {
         submit.setOnMouseClicked((MouseEvent e) -> {
             String timeZoneName = DateTimeUtils.getTimeZoneName((String)timezone.getSelectionModel().getSelectedItem());
             
-            ZoneId zone;// = TimeZone.getDefault().toZoneId();
+            ZoneId zone;
             
             if(!timeZoneName.equals(defaultTimeZone)) {
                 zone = ZoneId.of(timeZoneName);
@@ -110,7 +109,7 @@ public class AddAppointmentController implements Initializable {
             ZonedDateTime localEndDateTime = ZonedDateTime.now();
             
             try {
-                String[] dateTimeParts = DateTimeUtils.getDateParts(endDate.getValue().toString(), 
+                String[] dateTimeParts = DateTimeUtils.getDateParts(startDate.getValue().toString(), 
                         (String)endTime.getSelectionModel().getSelectedItem(), 
                         (String)endTimeAmPm.getSelectionModel().getSelectedItem());
                 
@@ -136,7 +135,7 @@ public class AddAppointmentController implements Initializable {
                 int id = -1;
 
                 Appointment a = new Appointment();
-                a.setSubject(subject.getText());
+                a.setTitle(title.getText());
                 a.setLocation(location.getText());
                 a.setDescription(details.getText());
                 a.setType((String)cbType.getSelectionModel().getSelectedItem());
@@ -144,17 +143,11 @@ public class AddAppointmentController implements Initializable {
                 a.setStart(localStartDateTime);
                 a.setEnd(localEndDateTime);
                 
-                a.setCustomerRep(customerSelected.getCustomerRep());
-                
                 a.setUserId(FXMLDocumentController.authorizedUserId);
 
                 String cbValue = (String)cbCustomers.getSelectionModel().getSelectedItem();
                 String[] parts = cbValue.split(" ");
                 a.setCustomerId(Integer.parseInt(parts[0]));
-
-                a.setTimezone((String)timezone.getSelectionModel().getSelectedItem());
-
-                
                 
                 SaveData data = new SaveData();
                 try{
@@ -176,7 +169,7 @@ public class AddAppointmentController implements Initializable {
                     Logger.getLogger(AddAppointmentController.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                MainSceneController.setAlert(a.getId(), a.getStart(), c.getFirstName(), c.getLastName(), a.getSubject());
+                MainSceneController.setAlert(a.getAppointmentId(), a.getStart(), c.getName(), a.getTitle());
 
                 // WRITE TRANSACTION TO LOG FILE
                 File dir = new File("logs/");
@@ -226,7 +219,7 @@ public class AddAppointmentController implements Initializable {
         FetchData data = new FetchData();
         
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
-        appointments = data.fetchAppointmentsForCustomerRep(customerSelected.getCustomerRep());
+        appointments = data.fetchAppointmentsForCustomerRep(customerSelected.getCustomerId());
         
         for(Appointment a : appointments) {
             ZonedDateTime t1 =  DateTimeUtils.getUnalteredZonedDateTimeFromString(String.valueOf(a.getStart()));
@@ -251,7 +244,7 @@ public class AddAppointmentController implements Initializable {
         if(isValid == false) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Error!");
-            alert.setContentText("Appointment conflics with " + conflict.getSubject() + 
+            alert.setContentText("Appointment conflics with " + conflict.getTitle() + 
                                  "\nFrom: " + conflict.getStart() + "\nTo: " + conflict.getEnd());
             
             alert.showAndWait();
@@ -312,11 +305,10 @@ public class AddAppointmentController implements Initializable {
     private boolean validateForm() {
         boolean isValid = false;
         
-        if(!subject.getText().isEmpty() &&
+        if(!title.getText().isEmpty() &&
            !location.getText().isEmpty() &&
            !details.getText().isEmpty() &&
-           startDate.getValue() != null &&
-           endDate.getValue() != null) {
+           startDate.getValue() != null) {
             isValid = true;
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -377,14 +369,14 @@ public class AddAppointmentController implements Initializable {
         }
         
         for(Customer c : customers) {
-            cbCustomers.getItems().add(c.getId() + " " + c.getFirstName() + " " + c.getLastName());
+            cbCustomers.getItems().add(c.getCustomerId() + " " + c.getName());
         }
         
         if(customerIsSelected) {
             int index = -1;
             
             for(Customer c : customers) {
-                if(customerSelected.getId() == c.getId()) {
+                if(customerSelected.getCustomerId() == c.getCustomerId()) {
                     index = customers.indexOf(c);
                 }
             }

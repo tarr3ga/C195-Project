@@ -11,30 +11,24 @@ import java.sql.Timestamp;
  *
  * @author jamyers
  */
-public class Customer {
-    private int customerId;
-    private String name;
-    private int addressId;
-    private boolean active;
+public class City {
+    private int cityId;
+    private String city;
+    private int countryId;
     private Timestamp createDate;
     private int createdBy;
     private Timestamp lastUpdate;
     private int updatedBy;
 
-
-
-    public int getCustomerId() { return customerId; }
-    public void setCustomerId(int customerId) { this.customerId = customerId; }
+    public int getCityId() { return cityId; }
+    public void setCityId(int cityId) { this.cityId = cityId; }
     
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
-    public int getAddressId() { return addressId; }
-    public void setAddressId(int addressId) { this.addressId = addressId; }
+    public String getCity() { return city; }
+    public void setCity(String city) { this.city = city; }
     
-    public boolean getIsActive() { return active; }
-    public void setActive(boolean active) { this.active = active; }
-
+    public int getCountryId() { return countryId; }
+    public void setCountryId(int countryId) { this.countryId = countryId; }
+    
     public Timestamp getCreateDate() { return createDate; }
     public void setCreateDate(Timestamp createDate) { this.createDate = createDate; }
 
@@ -46,22 +40,21 @@ public class Customer {
 
     public int getUpdatedBy() { return updatedBy; }
     public void setUpdatedBy(int updatedBy) { this.updatedBy = updatedBy; }
-    
 
-    public Customer() {
+    public City() {
         
     }
-
-    public Customer(int customerId, String name, int addressId, boolean active, Timestamp createDate, int createdBy, Timestamp lastUpdate, int updatedBy) {
-        this.customerId = customerId;
-        this.name = name;
-        this.addressId = addressId;
-        this.active = active;
+    
+    public City(int cityId, String city, int countryId, Timestamp createDate, int createdBy, 
+            Timestamp lastUpdate, int updatedBy) {
+        this.cityId = cityId;
+        this.city = city;
+        this.countryId = countryId;
         this.createDate = createDate;
         this.createdBy = createdBy;
         this.lastUpdate = lastUpdate;
         this.updatedBy = updatedBy;
     }
-  
+    
     
 }
