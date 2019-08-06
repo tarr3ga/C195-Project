@@ -61,11 +61,11 @@ public class AppointmentsController implements Initializable {
     private void populateTable() {
         TableColumn<Appointment, Integer> id = new TableColumn("ID");
         id.setMinWidth(20);
-        id.setCellValueFactory(new PropertyValueFactory("id"));
+        id.setCellValueFactory(new PropertyValueFactory("appointmentId"));
         
-        TableColumn<Appointment, String> subject = new TableColumn<>("Subject");
+        TableColumn<Appointment, String> subject = new TableColumn<>("Title");
         subject.setMinWidth(175);
-        subject.setCellValueFactory(new PropertyValueFactory("subject"));
+        subject.setCellValueFactory(new PropertyValueFactory("title"));
         
         TableColumn<Appointment, String> location = new TableColumn<>("Location");
         location.setMinWidth(175);

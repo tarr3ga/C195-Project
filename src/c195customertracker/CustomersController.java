@@ -47,7 +47,7 @@ import models.Appointment;
 import models.City;
 import models.Country;
 import models.Customer;
-import models.PhoneNumber;
+import models.User;
 import util.DateTimeUtils;
 
 /**
@@ -59,6 +59,7 @@ public class CustomersController implements Initializable {
 
     private ObservableList<Customer> customers = FXCollections.observableArrayList();
     private ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+    private ObservableList<User> users = FXCollections.observableArrayList();
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy  hh:mm a");
     
     public ObservableList<Customer> getCustomers() {
@@ -74,23 +75,56 @@ public class CustomersController implements Initializable {
     private Button btnEdit;
     private Button btnViewAppointmentDetails;
     private Button btnDeleteAppointment;
-         
+    
+    int pos = 0;
+    
     private void populateTable() {
         TableColumn<Customer, Integer> id = new TableColumn<>("ID");
         id.setMinWidth(20);
-        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        id.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         
-        TableColumn<Customer, String> firstName = new TableColumn<>("First Name");
-        firstName.setMinWidth(175);
-        firstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        TableColumn<Customer, String> name = new TableColumn<>("Name");
+        name.setMinWidth(175);
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
         
-        TableColumn<Customer, String> lastName = new TableColumn<>("Last Name");
-        lastName.setMinWidth(175);
-        lastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        TableColumn<Customer, String> userName = new TableColumn<>("Created By");
+        userName.setMinWidth(175);
+        userName.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        userName.setCellFactory(col -> new TableCell<Customer, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                
+                if(pos < customers.size()) {
+                    System.out.println(".updateItem() customer = " + customers.get(pos).getName());
+                }
+                
+                if(empty) {
+                    setText(null);
+                
+                    System.out.println(".updateItem() null hit..");
+                } else {
+                    if(pos < customers.size()) {
+                        int id = customers.get(pos).getCreatedBy() - 1;
+
+                        System.out.println(".updateItem() id = " + id);
+                        
+                        setText(users.get(id).getUsername());
+                        
+                        System.out.println(".updateItem() text = " + users.get(id).getUsername());
+                    }
+                }
+                
+                System.out.println(".updateItem() pos = " + pos);
+                System.out.println("-----------------------------------");
+                
+                pos++;
+            }
+        });
         
         TableColumn<Customer, Timestamp> addedOn = new TableColumn<>("Added On");
         addedOn.setMinWidth(250);
-        addedOn.setCellValueFactory(new PropertyValueFactory<>("addedOn"));
+        addedOn.setCellValueFactory(new PropertyValueFactory<>("createDate"));
         /*addedOn.setCellFactory(col -> new TableCell<Customer, Timestamp>(){
             @Override
             protected void updateItem(Timestamp item, boolean empty) {
@@ -105,9 +139,9 @@ public class CustomersController implements Initializable {
         });*/
         
         
-        TableColumn<Customer, String> customerRep = new TableColumn<>("Customer Rep");
-        customerRep.setMinWidth(175);
-        customerRep.setCellValueFactory(new PropertyValueFactory<>("customerRep"));
+        //TableColumn<Customer, String> customerRep = new TableColumn<>("Customer Rep");
+        //customerRep.setMinWidth(175);
+        //customerRep.setCellValueFactory(new PropertyValueFactory<>("customerRep"));
         
         btnAdd = new Button();
         btnAdd.setPrefWidth(200);
@@ -129,7 +163,7 @@ public class CustomersController implements Initializable {
         hBoxButtons.getChildren().addAll(btnAdd, btnView, btnEdit, btnDelete);
         
         displayTable.setItems(customers);
-        displayTable.getColumns().setAll(id, firstName, lastName, addedOn, customerRep);
+        displayTable.getColumns().setAll(id, name, addedOn, userName);
         
         displayTable.setOnMouseClicked((MouseEvent event) -> {
             if(event.getClickCount() >= 2) {
@@ -202,8 +236,7 @@ public class CustomersController implements Initializable {
                 }
             }
         });
-        
-        // TODO Impliment delete customer code
+       
         btnDelete.setOnMouseClicked((MouseEvent e) -> {
             if(displayTable.getSelectionModel().getSelectedItem() != null) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -256,11 +289,11 @@ public class CustomersController implements Initializable {
        
         TableColumn<Appointment, Integer> id = new TableColumn<>("ID");
         id.setMinWidth(20);
-        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        id.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
        
-        TableColumn<Appointment, String> subject = new TableColumn<>("Subject");
+        TableColumn<Appointment, String> subject = new TableColumn<>("Title");
         subject.setMinWidth(175);
-        subject.setCellValueFactory(new PropertyValueFactory<>("subject"));
+        subject.setCellValueFactory(new PropertyValueFactory<>("title"));
 
         TableColumn<Appointment, String> location = new TableColumn<>("Location");
         location.setMinWidth(175);
@@ -307,7 +340,7 @@ public class CustomersController implements Initializable {
         
         try {
             data = new FetchData();
-            add = data.fetchAddress(customer.getCustomerId());
+            add = data.fetchAddress(customer.getAddressId());
         } catch(SQLException ex) {
             
         }
@@ -316,13 +349,13 @@ public class CustomersController implements Initializable {
         address.setText(add.getAddress());
         
         Label address2 = new Label();
-        address.setText(add.getAddress2());
+        address2.setText(add.getAddress2());
         
         City city = new City();
         
         try {
             data = new FetchData();
-            city = data.fetchCity(0);
+            city = data.fetchCity(add.getCityId());
         } catch(SQLException ex) {
             
         }
@@ -340,8 +373,7 @@ public class CustomersController implements Initializable {
         country.setText(co.getCountryAbreviation() + " | " + co.getCountry());
         
         Label phone = new Label();
-        //TODO Check if phone needs to be added to DB
-        //phone.setText(customer.getPhone());
+        phone.setText(add.getPhone());
         
         hBoxCustomer.getChildren().clear();
         hBoxCustomer.getChildren().addAll(customerLabel, customerDate, address, address2, country, phone);
@@ -558,6 +590,7 @@ public class CustomersController implements Initializable {
         
         try {
             customers = data.fetchCustomerData();
+            users = data.fetchUsers();
         } catch (SQLException ex) {
             System.out.println(ex.toString());
         } catch (ClassNotFoundException ex) {

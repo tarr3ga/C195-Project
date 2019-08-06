@@ -223,27 +223,23 @@ public class DetailsController implements Initializable {
         details.setText(appointment.getDescription());
         type.setText(appointment.getType());
         
-        
         FetchData data = new FetchData();
         customer = data.fetchSingleCustomer(appointment.getCustomerId());
         name.setText(customer.getName());
         
-        address = data.fetchAddress(customer.getCustomerId());
+        address = data.fetchAddress(customer.getAddressId());
         tfAddress.setText(address.getAddress());
         tfAddress2.setText(address.getAddress2());
-        
-        
+       
         data = new FetchData();
-        city = data.fetchCity(customer.getCustomerId());
+        city = data.fetchCity(address.getCityId());
         
         countryData = data.fetchCountry(city.getCountryId());
         country.setText(countryData.getCountry());
         
         tfCity.setText(city.getCity());
         
-        //phoneNumber = data.fetchPhoneNumber(customer.getId());
-        //phone .setText(phoneNumber.getPhone());
-        //phoneType.setText(phoneNumber.getPhoneType());
+        phone .setText(address.getPhone());
     }
     
     /**

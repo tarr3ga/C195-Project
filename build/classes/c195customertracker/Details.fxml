@@ -22,8 +22,7 @@
     </stylesheets>
 
     <Label text="Customer: " minWidth="120" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-    <TextField fx:id="firstName" minWidth="250"  editable="false" focusTraversable="false" GridPane.rowIndex="0" GridPane.columnIndex="1" />
-    <TextField fx:id="lastName" editable="false" GridPane.rowIndex="0" GridPane.columnIndex="2" />
+    <TextField fx:id="name" minWidth="250"  editable="false" focusTraversable="false" GridPane.rowIndex="0" GridPane.columnIndex="1" />
     <!--<Button fx:id="btnCustomerDetails" text="Customer Details" onAction="#onBtnCustomerDetailsClick" GridPane.rowIndex="0" GridPane.columnIndex="3" />-->
     
     <Label text="Appoinment Deatails: " GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.columnSpan="3" />       
@@ -48,18 +47,18 @@
 
     <Label text="Address: " GridPane.rowIndex="6" GridPane.columnIndex="1" />       
 
-    <TextField  fx:id="address" editable="false" focusTraversable="false"  GridPane.rowIndex="7" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+    <TextField  fx:id="tfAddress" editable="false" focusTraversable="false"  GridPane.rowIndex="7" GridPane.columnIndex="1" GridPane.columnSpan="2" />
 
-    <TextField fx:id="address2" editable="false" focusTraversable="false" GridPane.rowIndex="8" GridPane.columnIndex="1" />
-
-    <TextField  fx:id="country" editable="false" focusTraversable="false" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+    <TextField fx:id="tfAddress2" editable="false" focusTraversable="false" GridPane.rowIndex="8" GridPane.columnIndex="1" />
     
-    <Label text="Phone: " GridPane.rowIndex="10" GridPane.columnIndex="1" />   
+    <TextField fx:id="tfCity" editable="false" focusTraversable="false" GridPane.rowIndex="9" GridPane.columnIndex="1" />
+    <TextField  fx:id="country" editable="false" focusTraversable="false" GridPane.rowIndex="10" GridPane.columnIndex="1"/>
     
-    <TextField fx:id="phone" editable="false" focusTraversable="false" GridPane.rowIndex="11" GridPane.columnIndex="1" />
-    <TextField fx:id="phoneType" editable="false" focusTraversable="false" GridPane.rowIndex="11" GridPane.columnIndex="2" /> 
+    <Label text="Phone: " GridPane.rowIndex="11" GridPane.columnIndex="1" />   
     
-    <GridPane fx:id="gpButtons" GridPane.rowIndex="12" GridPane.columnIndex="1">
+    <TextField fx:id="phone" editable="false" focusTraversable="false" GridPane.rowIndex="12" GridPane.columnIndex="1" />
+    
+    <GridPane fx:id="gpButtons" GridPane.rowIndex="13" GridPane.columnIndex="1">
         <Button fx:id="btnEdit" prefWidth="100" GridPane.rowIndex="0" GridPane.columnIndex="0" onAction="#onBtnEditClick" text="Edit" />
         <Button fx:id="btnClose" prefWidth="100" GridPane.rowIndex="0" GridPane.columnIndex="1" onAction="#onBtnCloseClick" text="Close" />
         <Button fx:id="btnSave" prefWidth="100" GridPane.rowIndex="0" GridPane.columnIndex="0" onAction="#onBtnSaveClick" text="Save" />

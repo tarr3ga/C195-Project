@@ -45,6 +45,10 @@ public class User {
     public int getUpdatedBy() { return updatedBy; }
     public void setUpdatedBy(int updatedBy) { this.updatedBy = updatedBy; }
 
+    public User() {
+        
+    }
+    
     public User(int userId, String username, String password, boolean active, Timestamp createDate, 
             int createdBy, Timestamp lastUpdate, int updatedBy) {
         this.userId = userId;

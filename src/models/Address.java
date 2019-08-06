@@ -15,6 +15,8 @@ public class Address {
     private int addressId;
     private String address;
     private String address2;
+    private String postalCode;
+    private String phone;
     private int cityId;
     private Timestamp createDate;
     private int createdBy;
@@ -30,6 +32,12 @@ public class Address {
 
     public String getAddress2() { return address2; }
     public void setAddress2(String address2) { this.address2 = address2; }
+
+    public String getPostalCode() { return postalCode; }
+    public void setPostalCode(String postalCode) { this.postalCode = postalCode; }
+
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
 
     public int getCityId() { return cityId; }
     public void setCityId(int cityId) { this.cityId = cityId; }
@@ -50,9 +58,12 @@ public class Address {
         
     }
     
-    public Address(int addressId, String address, int cityId, Timestamp createDate, int createdBy, Timestamp lastUpdate, int updatedBy) {
+    public Address(int addressId, String address, String postalCode, String phone, 
+            int cityId, Timestamp createDate, int createdBy, Timestamp lastUpdate, int updatedBy) {
         this.addressId = addressId;
         this.address = address;
+        this.postalCode = postalCode;
+        this.phone = phone;
         this.cityId = cityId;
         this.createDate = createDate;
         this.createdBy = createdBy;

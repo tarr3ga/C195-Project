@@ -43,7 +43,7 @@ public class CheckCredentials {
     public boolean Check() throws SQLException {
         boolean isAuthorized = false;
         
-        String sql = "SELECT password FROM users WHERE username = '" + username + "';";
+        String sql = "SELECT password FROM user WHERE userName = '" + username + "';";
         
         
         try {

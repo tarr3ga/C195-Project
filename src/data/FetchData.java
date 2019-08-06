@@ -21,6 +21,7 @@ import models.Appointment;
 import models.City;
 import models.Country;
 import models.Customer;
+import models.User;
 import util.DateTimeUtils;
 
 /**
@@ -31,18 +32,20 @@ public class FetchData {
     private final ObservableList<Customer> customers = FXCollections.observableArrayList();
     private final ObservableList<Appointment> appointments = FXCollections.observableArrayList();
     private final ObservableList<Address> addressess = FXCollections.observableArrayList();
+    private final ObservableList<User> users = FXCollections.observableArrayList();
     
-    private static final String SQL_GET_USERNAMES = "SELECT * FROM users;";
-    private static final String SQL_CUSTOMER = "SELECT * FROM customers WHERE ID = ";
-    private static final String SQL_CUSTOMERS = "SELECT * FROM customers;";
-    private static final String SQL_APPOINTMENT = "SELECT * FROM appointments WHERE ID = ";
-    private static final String SQL_APPOINTMENTS = "SELECT * FROM appointments;";
+    private static final String SQL_GET_USERS = "SELECT * FROM user";
+    private static final String SQL_GET_USERNAMES = "SELECT * FROM user;";
+    private static final String SQL_CUSTOMER = "SELECT * FROM customer WHERE customerId = ";
+    private static final String SQL_CUSTOMERS = "SELECT * FROM customer;";
+    private static final String SQL_APPOINTMENT = "SELECT * FROM appointment WHERE appointmentId = ";
+    private static final String SQL_APPOINTMENTS = "SELECT * FROM appointment;";
     private static final String SQL_APPOINTMENTS_BY_REP = "SELECT * FROM appointments WHERE customerRep = '";
-    private static final String SQL_ADDRESS = "SELECT * FROM addresses WHERE customersId = ";
-    private static final String SQL_ADDRESSES = "SELECT * FROM addresses";
+    private static final String SQL_ADDRESS = "SELECT * FROM address WHERE addressId = ";
+    private static final String SQL_ADDRESSES = "SELECT * FROM address";
     private static final String SQL_COUNTRY = "SELECT * FROM country WHERE countryId = ";
     private static final String SQL_COUNTRIES = "SELECT * FROM country";
-    private static final String SQL_CUSTOMER_SPECIFIC_APPOINTMENTS = "SELECT * FROM appointments WHERE customersId = ";
+    private static final String SQL_CUSTOMER_SPECIFIC_APPOINTMENTS = "SELECT * FROM appointment WHERE customerId = ";
     
     
     private Connection conn;
@@ -74,6 +77,42 @@ public class FetchData {
     }
     // </editor-fold>
     
+    public ObservableList fetchUsers() throws SQLException, ClassNotFoundException {
+        conn = DBConnect.makeConnection();
+        
+        statement = conn.createStatement();
+        resultSet = statement.executeQuery(SQL_GET_USERNAMES);
+        
+        int index;
+        
+        while(resultSet.next()) {
+            index = resultSet.findColumn("userId");
+            int userId = resultSet.getInt(index);
+            
+            index = resultSet.findColumn("userName");
+            String username = resultSet.getString(index);
+            
+            index = resultSet.findColumn("active");
+            int active = resultSet.getInt(index);
+            
+            boolean isAxtive = true;
+            
+            if(active == 0) 
+                isAxtive = false;
+            
+            User u = new User();
+            u.setUserId(userId);
+            u.setUsername(username);
+            u.setActive(isAxtive);
+            
+            users.add(u);
+        }
+        
+        conn.close();
+        
+        return users;
+    }
+    
     public ArrayList fetchUserNames() throws SQLException, ClassNotFoundException{
         ArrayList<String> userNames = new ArrayList<>();
         
@@ -85,7 +124,10 @@ public class FetchData {
         int index;
         
         while(resultSet.next()) {
-            index = resultSet.findColumn("username");
+            index = resultSet.findColumn("userId");
+            int userId = resultSet.getInt(index);
+            
+            index = resultSet.findColumn("userName");
             String username = resultSet.getString(index);
             
             userNames.add(username);
@@ -116,29 +158,26 @@ public class FetchData {
         index = resultSet.findColumn("customerId");
         c.setCustomerId(resultSet.getInt(index));
         
-        index = resultSet.findColumn("name");
+        index = resultSet.findColumn("customerName");
         c.setName(resultSet.getString(index));
-        
-        index = resultSet.findColumn("name");
-            String name = resultSet.getString(index);
-            
-            index = resultSet.findColumn("addressId");
-            c.setAddressId(resultSet.getInt(index));
-            
-            index = resultSet.getInt("isActive");
-            c.setActive(resultSet.getBoolean(index));
-            
-            index = resultSet.findColumn("ceatedDate");
-            c.setCreateDate((Timestamp)resultSet.getObject(index));
-            
-            index = resultSet.findColumn("ceatedBy");
-            c.setCreatedBy(resultSet.getInt(index));
-            
-            index = resultSet.findColumn("lastUpdate");
-            Timestamp lastUpdate = (Timestamp)resultSet.getObject(index);
-            
-            index = resultSet.findColumn("updatedBy");
-            int updatedBy = resultSet.getInt(index);
+
+        index = resultSet.findColumn("addressId");
+        c.setAddressId(resultSet.getInt(index));
+
+        index = resultSet.getInt("active");
+        c.setActive(resultSet.getBoolean(index));
+
+        index = resultSet.findColumn("createDate");
+        c.setCreateDate((Timestamp)resultSet.getObject(index));
+
+        index = resultSet.findColumn("createdBy");
+        c.setCreatedBy(resultSet.getInt(index));
+
+        index = resultSet.findColumn("lastUpdate");
+        Timestamp lastUpdate = (Timestamp)resultSet.getObject(index);
+
+        index = resultSet.findColumn("lastUpdateBy");
+        int updatedBy = resultSet.getInt(index);
         
         return c;
     }
@@ -161,25 +200,25 @@ public class FetchData {
             index = resultSet.findColumn("customerId");
             int customerId = resultSet.getInt(index);
             
-            index = resultSet.findColumn("name");
+            index = resultSet.findColumn("customerName");
             String name = resultSet.getString(index);
             
             index = resultSet.findColumn("addressId");
             int addressId = resultSet.getInt(index);
             
-            index = resultSet.getInt("isActive");
+            index = resultSet.getInt("active");
             boolean isActive = resultSet.getBoolean(index);
             
-            index = resultSet.findColumn("ceatedDate");
+            index = resultSet.findColumn("createDate");
             Timestamp createdDate = (Timestamp)resultSet.getObject(index);
             
-            index = resultSet.findColumn("ceatedBy");
+            index = resultSet.findColumn("createdBy");
             int createdBy = resultSet.getInt(index);
             
             index = resultSet.findColumn("lastUpdate");
             Timestamp lastUpdate = (Timestamp)resultSet.getObject(index);
             
-            index = resultSet.findColumn("updatedBy");
+            index = resultSet.findColumn("lastUpdateBy");
             int updatedBy = resultSet.getInt(index);
             
             Customer c = new Customer();
@@ -260,14 +299,9 @@ public class FetchData {
     public Address fetchAddress(int id) throws SQLException, ClassNotFoundException {
         
         Address a = new Address();
+       
+        conn = DBConnect.makeConnection();
         
-        try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            System.out.println("fetchAddress");
-            Logger.getLogger(data.FetchData.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         
         statement = conn.createStatement();
         resultSet = statement.executeQuery(SQL_ADDRESS + id + ";");
         
@@ -275,14 +309,21 @@ public class FetchData {
         
         resultSet.next();
         
+        try {
         index = resultSet.findColumn("addressId");
         a.setAddressId(resultSet.getInt(index));
-        
+
         index = resultSet.findColumn("address");
         a.setAddress(resultSet.getString(index));
 
         index = resultSet.findColumn("address2");
         a.setAddress2(resultSet.getString(index));
+
+        index = resultSet.findColumn("postalCode");
+        a.setPostalCode(resultSet.getString(index));
+
+        index = resultSet.findColumn("phone");
+        a.setPhone(resultSet.getString(index));
         
         index = resultSet.findColumn("cityId");
         a.setCityId(resultSet.getInt(index));
@@ -292,12 +333,17 @@ public class FetchData {
 
         index = resultSet.findColumn("createdBy");
         a.setCreatedBy(resultSet.getInt(index));
-        
-        index = resultSet.findColumn("lestUpdate");
+
+        index = resultSet.findColumn("lastUpdate");
         a.setLastUpdate((Timestamp)resultSet.getObject(index));
-        
-        index = resultSet.findColumn("updatedBy");
+
+        index = resultSet.findColumn("lastUpdateBy");
         a.setUpdatedBy(resultSet.getInt(index));
+        } catch(SQLException ex) {
+            System.out.println("fetchAddress");
+            Logger.getLogger(data.FetchData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         
         conn.close();
         
@@ -335,8 +381,8 @@ public class FetchData {
         String endString = resultSet.getString(index);
         city.setLastUpdate(DateTimeUtils.getTimeStampFromStrng(endString));
         
-        index = resultSet.findColumn("updatedBt");
-        city.setUpdatedBy(resultSet.getInt(index));
+        index = resultSet.findColumn("lastUpdateBy");
+        city.setUpdatedBy(resultSet.getInt(index));      
         
         return city;
     }
@@ -358,6 +404,9 @@ public class FetchData {
         int index;
         
         resultSet.next();
+        
+        index = resultSet.findColumn("countryAbreviation");
+        c.setCountryAbreviation(resultSet.getString(index));      
         
         index = resultSet.findColumn("country");
         c.setCountry(resultSet.getString(index));
@@ -416,7 +465,7 @@ public class FetchData {
             index = resultSet.findColumn("appointmentId");
             int appointmentId = resultSet.getInt(index);
             
-            index = resultSet.findColumn("customersId");
+            index = resultSet.findColumn("customerId");
             int customerId = resultSet.getInt(index);
             
             index = resultSet.findColumn("userId");
@@ -437,14 +486,14 @@ public class FetchData {
             index = resultSet.findColumn("type");
             String type = resultSet.getString(index);
             
-            index = resultSet.findColumn("createDate");
-            Timestamp createDate = (Timestamp)resultSet.getObject(index);
-            
             index = resultSet.findColumn("start");
             String start = resultSet.getString(index);
             
             index = resultSet.findColumn("end");
             String end = resultSet.getString(index);
+            
+            index = resultSet.findColumn("createDate");
+            Timestamp createDate = (Timestamp)resultSet.getObject(index);
             
             index = resultSet.findColumn("createdBy");
             int createdBy = resultSet.getInt(index);
@@ -452,7 +501,7 @@ public class FetchData {
             index = resultSet.findColumn("lastUpdate");
             Timestamp lastUpdate = (Timestamp)resultSet.getObject(index);
             
-            index = resultSet.findColumn("updatedBy");
+            index = resultSet.findColumn("lastUpdateBy");
             int updatedBy = resultSet.getInt(index);
             
             ZonedDateTime startDateTime = ZonedDateTime.parse(start);
@@ -562,7 +611,7 @@ public class FetchData {
              index = resultSet.findColumn("appointmentId");
             int appointmentId = resultSet.getInt(index);
             
-            index = resultSet.findColumn("customersId");
+            index = resultSet.findColumn("customerId");
             int customerId = resultSet.getInt(index);
             
             index = resultSet.findColumn("userId");
@@ -598,7 +647,7 @@ public class FetchData {
             index = resultSet.findColumn("lastUpdate");
             Timestamp lastUpdate = (Timestamp)resultSet.getObject(index);
             
-            index = resultSet.findColumn("updatedBy");
+            index = resultSet.findColumn("lastUpdateBy");
             int updatedBy = resultSet.getInt(index);
                 
             ZonedDateTime startDateTime = ZonedDateTime.parse(start);
@@ -668,7 +717,7 @@ public class FetchData {
            index = resultSet.findColumn("appointmentId");
             int appointmentId = resultSet.getInt(index);
             
-            index = resultSet.findColumn("customersId");
+            index = resultSet.findColumn("customerId");
             int customerId = resultSet.getInt(index);
             
             index = resultSet.findColumn("userId");
@@ -741,14 +790,14 @@ public class FetchData {
             
         }
         
-        String sql = "SELECT ID FROM users WHERE username = '" + userName + "';";
+        String sql = "SELECT userId FROM user WHERE userName = '" + userName + "';";
         
         statement = conn.createStatement();
         resultSet = statement.executeQuery(sql);
         
         resultSet.next();
         
-        int index = resultSet.findColumn("ID");
+        int index = resultSet.findColumn("userId");
         int id = resultSet.getInt(index);
         
         return id;
@@ -761,7 +810,7 @@ public class FetchData {
             
         }
         
-        String sql = "SELECT COUNT(*) FROM customers";
+        String sql = "SELECT COUNT(*) FROM customer";
         
         statement = conn.createStatement();
         resultSet = statement.executeQuery(sql);
@@ -782,7 +831,7 @@ public class FetchData {
             
         }
         
-        String sql = "SELECT COUNT(*) FROM appointments";
+        String sql = "SELECT COUNT(*) FROM appointment";
         
         statement = conn.createStatement();
         resultSet = statement.executeQuery(sql);
@@ -803,7 +852,7 @@ public class FetchData {
             System.err.println(ex.toString());
         }
         
-        String sql = "SELECT COUNT(*) FROM appointment WHERE customersId = " + customer.getCustomerId();
+        String sql = "SELECT COUNT(*) FROM appointment WHERE customerId = " + customer.getCustomerId();
         
         statement = conn.createStatement();
         resultSet = statement.executeQuery(sql);
@@ -826,7 +875,7 @@ public class FetchData {
             
         }
         
-        String sql = "SELECT COUNT(*) FROM appointments WHERE type = 'Consultation'";
+        String sql = "SELECT COUNT(*) FROM appointment WHERE type = 'Consultation'";
         
         statement = conn.createStatement();
         resultSet = statement.executeQuery(sql);
@@ -849,7 +898,7 @@ public class FetchData {
             
         }
         
-        String sql = "SELECT COUNT(*) FROM appointments WHERE type = 'Planning'";
+        String sql = "SELECT COUNT(*) FROM appointment WHERE type = 'Planning'";
         
         statement = conn.createStatement();
         resultSet = statement.executeQuery(sql);
@@ -872,7 +921,7 @@ public class FetchData {
         
         int count = 0;
         
-        String sql = "SELECT COUNT(*) FROM appointments WHERE type = 'Working'";
+        String sql = "SELECT COUNT(*) FROM appointment WHERE type = 'Working'";
         
         statement = conn.createStatement();
         resultSet = statement.executeQuery(sql);
@@ -895,7 +944,7 @@ public class FetchData {
             
         }
         
-        String sql = "SELECT COUNT(*) FROM appointments WHERE type = 'Casual'";
+        String sql = "SELECT COUNT(*) FROM appointment WHERE type = 'Casual'";
         
         statement = conn.createStatement();
         resultSet = statement.executeQuery(sql);
@@ -918,7 +967,7 @@ public class FetchData {
             
         }
         
-        String sql = "SELECT COUNT(*) FROM appointments WHERE type = 'Other'";
+        String sql = "SELECT COUNT(*) FROM appointment WHERE type = 'Other'";
         
         statement = conn.createStatement();
         resultSet = statement.executeQuery(sql);
