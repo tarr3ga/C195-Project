@@ -243,3 +243,8 @@ test logged in at 2019-08-06T18:41:07.129
 New Customer ID: 0 Created by test on 2019-08-06T18:41:44.865-04:00[America/New_York]
 jamyers logged in at 2019-08-07T10:32:34.580
 jamyers logged in at 2019-08-07T10:47:49.091
+jamyers logged in at 2019-08-07T12:18:13.260
+New Customer ID: 0 Created by jamyers on 2019-08-07T12:20:16.686-04:00[America/New_York]
+jamyers logged in at 2019-08-07T12:29:10.538
+jamyers logged in at 2019-08-07T12:31:54.241
+New Customer ID: 32 Created by jamyers on 2019-08-07T12:33:13.486-04:00[America/New_York]

@@ -44,6 +44,10 @@ public class Scan extends TimerTask implements Serializable {
             }
         }
         
+        public void load() {
+            
+        }
+        
         @Override
         public void run() {
             Platform.runLater(() ->  {

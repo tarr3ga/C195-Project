@@ -79,9 +79,9 @@ public class SaveData {
 
         String sql = "INSERT INTO address(address, address2, cityId, postalCode, phone, createDate, " +
                      "createdBy, lastUpdate, lastUpdateBy) " +
-                     "VALUES('" + address.getAddress()+ "', '" + address.getAddress2() + "', " + address.getCityId() + 
-                     ", " + address.getPostalCode() + ", '" + address.getCreateDate() + "', " + address.getCreatedBy() +
-                     ", '" + address.getLastUpdate() + "', " + address.getUpdatedBy() + ");";
+                     "VALUES('" + address.getAddress()+ "', '" + address.getAddress2() + "', " + address.getCityId() + ", '" +
+                     address.getPostalCode() + "', '" + address.getPhone() + "', '" + address.getCreateDate() + "', " + 
+                     address.getCreatedBy() + ", '" + address.getLastUpdate() + "', " + address.getUpdatedBy() + ");";
         
         System.out.println("data.SaveData.saveNewAddess() sql = " + sql);
         
