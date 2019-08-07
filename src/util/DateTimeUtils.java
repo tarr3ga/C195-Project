@@ -12,6 +12,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -217,6 +218,14 @@ public class DateTimeUtils {
         System.out.println("util.DateTimeUtils.adjustForTimeZones() hour = " + dateTime.getHour());
         
         return dateTime;
+    }
+    
+    public static Date getTimeWithSecondsZeroed(Date date) {
+        Calendar cal = Calendar.getInstance();
+        
+        cal.set(Calendar.SECOND, 0);
+        
+        return cal.getTime();
     }
     
     public static String getTimeZoneName(String gmt) {

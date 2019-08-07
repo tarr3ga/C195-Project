@@ -27,7 +27,6 @@ import models.Appointment;
 import models.City;
 import models.Country;
 import models.Customer;
-import models.PhoneNumber;
 import util.DateTimeUtils;
 import util.TextSanitizer;
 
@@ -197,7 +196,7 @@ public class DetailsController implements Initializable {
     
     private void saveChanges() throws SQLException, ClassNotFoundException {
         SaveData data = new SaveData();
-        data.updateFullRecord(appointment, customer, address, countryData);
+        data.updateFullRecord(appointment, customer, city, address, countryData);
     }
     
     private void setData() {

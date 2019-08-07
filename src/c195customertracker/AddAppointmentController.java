@@ -13,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -142,6 +143,11 @@ public class AddAppointmentController implements Initializable {
                 
                 a.setStart(localStartDateTime);
                 a.setEnd(localEndDateTime);
+                
+                a.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
+                a.setCreatedBy(FXMLDocumentController.authorizedUserId);
+                a.setLastUpdate(Timestamp.valueOf(LocalDateTime.now()));
+                a.setUpdatedBy(FXMLDocumentController.authorizedUserId);
                 
                 a.setUserId(FXMLDocumentController.authorizedUserId);
 

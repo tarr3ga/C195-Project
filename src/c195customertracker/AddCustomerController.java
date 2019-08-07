@@ -63,6 +63,12 @@ public class AddCustomerController implements Initializable {
                                      "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", 
                                      "WY"};
     
+    private Customer c;
+    //private Customer cto;
+    private Address a;
+    private City ci;
+    private Country co;
+    
     private void setEventHandlers() {
         btnSubmit.setOnMouseClicked((MouseEvent e) -> {
             try {
@@ -72,7 +78,7 @@ public class AddCustomerController implements Initializable {
                     
                     int id = -1;
 
-                    Customer c = new Customer();
+                    //c = new Customer();
                     if(isEditing == true) {
                         c.setCustomerId(customerToEdit.getCustomerId());
                     }
@@ -80,6 +86,9 @@ public class AddCustomerController implements Initializable {
                     c.setActive(true);
                     
                      if(isEditing) {
+                        //c.setCreateDate(c.getCreateDate());
+                        //c.setCreatedBy(c.getCreatedBy());
+                        c.setLastUpdate(Timestamp.valueOf(LocalDateTime.now()));
                         c.setUpdatedBy(FXMLDocumentController.authorizedUserId);
                     } else {
                         c.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
@@ -88,7 +97,7 @@ public class AddCustomerController implements Initializable {
                         c.setUpdatedBy(FXMLDocumentController.authorizedUserId);
                     }
                     
-                    Address a = new Address();
+                    //Address a = new Address();
                     a.setCustomerId(c.getCustomerId());
                     a.setAddress(address.getText());
                     a.setAddress2(address2.getText());
@@ -96,6 +105,9 @@ public class AddCustomerController implements Initializable {
                     a.setPhone(phone.getText());
                     
                     if(isEditing) {
+                        //a.setCreateDate(c.getCreateDate());
+                        //a.setCreatedBy(c.getCreatedBy());
+                        a.setLastUpdate(Timestamp.valueOf(LocalDateTime.now()));
                         a.setUpdatedBy(FXMLDocumentController.authorizedUserId);
                     } else {
                         a.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
@@ -105,11 +117,14 @@ public class AddCustomerController implements Initializable {
                     }
                     
                     int countryId = country.getSelectionModel().getSelectedIndex() -1;
-                    City ci = new City();
+                    //City ci = new City();
                     ci.setCity(city.getText());
                     ci.setCountryId(countryId);
                     
                     if(isEditing) {
+                        //ci.setCreateDate(c.getCreateDate());
+                        //ci.setCreatedBy(c.getCreatedBy());
+                        ci.setLastUpdate(Timestamp.valueOf(LocalDateTime.now()));
                         ci.setUpdatedBy(FXMLDocumentController.authorizedUserId);
                     } else {
                         ci.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
@@ -130,7 +145,7 @@ public class AddCustomerController implements Initializable {
                     }
                   
                     if(isEditing) {
-                        data.updateCustomerRecord(c, a);
+                        data.updateCustomerRecord(c, ci, a);
                     } else {
                         id = data.saveNewAddress(a);
                         data.close();
@@ -239,13 +254,13 @@ public class AddCustomerController implements Initializable {
         
         if(isEditing == true) {
             FetchData data = new FetchData();
-            Customer cto = new Customer();
-            Address a = new Address();
-            City ci = new City();
-            Country co = new Country();
+            c = new Customer();
+            a = new Address();
+            ci = new City();
+            co = new Country();
             
             try {
-                cto = data.fetchSingleCustomer(customerToEdit.getCustomerId());
+                c = data.fetchSingleCustomer(customerToEdit.getCustomerId());
                 
                 data = new FetchData();
                 a = data.fetchAddress(customerToEdit.getAddressId());
@@ -260,8 +275,11 @@ public class AddCustomerController implements Initializable {
                 Logger.getLogger(AddCustomerController.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            name.setText(cto.getName());
+            name.setText(c.getName());
+            phone.setText(a.getPhone());
             address.setText(a.getAddress());
+            address2.setText(a.getAddress2());
+            postalCode.setText(a.getPostalCode());
             city.setText(ci.getCity());
             
             String countryFull = co.getCountryAbreviation() + " | " + co.getCountry();

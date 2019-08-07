@@ -7,6 +7,8 @@ package c195customertracker;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.Clock;
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -21,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import models.AppointmentAlert;
+import util.DateTimeUtils;
 import util.Scan;
 
 /**
@@ -58,6 +61,7 @@ public class MainSceneController implements Initializable {
     
     private static void startTimer() {
         Date start = new Date();
+        start = DateTimeUtils.getTimeWithSecondsZeroed(start);
         
         TimerTask task = new Scan();
         Timer t = new Timer();

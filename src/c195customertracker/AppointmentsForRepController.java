@@ -63,11 +63,11 @@ public class AppointmentsForRepController implements Initializable {
     private void populateTable() {
         TableColumn<Appointment, Integer> id = new TableColumn("ID");
         id.setMinWidth(20);
-        id.setCellValueFactory(new PropertyValueFactory("id"));
+        id.setCellValueFactory(new PropertyValueFactory("userId"));
         
-        TableColumn<Appointment, String> subject = new TableColumn<>("Subject");
+        TableColumn<Appointment, String> subject = new TableColumn<>("Title");
         subject.setMinWidth(175);
-        subject.setCellValueFactory(new PropertyValueFactory("subject"));
+        subject.setCellValueFactory(new PropertyValueFactory("title"));
         
         TableColumn<Appointment, String> location = new TableColumn<>("Location");
         location.setMinWidth(175);
@@ -88,9 +88,9 @@ public class AppointmentsForRepController implements Initializable {
             }
         });
         
-        TableColumn<Appointment, String> customerRep = new TableColumn<>("Customer Rep");
-        customerRep.setMinWidth(175);
-        customerRep.setCellValueFactory(new PropertyValueFactory("customerRep"));
+        //TableColumn<Appointment, String> customerRep = new TableColumn<>("Customer Rep");
+        //customerRep.setMinWidth(175);
+        //customerRep.setCellValueFactory(new PropertyValueFactory("customerRep"));
         
         TableColumn<Appointment, ZonedDateTime> end = new TableColumn<>("End Date");
         end.setMinWidth(225);
@@ -108,7 +108,7 @@ public class AppointmentsForRepController implements Initializable {
         });
         
         appointmentsTable.setItems(appointments);
-        appointmentsTable.getColumns().setAll(id, subject, location, start, end, customerRep);
+        appointmentsTable.getColumns().setAll(id, subject, location, start, end);
     }
     
     private void setEventHandlers() {

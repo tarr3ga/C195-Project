@@ -40,7 +40,7 @@ public class FetchData {
     private static final String SQL_CUSTOMERS = "SELECT * FROM customer;";
     private static final String SQL_APPOINTMENT = "SELECT * FROM appointment WHERE appointmentId = ";
     private static final String SQL_APPOINTMENTS = "SELECT * FROM appointment;";
-    private static final String SQL_APPOINTMENTS_BY_REP = "SELECT * FROM appointments WHERE customerRep = '";
+    private static final String SQL_APPOINTMENTS_BY_REP = "SELECT * FROM appointment WHERE userId = '";
     private static final String SQL_ADDRESS = "SELECT * FROM address WHERE addressId = ";
     private static final String SQL_ADDRESSES = "SELECT * FROM address";
     private static final String SQL_COUNTRY = "SELECT * FROM country WHERE countryId = ";
@@ -174,10 +174,10 @@ public class FetchData {
         c.setCreatedBy(resultSet.getInt(index));
 
         index = resultSet.findColumn("lastUpdate");
-        Timestamp lastUpdate = (Timestamp)resultSet.getObject(index);
+        c.setLastUpdate((Timestamp)resultSet.getObject(index));
 
         index = resultSet.findColumn("lastUpdateBy");
-        int updatedBy = resultSet.getInt(index);
+        c.setUpdatedBy(resultSet.getInt(index));
         
         return c;
     }
