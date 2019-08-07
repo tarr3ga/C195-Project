@@ -192,7 +192,7 @@ public class CustomersController implements Initializable {
                 stage.setScene(scene);
                 stage.showAndWait();
             } catch(IOException ex) {
-                
+                System.err.println(ex.toString());
             }
             
             initialize(null, null);

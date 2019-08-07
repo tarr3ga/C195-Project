@@ -12,6 +12,7 @@ import java.sql.Timestamp;
  * @author jamyers
  */
 public class Address {
+    private int customerId;
     private int addressId;
     private String address;
     private String address2;
@@ -23,6 +24,8 @@ public class Address {
     private Timestamp lastUpdate;
     private int updatedBy;
 
+    public int getCustomerId() { return customerId; }
+    public void setCustomerId(int customerId) { this.customerId = customerId; }
 
     public int getAddressId() { return addressId; }
     public void setAddressId(int addressId) { this.addressId = addressId; }
@@ -58,8 +61,9 @@ public class Address {
         
     }
     
-    public Address(int addressId, String address, String postalCode, String phone, 
+    public Address(int customerId, int addressId, String address, String postalCode, String phone, 
             int cityId, Timestamp createDate, int createdBy, Timestamp lastUpdate, int updatedBy) {
+        this.customerId = customerId;
         this.addressId = addressId;
         this.address = address;
         this.postalCode = postalCode;

@@ -214,3 +214,32 @@ test logged in at 2019-08-06T14:56:51.767
 test logged in at 2019-08-06T15:02:57.278
 test logged in at 2019-08-06T15:05:37.716
 test logged in at 2019-08-06T15:07:15.831
+jamyers logged in at 2019-08-06T15:24:59.170
+jamyers logged in at 2019-08-06T15:27:48.327
+test logged in at 2019-08-06T15:32:52.231
+bobvilla logged in at 2019-08-06T15:36:58.942
+jamyers logged in at 2019-08-06T17:19:47.437
+jamyers logged in at 2019-08-06T17:23:44.229
+jamyers logged in at 2019-08-06T17:27:41.091
+jamyers logged in at 2019-08-06T17:30:33.461
+jamyers logged in at 2019-08-06T17:32:53.124
+jamyers logged in at 2019-08-06T17:39:40.203
+New Customer ID: 0 Created by jamyers on 2019-08-06T17:39:54.156-04:00[America/New_York]
+jamyers logged in at 2019-08-06T17:43:08.625
+New Customer ID: 0 Created by jamyers on 2019-08-06T17:43:23.138-04:00[America/New_York]
+test logged in at 2019-08-06T17:50:39.918
+New Customer ID: 0 Created by test on 2019-08-06T17:50:53.628-04:00[America/New_York]
+jamyers logged in at 2019-08-06T18:08:15.120
+New Customer ID: 0 Created by jamyers on 2019-08-06T18:08:31.866-04:00[America/New_York]
+test logged in at 2019-08-06T18:10:05.258
+New Customer ID: 0 Created by test on 2019-08-06T18:10:20.007-04:00[America/New_York]
+test logged in at 2019-08-06T18:13:57.967
+New Customer ID: 0 Created by test on 2019-08-06T18:14:11.897-04:00[America/New_York]
+test logged in at 2019-08-06T18:17:03.918
+New Customer ID: 0 Created by test on 2019-08-06T18:17:17.264-04:00[America/New_York]
+test logged in at 2019-08-06T18:24:02.854
+New Customer ID: 0 Created by test on 2019-08-06T18:24:16.425-04:00[America/New_York]
+test logged in at 2019-08-06T18:41:07.129
+New Customer ID: 0 Created by test on 2019-08-06T18:41:44.865-04:00[America/New_York]
+jamyers logged in at 2019-08-07T10:32:34.580
+jamyers logged in at 2019-08-07T10:47:49.091

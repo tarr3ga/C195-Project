@@ -16,7 +16,6 @@ import models.Appointment;
 import models.City;
 import models.Country;
 import models.Customer;
-import models.PhoneNumber;
 
 /**
  *
@@ -34,19 +33,27 @@ public class SaveData {
     public int saveNewCustomer(Customer customer) throws SQLException, ClassNotFoundException {
         int id = 0;
         
-        try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            System.out.println("saveNewCustomer");
-            Logger.getLogger(data.FetchData.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         
-        String sql = "INSERT INTO customers(name, addressId, active, createdBy) " +
-                     "VALUES('" + customer.getName() + ", " + customer.getAddressId() + ", '" + 
-                     customer.getIsActive() + "', " + customer.getCreatedBy() + ";" ;
+        conn = DBConnect.makeConnection();
+  
+        int isActive = 0;
         
-        statement = conn.createStatement();
-        statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
+        if(customer.getIsActive()) {
+            isActive = 1;
+        }
+        
+        String sql = "INSERT INTO customer(customerName, addressId, active, createDate, createdBy, lastUpdate, lastUpdateBy) " +
+                     "VALUES('" + customer.getName() + "', " + customer.getAddressId() + ", " + 
+                     isActive + ", '" + customer.getCreateDate() + "', " + customer.getCreatedBy() + ", '" +
+                     customer.getCreateDate() + "', " + customer.getUpdatedBy() + ");";
+        
+        System.out.println("data.SaveData.saveNewCustomer() sql = " + sql);
+        
+        try {
+            statement = conn.createStatement();
+            statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
+        } catch(SQLException ex) {
+            System.err.println(ex.toString());
+        }
         
         ResultSet rs = statement.getGeneratedKeys();
         
@@ -68,21 +75,24 @@ public class SaveData {
     public int saveNewAddress(Address address) throws SQLException, ClassNotFoundException {
         int id = 0;
         
+        conn = DBConnect.makeConnection();
+
+        String sql = "INSERT INTO address(address, address2, cityId, postalCode, phone, createDate, " +
+                     "createdBy, lastUpdate, lastUpdateBy) " +
+                     "VALUES('" + address.getAddress()+ "', '" + address.getAddress2() + "', " + address.getCityId() + 
+                     ", " + address.getPostalCode() + ", '" + address.getCreateDate() + "', " + address.getCreatedBy() +
+                     ", '" + address.getLastUpdate() + "', " + address.getUpdatedBy() + ");";
+        
+        System.out.println("data.SaveData.saveNewAddess() sql = " + sql);
+        
         try {
-            conn = DBConnect.makeConnection();
-        } catch (SQLException ex) {
-            System.err.println("saveNewAddress");
+            statement = conn.createStatement();
+            statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
+        } catch(SQLException ex) {
             System.err.println(ex.toString());
         }
         
-        String sql = "INSERT INTO addresses(address, address2,  cityId, createdBy) " +
-                     "VALUES('" + address.getAddress()+ "', '" + address.getAddress2()+ "', " + address.getCityId() + 
-                     ", " + address.getCreatedBy()  + ");";
-        
-        statement = conn.createStatement();
-        statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
-      
-         ResultSet rs = statement.getGeneratedKeys();
+        ResultSet rs = statement.getGeneratedKeys();
         
         if(rs.next()) {
             id = rs.getInt(1);
@@ -93,31 +103,32 @@ public class SaveData {
         return id;
     }
     
-    public int saveNewAppointment(Appointment appointment) throws SQLException, ClassNotFoundException {
+    public int saveNewCity(City city) throws SQLException, ClassNotFoundException {
         int id = 0;
         
+        conn = DBConnect.makeConnection();
+
+        
+        String sql = "INSERT INTO city(city, countryId, createDate, createdBy, lastUpdate, lastUpdateBy) " +
+                     "VALUES('" +
+                     city.getCity() + "', " +
+                     city.getCountryId() + ", '" +
+                     city.getCreateDate() + "', " +
+                     city.getCreatedBy() + ", '" +
+                     city.getLastUpdate() + "', " +
+                     city.getCreatedBy() +
+                     ");";
+        
+        System.out.println("data.SaveData.saveNewCity() sql = " + sql);
+        
         try {
-            conn = DBConnect.makeConnection();
+            statement = conn.createStatement();
+            statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
         } catch(SQLException ex) {
-            
+            System.err.println(ex.toString());
         }
         
-        String sql = "INSERT INTO appointments(customerId, usersId, title, description, location, contact, type, url, start, end, createdBy) " +
-                     "VALUES(" + appointment.getCustomerId() + ", " + 
-                     appointment.getUserId() + ", '" +
-                     appointment.getTitle() + "', '" +
-                     appointment.getDescription() + "', '" +
-                     appointment.getLocation() + "', '" +
-                     appointment.getContact() + "', '" +
-                     appointment.getType() + "', '" +
-                     appointment.getUrl() + "', '" +
-                     appointment.getStart().toString() + "', " +
-                     appointment.getEnd().toString() + 
-                     appointment.getCreatedBy() + ");";
         
-        statement = conn.createStatement();
-        statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
-
         ResultSet rs = statement.getGeneratedKeys();
         
         if(rs.next()) {
@@ -131,17 +142,23 @@ public class SaveData {
         return id;
     }
     
-    public int saveNewCity(City city) throws SQLException, ClassNotFoundException {
+    public int saveNewAppointment(Appointment appointment) throws SQLException, ClassNotFoundException {
         int id = 0;
         
         conn = DBConnect.makeConnection();
-
-        String sql = "INSERT INTO city(city, countryId, createdBy) " +
-                     "VALUES(" +
-                     "  city = '" + "', " +
-                     "  countryId =" + ", " +
-                     "  createdBy = " +
-                     ");";
+        
+        String sql = "INSERT INTO appointments(customerId, usersId, title, description, location, contact, type, url, start, end, createdBy) " +
+                     "VALUES(" + appointment.getCustomerId() + ", " + 
+                     appointment.getUserId() + ", '" +
+                     appointment.getTitle() + "', '" +
+                     appointment.getDescription() + "', '" +
+                     appointment.getLocation() + "', '" +
+                     appointment.getContact() + "', '" +
+                     appointment.getType() + "', '" +
+                     appointment.getUrl() + "', '" +
+                     appointment.getStart().toString() + "', " +
+                     appointment.getEnd().toString() + 
+                     appointment.getCreatedBy() + ");";
         
         statement = conn.createStatement();
         statement.execute(sql, Statement.RETURN_GENERATED_KEYS);

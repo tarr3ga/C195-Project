@@ -433,10 +433,14 @@ public class FetchData {
         int index;
         
         while(resultSet.next()) {        
-            index = resultSet.findColumn("countryName");
+            index = resultSet.findColumn("countryAbreviation");
+            String countryAbreviation = resultSet.getString(index);
+            
+            index = resultSet.findColumn("country");
             String country = resultSet.getString(index);
             
             Country c = new Country();
+            c.setCountryAbreviation(countryAbreviation);
             c.setCountry(country);
             
             countries.add(c);

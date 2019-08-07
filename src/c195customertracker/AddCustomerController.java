@@ -13,6 +13,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -46,10 +48,9 @@ public class AddCustomerController implements Initializable {
     @FXML private TextField address;
     @FXML private TextField address2;
     @FXML private TextField city;
-    @FXML private ComboBox state;
-    @FXML private TextField zip;
+    @FXML private TextField postalCode;
+    //@FXML private ComboBox state;
     @FXML private ComboBox country;
-    
     @FXML private Button btnSubmit;
     @FXML private Button btnCancel;
     
@@ -67,6 +68,8 @@ public class AddCustomerController implements Initializable {
             try {
                 if(validateForm()) {
 
+                    System.out.println("c195customertracker.AddCustomerController.setEventHandlers() isEditing = " + isEditing);
+                    
                     int id = -1;
 
                     Customer c = new Customer();
@@ -74,43 +77,74 @@ public class AddCustomerController implements Initializable {
                         c.setCustomerId(customerToEdit.getCustomerId());
                     }
                     c.setName(name.getText());
-
+                    c.setActive(true);
+                    
+                     if(isEditing) {
+                        c.setUpdatedBy(FXMLDocumentController.authorizedUserId);
+                    } else {
+                        c.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
+                        c.setCreatedBy(FXMLDocumentController.authorizedUserId);
+                        c.setLastUpdate(Timestamp.valueOf(LocalDateTime.now()));
+                        c.setUpdatedBy(FXMLDocumentController.authorizedUserId);
+                    }
+                    
+                    Address a = new Address();
+                    a.setCustomerId(c.getCustomerId());
+                    a.setAddress(address.getText());
+                    a.setAddress2(address2.getText());
+                    a.setPostalCode(postalCode.getText());
+                    a.setPhone(phone.getText());
+                    
+                    if(isEditing) {
+                        a.setUpdatedBy(FXMLDocumentController.authorizedUserId);
+                    } else {
+                        a.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
+                        a.setCreatedBy(FXMLDocumentController.authorizedUserId);
+                        a.setLastUpdate(Timestamp.valueOf(LocalDateTime.now()));
+                        a.setUpdatedBy(FXMLDocumentController.authorizedUserId);
+                    }
+                    
+                    int countryId = country.getSelectionModel().getSelectedIndex() -1;
+                    City ci = new City();
+                    ci.setCity(city.getText());
+                    ci.setCountryId(countryId);
+                    
+                    if(isEditing) {
+                        ci.setUpdatedBy(FXMLDocumentController.authorizedUserId);
+                    } else {
+                        ci.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
+                        ci.setCreatedBy(FXMLDocumentController.authorizedUserId);
+                        ci.setLastUpdate(Timestamp.valueOf(LocalDateTime.now()));
+                        ci.setUpdatedBy(FXMLDocumentController.authorizedUserId);
+                    }
+                    
                     SaveData data = new SaveData();
-
+                    
+                    int cityId;
+                    
+                    if(isEditing) {
+                        
+                    } else {
+                        cityId = data.saveNewCity(ci);  
+                        a.setCityId(cityId);
+                    }
+                  
+                    if(isEditing) {
+                        data.updateCustomerRecord(c, a);
+                    } else {
+                        id = data.saveNewAddress(a);
+                        data.close();
+                    }
+                    
+                    c.setAddressId(id);
+                    
                     if(isEditing == false) {
                         id = data.saveNewCustomer(c);
                         data.close();
                     }
 
-                    Address a = new Address();
-                    a.setAddress(address.getText());
-                    a.setAddress2(address2.getText());
-                    //TODO Need to convert to cityId
-                    
-                    int countryId = country.getSelectionModel().getSelectedIndex() -1;
-                    
-                    City ci = new City();
-                    ci.setCity(city.getText());
-                    ci.setCountryId(countryId);
-                    ci.setCreatedBy(FXMLDocumentController.authorizedUserId);
-                    
-                    int cityId = data.saveNewCity(ci);
-                    
-                    a.setCityId(cityId);
-
-                    data = new SaveData();
-
-                    if(isEditing == false) {
-                        id = data.saveNewAddress(a);
-                        data.close();
-                    } else {
-                        data.updateCustomerRecord(c, a);
-                    }
-
-                    data = new SaveData();
-
                     File dir = new File("logs/");
-                    boolean success =  dir.mkdir();
+                    boolean success = dir.mkdir();
 
                     if(success)
                         System.out.println("Directory created");
@@ -119,7 +153,7 @@ public class AddCustomerController implements Initializable {
 
                     File file = new File("logs/transactions.txt");
 
-                    String message = "";
+                    String message;
 
                     if(isEditing) {
                     message = "Updated Customer ID: " + c.getCustomerId() + " Updated by " +        
@@ -161,8 +195,8 @@ public class AddCustomerController implements Initializable {
            !phone.getText().isEmpty() &&
            !address.getText().isEmpty() &&
            !city.getText().isEmpty() &&
-           !zip.getText().isEmpty() &&
-           !state.getSelectionModel().isEmpty() &&
+           !postalCode.getText().isEmpty() &&
+          // !state.getSelectionModel().isEmpty() &&
            !country.getSelectionModel().isEmpty()) {
             isValid = true;
         } else {
@@ -183,9 +217,9 @@ public class AddCustomerController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         setEventHandlers();
          
-        for(String s: states) {
+        /*for(String s: states) {
             state.getItems().add(s);
-        }
+        }*/
         
         try {
             FetchData data = new FetchData();
