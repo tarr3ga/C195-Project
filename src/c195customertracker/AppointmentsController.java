@@ -219,9 +219,9 @@ public class AppointmentsController implements Initializable {
                     adjustForTimezones();
                     populateTable();
                 } catch(SQLException ex) {
-                    
+                    System.err.println(ex.toString());
                 } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(AppointmentsController.class.getName()).log(Level.SEVERE, null, ex);
+                    System.err.println(ex.toString());
                 }
             }
         });

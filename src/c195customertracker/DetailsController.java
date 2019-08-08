@@ -177,8 +177,7 @@ public class DetailsController implements Initializable {
     
     private void disableEditing() {
         enableEditClose();
-        
-
+       
         subject.setEditable(false);
         location.setEditable(false);
         dateTime.setEditable(false);

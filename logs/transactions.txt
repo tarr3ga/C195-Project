@@ -347,3 +347,40 @@ test logged in at 2019-08-07T22:26:34.266
 test logged in at 2019-08-07T22:28:18.952
 test logged in at 2019-08-07T22:32:14.288
 test logged in at 2019-08-07T22:44:12.431
+skyler logged in at 2019-08-07T22:56:41.189
+test logged in at 2019-08-07T22:58:18.158
+test logged in at 2019-08-07T22:59:24.824
+test logged in at 2019-08-07T23:03:27.208
+Appointment ID: 19 Deleted by test on 2019-08-07T23:03:38.897-04:00[America/New_York]
+test logged in at 2019-08-07T23:04:14.891
+Appointment ID: 9 Deleted by test on 2019-08-07T23:04:28.555-04:00[America/New_York]
+Appointment ID: 18 Deleted by test on 2019-08-07T23:04:35.094-04:00[America/New_York]
+test logged in at 2019-08-07T23:05:35.213
+test logged in at 2019-08-07T23:06:22.567
+Appointment ID: 7 Deleted by test on 2019-08-07T23:07:08.312-04:00[America/New_York]
+Appointment ID: 16 Deleted by test on 2019-08-07T23:07:12.566-04:00[America/New_York]
+test logged in at 2019-08-07T23:09:49.635
+Appointment ID: 17 Deleted by test on 2019-08-07T23:10:05.114-04:00[America/New_York]
+Appointment ID: 8 Deleted by test on 2019-08-07T23:10:09.894-04:00[America/New_York]
+Customer ID: 7 Deleted by test on 2019-08-07T23:10:31.201-04:00[America/New_York]
+skyler logged in at 2019-08-07T23:17:41.129
+test logged in at 2019-08-07T23:24:51.760
+New Customer ID: 11 Created by test on 2019-08-07T23:25:25.852-04:00[America/New_York]
+test logged in at 2019-08-07T23:27:36.605
+test logged in at 2019-08-07T23:29:11.223
+test logged in at 2019-08-07T23:33:09.081
+New Customer ID: 12 Created by test on 2019-08-07T23:33:42.154-04:00[America/New_York]
+Updated Customer ID: 11 Updated by test on 2019-08-07T23:33:56.040-04:00[America/New_York]
+skyler logged in at 2019-08-07T23:36:21.446
+Updated Appointment ID: 26 Updated by skyler on 2019-08-07T23:37:31.824-04:00[America/New_York]
+sarah logged in at 2019-08-07T23:49:27.768
+skyler logged in at 2019-08-07T23:50:23.998
+New Customer ID: 13 Created by skyler on 2019-08-07T23:54:44.301-04:00[America/New_York]
+jamyers logged in at 2019-08-07T23:57:52.531
+test logged in at 2019-08-07T23:59:00.398
+test logged in at 2019-08-08T00:06:40.681
+test logged in at 2019-08-08T00:11:06.843
+test logged in at 2019-08-08T00:12:18.405
+test logged in at 2019-08-08T00:14:05.114
+test logged in at 2019-08-08T00:15:49.591
+test logged in at 2019-08-08T00:17:41.742

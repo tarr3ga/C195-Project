@@ -79,7 +79,7 @@ public class AddCustomerController implements Initializable {
                     int id = -1;
 
                     //c = new Customer();
-                    if(isEditing == true) {
+                    if(isEditing) {
                         c.setCustomerId(customerToEdit.getCustomerId());
                     }
                     c.setName(name.getText());
@@ -97,7 +97,7 @@ public class AddCustomerController implements Initializable {
                         c.setUpdatedBy(FXMLDocumentController.authorizedUserId);
                     }
                     
-                    //Address a = new Address();
+                    //a = new Address();
                     a.setCustomerId(c.getCustomerId());
                     a.setAddress(address.getText());
                     a.setAddress2(address2.getText());
@@ -122,8 +122,8 @@ public class AddCustomerController implements Initializable {
                     ci.setCountryId(countryId);
                     
                     if(isEditing) {
-                        //ci.setCreateDate(c.getCreateDate());
-                        //ci.setCreatedBy(c.getCreatedBy());
+                        ci.setCreateDate(ci.getCreateDate());
+                        ci.setCreatedBy(ci.getCreatedBy());
                         ci.setLastUpdate(Timestamp.valueOf(LocalDateTime.now()));
                         ci.setUpdatedBy(FXMLDocumentController.authorizedUserId);
                     } else {
@@ -251,6 +251,11 @@ public class AddCustomerController implements Initializable {
         }
         
         country.getSelectionModel().select("US | United States");
+        
+        c = new Customer();
+        a = new Address();
+        ci = new City();
+        co = new Country();
         
         if(isEditing == true) {
             FetchData data = new FetchData();

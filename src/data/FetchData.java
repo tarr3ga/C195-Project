@@ -710,7 +710,7 @@ public class FetchData {
             System.err.println(ex.toString());
         }
         
-        String sql = "SELECT * FROM appointments";
+        String sql = "SELECT * FROM appointment";
         
         statement = conn.createStatement();
         resultSet = statement.executeQuery(sql);
@@ -742,14 +742,14 @@ public class FetchData {
             index = resultSet.findColumn("type");
             String type = resultSet.getString(index);
             
-            index = resultSet.findColumn("createDate");
-            Timestamp createDate = (Timestamp)resultSet.getObject(index);
-            
             index = resultSet.findColumn("start");
             String start = resultSet.getString(index);
             
             index = resultSet.findColumn("end");
             String end = resultSet.getString(index);
+            
+            index = resultSet.findColumn("createDate");
+            Timestamp createDate = (Timestamp)resultSet.getObject(index);
             
             index = resultSet.findColumn("createdBy");
             int createdBy = resultSet.getInt(index);
@@ -757,7 +757,7 @@ public class FetchData {
             index = resultSet.findColumn("lastUpdate");
             Timestamp lastUpdate = (Timestamp)resultSet.getObject(index);
             
-            index = resultSet.findColumn("updatedBy");
+            index = resultSet.findColumn("lastUpdateBy");
             int updatedBy = resultSet.getInt(index);
            
             ZonedDateTime startDateTime = ZonedDateTime.parse(start);

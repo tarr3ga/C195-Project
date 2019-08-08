@@ -6,7 +6,6 @@
 package data;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import models.Customer;
@@ -18,20 +17,18 @@ import models.Customer;
 public class DeleteData {
     private Connection conn;
     private Statement statement;
-    private ResultSet resultSet;
     
     public void deleteAppointment(int appointmentId) throws SQLException, ClassNotFoundException {
+        conn = DBConnect.makeConnection();
+   
+        String sql = "DELETE FROM appointment WHERE appointmentId = " + appointmentId + ";";
+        
         try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            
-        }
-        
-        String sql = "DELETE FROM appointments WHERE ID = " + appointmentId + ";";
-        
         statement = conn.createStatement();
         statement.execute(sql);
-        
+        } catch(SQLException ex) {
+            System.err.println(ex.toString());
+        }
         conn.close();
     }
     
@@ -43,8 +40,8 @@ public class DeleteData {
         }
         
         String sql1 = "SET FOREIGN_KEY_CHECKS = 0;";
-        String sql2 = "DELETE FROM customers WHERE customerId = " + customer.getCustomerId() + ";";
-        String sql3 = "DELETE FROM addresses WHERE customerId + " + customer.getAddressId() + ";";
+        String sql2 = "DELETE FROM customer WHERE customerId = " + customer.getCustomerId() + ";";
+        String sql3 = "DELETE FROM address WHERE addressId + " + customer.getAddressId() + ";";
         String sql4 = "SET FOREIGN_KEY_CHECKS = 1;";
         
         System.out.println(sql2);
