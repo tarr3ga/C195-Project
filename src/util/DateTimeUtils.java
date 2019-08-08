@@ -8,6 +8,7 @@ package util;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -118,6 +119,42 @@ public class DateTimeUtils {
         return formattedDateTime;
     }
     
+    public static String[] getDatePartsFromZonedDateTime(ZonedDateTime dateTime) {
+        String[] dateTimeParts = new String[7];
+        
+        dateTimeParts[0] = String.valueOf(dateTime.getYear());
+        dateTimeParts[1] = String.valueOf(dateTime.getMonthValue());
+        dateTimeParts[2] = String.valueOf(dateTime.getDayOfMonth());
+        
+        int hour = 0;
+        
+        if(dateTime.getHour() > 11)
+            hour = dateTime.getHour() - 12;
+        else
+            hour = dateTime.getHour();
+        
+        dateTimeParts[3] = String.valueOf(hour);
+        
+        String minute = String.valueOf(dateTime.getMinute());
+        
+        if(minute.length() == 1) 
+            minute = "0" + minute;
+        
+        dateTimeParts[4] = minute;
+        
+        String AmPm = "AM";
+        
+        if(dateTime.getHour() > 11)
+            AmPm = "PM";
+        
+        dateTimeParts[5] = AmPm;
+        
+        //TODO Get Timezone information
+        dateTimeParts[6] = "";
+        
+        return dateTimeParts;
+    }
+    
     public static String[] getDateParts(String date, String time, String AmPm) {
         String[] dateTimeParts = new String[5];
         
@@ -131,7 +168,7 @@ public class DateTimeUtils {
                
         dateTimeParts[4] = hourMinutes[1];
         
-        if(AmPm.equals("AM") && hourMinutes[0] != "12") {
+        if(AmPm.equals("AM") && hourMinutes[0].equals("12")) {
             Integer convert = Integer.parseInt(dateTimeParts[3]);
             convert -= 1;
             dateTimeParts[3] = String.valueOf(convert);
@@ -144,6 +181,13 @@ public class DateTimeUtils {
         }
        
         return dateTimeParts;
+    }
+    
+    public static LocalDate LOCAL_DATE (String dateString){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate localDate = LocalDate.parse(dateString, formatter);
+        
+        return localDate;
     }
     
     public static String adjustTimeForTimezone(String start, String end, String timezone) {

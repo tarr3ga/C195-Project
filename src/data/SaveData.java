@@ -183,30 +183,31 @@ public class SaveData {
     public void updateFullRecord(Appointment appointment, Customer customer, City city, Address address,
             Country country) throws SQLException, ClassNotFoundException { 
         updateAppointment(appointment);
-        updateCustomer(customer);
-        updateCity(city);
-        updateAddress(address);
+        //updateCustomer(customer);
+        //updateCity(city);
+        //updateAddress(address);
     }
     
     public void updateAppointment(Appointment appointment) throws SQLException, ClassNotFoundException{
         conn = DBConnect.makeConnection();
 
-        
-        String sql = "UPDATE appointments " +
+        String sql = "UPDATE appointment " +
                      "SET userId = " + appointment.getUserId() + ", " + 
                      "    title = '" + appointment.getTitle() + "', " +
                      "    description = '" + appointment.getDescription() + "', " +
                      "    location = '" + appointment.getLocation() + "', " +
-                     "    contact = '" + appointment.getContact() + "' " +
+                     "    contact = '" + appointment.getContact() + "', " +
                      "    type = '" + appointment.getType() + "', " +
-                     "    url'" + appointment.getUrl() + "', '" +
-                     "    start'" + appointment.getStart().toString() + "', '" +
-                     "    end'" + appointment.getEnd().toString() + "', '" +
-                     "    lastUpdate" + appointment.getLastUpdate() + "', '" +
-                     "    updatedBy" + appointment.getUpdatedBy() + "', '" +
-                     "WHERE appointmentId = '" + appointment.getAppointmentId() + "';";
+                     "    url = '" + appointment.getUrl() + "', " +
+                     "    start = '" + appointment.getStart().toString() + "', " +
+                     "    end = '" + appointment.getEnd().toString() + "', " +
+                     "    createDate = '" + appointment.getCreateDate() + "', " +
+                     "    createdBy = " + appointment.getCreatedBy() + ", " +
+                     "    lastUpdate = '" + appointment.getLastUpdate() + "', " +
+                     "    lastUpdateBy = " + appointment.getUpdatedBy() + " " +
+                     "WHERE appointmentId = " + appointment.getAppointmentId() + ";";
                                               
-        System.out.println("data.SaveData.saveAppointment()" + sql);
+        System.out.println("data.SaveData.saveAppointment() sql = " + sql);
         
         statement = conn.createStatement();
         statement.execute(sql);

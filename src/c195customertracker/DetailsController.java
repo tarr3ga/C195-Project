@@ -10,6 +10,8 @@ import data.SaveData;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,9 +19,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.Address;
@@ -28,7 +34,7 @@ import models.City;
 import models.Country;
 import models.Customer;
 import util.DateTimeUtils;
-import util.TextSanitizer;
+import util.UsefulArray;
 
 /**
  * FXML Controller class
@@ -37,6 +43,7 @@ import util.TextSanitizer;
  */
 public class DetailsController implements Initializable {
 
+    @FXML private GridPane appointmentDetails;
     @FXML private TextField name;
     @FXML private TextField subject;
     @FXML private TextField location;
@@ -50,7 +57,6 @@ public class DetailsController implements Initializable {
    
     @FXML private TextField country;
     @FXML private TextField phone;
-    @FXML private TextField phoneType;
     
     @FXML private GridPane gpBoxButtons;
     @FXML private Button btnEdit;
@@ -58,6 +64,9 @@ public class DetailsController implements Initializable {
     @FXML private Button btnSave;
     @FXML private Button btnCancel;
     @FXML private Button onBtnCustomerDetailsClick;
+    
+    @FXML private Label lblStart;
+    @FXML private Label lblEnd;
     
     private Appointment appointment;
     private Customer customer;
@@ -97,22 +106,18 @@ public class DetailsController implements Initializable {
     @FXML
     private void onBtnSaveClick() throws SQLException, ClassNotFoundException {
         setData();  
-        //checkText();
+
         saveChanges();
         
         enableEditClose();
+        
+        getData();
     }
     
     @FXML 
     private void onBtnCancelClick() throws SQLException, ClassNotFoundException {
         disableEditing();
         getData();
-    }
-    
-    private void checkText() {
-        if(appointment.getDescription().length() > 10) {
-            String text = TextSanitizer.sanitizeTextBlock(appointment.getDescription());
-        }
     }
     
     private void enableEditClose() {
@@ -142,56 +147,127 @@ public class DetailsController implements Initializable {
     private void makeEditable() {
         enableSaveCancel();
         
-        name.setEditable(true);
         subject.setEditable(true);
         location.setEditable(true);
         dateTime.setEditable(true);
         endTime.setEditable(true);
         details.setEditable(true);
-        tfAddress.setEditable(true);
-        tfAddress2.setEditable(true);
-        tfCity.setEditable(true);
-        country.setEditable(true);
-        phone.setEditable(true);
-        
-        name.setFocusTraversable(true);
+
         subject.setFocusTraversable(true);
         location.setFocusTraversable(true);
         dateTime.setFocusTraversable(true);
         endTime.setFocusTraversable(true);
         details.setFocusTraversable(true);
-        tfAddress.setFocusTraversable(true);
-        tfAddress2.setFocusTraversable(true);
-        country.setFocusTraversable(true);
-        phone.setFocusTraversable(true);
+        
+        setEditControls();
     }
     
     private void disableEditing() {
         enableEditClose();
         
-        name.setEditable(false);
+
         subject.setEditable(false);
         location.setEditable(false);
         dateTime.setEditable(false);
         endTime.setEditable(false);
         details.setEditable(false);
-        tfAddress.setEditable(false);
-        tfAddress2.setEditable(false);
-        country.setEditable(false);
-        phone.setEditable(false);
-        phoneType.setEditable(false);
         
-        name.setFocusTraversable(false);
         subject.setFocusTraversable(false);
         location.setFocusTraversable(false);
         dateTime.setFocusTraversable(false);
         endTime.setFocusTraversable(false);
         details.setFocusTraversable(false);
-        tfAddress.setFocusTraversable(false);
-        tfAddress2.setFocusTraversable(false);
-        country.setFocusTraversable(false);
-        phone.setFocusTraversable(false);
-        phoneType.setFocusTraversable(false);
+        
+        
+    }
+    
+    private void setEditControls() {
+        type.setVisible(false);
+        dateTime.setVisible(false);
+        endTime.setVisible(false);
+        lblStart.setVisible(false);
+        lblEnd.setVisible(false);
+        
+        HBox left = new HBox();
+        HBox leftMid = new HBox();
+        HBox rightMid = new HBox();
+        HBox right = new HBox();
+        Label start = new Label("Start: ");
+        Label end = new Label("End: ");
+        ComboBox cbType = new ComboBox();
+        DatePicker startDate = new DatePicker();
+        ComboBox cbStartTime = new ComboBox();
+        ComboBox cbEndTime = new ComboBox();
+        ComboBox cbTimezone = new ComboBox();
+        ComboBox cbStartAmPm = new ComboBox();
+        ComboBox cbEndAmPm = new ComboBox();
+        
+        for(String s : UsefulArray.TIMES) {
+            cbStartTime.getItems().add(s);
+            cbEndTime.getItems().add(s);
+        }
+        
+        for(String s : UsefulArray.TIMEZONES ) {
+            cbTimezone.getItems().add(s);
+        }
+        
+        cbStartAmPm.getItems().add("AM");
+        cbStartAmPm.getItems().add("PM");
+        cbEndAmPm.getItems().add("AM");
+        cbEndAmPm.getItems().add("PM");
+        
+        cbType.getItems().add("Consultation");
+        cbType.getItems().add("Planning");
+        cbType.getItems().add("Working");
+        cbType.getItems().add("Casual");
+        cbType.getItems().add("Other");
+        cbType.getSelectionModel().select(appointment.getType());
+        
+        String[] startDateTimeParts = DateTimeUtils.getDatePartsFromZonedDateTime(appointment.getStart());
+        String[] endDateTimeParts = DateTimeUtils.getDatePartsFromZonedDateTime(appointment.getEnd());
+        
+        if(startDateTimeParts[1].length() == 1) 
+            startDateTimeParts[1] = "0" + startDateTimeParts[1];
+        
+        if(startDateTimeParts[2].length() == 1) 
+            startDateTimeParts[2] = "0" + startDateTimeParts[2];
+        
+        String date = startDateTimeParts[2] + "-" + startDateTimeParts[1] + "-" + startDateTimeParts[0];
+        
+        startDate.setValue(DateTimeUtils.LOCAL_DATE(date)); 
+       
+        if(startDateTimeParts[5].equals("AM"))
+            cbStartAmPm.getSelectionModel().select("AM");
+        else
+            cbStartAmPm.getSelectionModel().select("PM");
+        
+        if(endDateTimeParts[5].equals("AM"))
+            cbEndAmPm.getSelectionModel().select("AM");
+        else
+            cbEndAmPm.getSelectionModel().select("PM");
+       
+        cbStartTime.getSelectionModel().select(startDateTimeParts[3] + ":" + startDateTimeParts[4]);
+        cbEndTime.getSelectionModel().select(endDateTimeParts[3] + ":" + endDateTimeParts[4]);
+        
+        System.out.println("c195customertracker.DetailsController.setEditControls() startDateTimeParts[3] = " + startDateTimeParts[3]);
+        System.out.println("c195customertracker.DetailsController.setEditControls() startDateTimeParts[4] = " + startDateTimeParts[4]);
+        
+        startDate.setMaxWidth(150);
+        
+        left.setMinWidth(120);
+        left.getChildren().add(start);
+        leftMid.getChildren().add(startDate);
+        rightMid.getChildren().addAll(cbStartTime, cbStartAmPm);
+        right.getChildren().addAll(end, cbEndTime, cbEndAmPm);
+        
+        appointmentDetails.setGridLinesVisible(true);
+        
+        
+        appointmentDetails.add(left, 0, 4, 4, 1);
+        appointmentDetails.add(leftMid, 1, 4, 4, 1);
+        appointmentDetails.add(rightMid, 2, 4, 4, 1);
+        appointmentDetails.add(right, 3, 4, 4, 1);
+        appointmentDetails.add(cbType, 1, 3);
     }
     
     private void saveChanges() throws SQLException, ClassNotFoundException {
@@ -204,6 +280,11 @@ public class DetailsController implements Initializable {
         appointment.setLocation(location.getText());
         appointment.setDescription(details.getText());
         
+        
+        appointment.setDescription(details.getText());
+        
+        appointment.setLastUpdate(Timestamp.valueOf(LocalDateTime.now()));
+        appointment.setUpdatedBy(FXMLDocumentController.authorizedUserId);
     }
     
     public void getAppointment(Appointment appointment) {

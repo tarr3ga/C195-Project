@@ -7,7 +7,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane id="details" prefHeight="700.0" prefWidth="1000.0" 
+<GridPane fx:id="appointmentDetails" id="details" 
+          prefHeight="700.0" prefWidth="1100.0" 
           vgap="10" hgap="10"
           xmlns:fx="http://javafx.com/fxml/1" 
           fx:controller="c195customertracker.DetailsController">
@@ -22,22 +23,22 @@
     </stylesheets>
 
     <Label text="Customer: " minWidth="120" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-    <TextField fx:id="name" minWidth="250"  editable="false" focusTraversable="false" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+    <TextField fx:id="name" minWidth="275"  editable="false" focusTraversable="false" GridPane.rowIndex="0" GridPane.columnIndex="1" />
     <!--<Button fx:id="btnCustomerDetails" text="Customer Details" onAction="#onBtnCustomerDetailsClick" GridPane.rowIndex="0" GridPane.columnIndex="3" />-->
     
     <Label text="Appoinment Deatails: " GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.columnSpan="3" />       
     
     <Label text="Subject: " GridPane.rowIndex="2" GridPane.columnIndex="0" />
     <TextField fx:id="subject" editable="false" focusTraversable="false" layoutX="100" GridPane.rowIndex="2" GridPane.columnIndex="1" />
-    <Label text="Location: " GridPane.rowIndex="2" GridPane.columnIndex="2" />
-    <TextField fx:id="location" minWidth="250" editable="false" focusTraversable="false" layoutX="100" GridPane.rowIndex="2" GridPane.columnIndex="3" />
+    <Label text="Location: " minWidth="275" GridPane.rowIndex="2" GridPane.columnIndex="2" />
+    <TextField fx:id="location" minWidth="275" editable="false" focusTraversable="false" layoutX="100" GridPane.rowIndex="2" GridPane.columnIndex="3" />
     
     <Label text="Type: " GridPane.rowIndex="3" GridPane.columnIndex="0" />
     <TextField fx:id="type" GridPane.rowIndex="3" GridPane.columnIndex="1" />
     
-    <Label text="Start: " GridPane.rowIndex="4" GridPane.columnIndex="0" />
+    <Label fx:id="lblStart" text="Start: " GridPane.rowIndex="4" GridPane.columnIndex="0" />
     <TextField fx:id="dateTime" editable="false" focusTraversable="false" GridPane.rowIndex="4" GridPane.columnIndex="1" />
-    <Label text="End: " GridPane.rowIndex="4" GridPane.columnIndex="2" />
+    <Label fx:id="lblEnd" text="End: " GridPane.rowIndex="4" GridPane.columnIndex="2" />
     <TextField fx:id="endTime" editable="false" focusTraversable="false" GridPane.rowIndex="4" GridPane.columnIndex="3" />
 
     <Label text="Details: " GridPane.rowIndex="5" GridPane.columnIndex="0" />
