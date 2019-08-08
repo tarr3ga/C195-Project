@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -28,6 +29,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 import models.Address;
 import models.City;
 import models.Country;
@@ -68,6 +71,8 @@ public class AddCustomerController implements Initializable {
     private Address a;
     private City ci;
     private Country co;
+    
+    private Stage stage;
     
     private void setEventHandlers() {
         btnSubmit.setOnMouseClicked((MouseEvent e) -> {
@@ -230,12 +235,15 @@ public class AddCustomerController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //Window window =  btnCancel.getScene().getWindow();
+        //stage = (Stage) window.getScene().getWindow();
+        
         setEventHandlers();
          
         /*for(String s: states) {
             state.getItems().add(s);
         }*/
-        
+         
         try {
             FetchData data = new FetchData();
             ArrayList<Country> countriesList = data.fetchCountries();
@@ -290,5 +298,14 @@ public class AddCustomerController implements Initializable {
             String countryFull = co.getCountryAbreviation() + " | " + co.getCountry();
             country.getSelectionModel().select(countryFull);
         }
-    }       
+        
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("Running shutdown hook..");
+            
+            c = null;
+            a = null;
+            ci = null;
+            co = null;
+        }));
+    }  
 }

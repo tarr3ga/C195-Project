@@ -195,6 +195,8 @@ public class CustomersController implements Initializable {
                 System.err.println(ex.toString());
             }
             
+            pos = 0;
+            
             initialize(null, null);
         });
                 
