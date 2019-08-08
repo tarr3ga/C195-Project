@@ -5,15 +5,18 @@
  */
 package c195customertracker;
 
+import data.FetchData;
 import java.io.IOException;
 import java.net.URL;
-import java.time.Clock;
-import java.time.Instant;
+import java.sql.SQLException;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +25,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import models.Appointment;
 import models.AppointmentAlert;
+import models.Customer;
 import util.DateTimeUtils;
 import util.Scan;
 
@@ -68,13 +73,31 @@ public class MainSceneController implements Initializable {
         t.scheduleAtFixedRate(task, start, 60000);
     }
     
-    private static void scan() {
+    public void loadAlerts() throws SQLException, ClassNotFoundException {
+        FetchData data = new FetchData();
+        ObservableList<Appointment> appointments;
         
-    } 
+        appointments = data.fetchAppointmentData();
+        
+        for(Appointment a : appointments) {
+            Customer c = new Customer();
+                try {
+                    c = data.fetchSingleCustomer(a.getCustomerId());
+                } catch(SQLException ex) {
+                    System.err.println(ex.toString());
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(AddAppointmentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                setAlert(a.getAppointmentId(), a.getStart(), c.getName(), a.getTitle());
+        }
+    }
     
     public static void setAlert(int id, ZonedDateTime time, String name, String title) {        
         AppointmentAlert alert = new AppointmentAlert(id, time, name, title);
         Scan.alerts.add(alert);
+        
+        System.out.println("loadAlerts() " + id + " " + time + " " + name + " " + title);
     }
     
     public static void cancelAlert(int id) {
@@ -106,6 +129,11 @@ public class MainSceneController implements Initializable {
             System.err.println(ex.toString());
         }
         
+        try {
+            loadAlerts();
+        }catch(SQLException | ClassNotFoundException ex) {
+            
+        }
         startTimer();
     }    
 }

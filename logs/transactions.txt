@@ -398,3 +398,14 @@ test logged in at 2019-08-08T01:46:21.070
 test logged in at 2019-08-08T01:51:34.388
 test logged in at 2019-08-08T01:57:49.718
 test logged in at 2019-08-08T01:58:58.947
+test logged in at 2019-08-08T10:35:51.002
+test logged in at 2019-08-08T10:37:51.222
+test logged in at 2019-08-08T10:44:40.925
+New Customer ID: 11 Created by test on 2019-08-08T10:46:29.473-04:00[America/New_York]
+Updated Customer ID: 1 Updated by test on 2019-08-08T10:46:56.713-04:00[America/New_York]
+New Customer ID: 12 Created by test on 2019-08-08T10:47:40.027-04:00[America/New_York]
+test logged in at 2019-08-08T10:56:03.541
+jamyers logged in at 2019-08-08T11:17:15.314
+jamyers logged in at 2019-08-08T11:19:38.779
+jamyers logged in at 2019-08-08T11:21:53.889
+test logged in at 2019-08-08T11:24:38.386

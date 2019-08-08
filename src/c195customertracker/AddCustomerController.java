@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -29,8 +28,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.stage.Window;
-import javafx.stage.WindowEvent;
 import models.Address;
 import models.City;
 import models.Country;
@@ -56,23 +53,11 @@ public class AddCustomerController implements Initializable {
     @FXML private ComboBox country;
     @FXML private Button btnSubmit;
     @FXML private Button btnCancel;
-    
-    private final String[] states = {"AK", "AL", "AR", "AS", "AZ", "CA", "CO", "CT", 
-                                     "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", 
-                                     "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", 
-                                     "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", 
-                                     "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", 
-                                     "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", 
-                                     "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", 
-                                     "WY"};
-    
+        
     private Customer c;
-    //private Customer cto;
     private Address a;
     private City ci;
     private Country co;
-    
-    private Stage stage;
     
     private void setEventHandlers() {
         btnSubmit.setOnMouseClicked((MouseEvent e) -> {
@@ -192,6 +177,11 @@ public class AddCustomerController implements Initializable {
 
                     } 
 
+                    c = null;
+                    a = null;
+                    ci = null;
+                    co = null;
+                    
                     Stage stage = (Stage)btnSubmit.getScene().getWindow();
                     stage.close();
                 }
@@ -298,14 +288,5 @@ public class AddCustomerController implements Initializable {
             String countryFull = co.getCountryAbreviation() + " | " + co.getCountry();
             country.getSelectionModel().select(countryFull);
         }
-        
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            System.out.println("Running shutdown hook..");
-            
-            c = null;
-            a = null;
-            ci = null;
-            co = null;
-        }));
     }  
 }

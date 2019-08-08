@@ -5,17 +5,11 @@
  */
 package c195customertracker;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import util.Scan;
 
 /**
  *
@@ -32,35 +26,11 @@ public class C195CustomerTracker extends Application {
         stage.setScene(scene);
         stage.show();
     }
-
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         launch(args);
-        
-        File filename = new File("alerts.log");
-        boolean exists = filename.exists();
-        
-        if(!exists) {
-            try {
-                filename.createNewFile();
-            } catch(IOException ex) {
-                System.err.println(ex.toString());
-            }
-        }
-        
-        try {
-            FileInputStream file = new FileInputStream(filename); 
-            ObjectInputStream in = new ObjectInputStream(file);
-            
-            Scan.alerts = (ArrayList)in.readObject();
-        } catch(ClassNotFoundException | IOException ex) {
-            System.err.println(ex.toString());
-        }
-        
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            Scan.serialize();
-        }, "Shutdown-thread"));
     }   
 }

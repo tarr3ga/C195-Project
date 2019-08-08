@@ -108,9 +108,7 @@ public class CustomersController implements Initializable {
                         int id = customers.get(pos).getCreatedBy() - 1;
 
                         System.out.println(".updateItem() id = " + id);
-                        
                         setText(users.get(id).getUsername());
-                        
                         System.out.println(".updateItem() text = " + users.get(id).getUsername());
                     }
                 }
@@ -232,10 +230,16 @@ public class CustomersController implements Initializable {
                     stage.setScene(scene);
                     stage.showAndWait();
                     
+                    AddCustomerController.customerToEdit = null;
+                    AddCustomerController.isEditing = false;
+                    
                     populateTable();
                 } catch(IOException ex) {
 
-                }
+                } finally {
+                    AddCustomerController.customerToEdit = null;
+                    AddCustomerController.isEditing = false;
+                 }
             }
         });
        
