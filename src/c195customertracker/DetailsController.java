@@ -34,7 +34,6 @@ import models.City;
 import models.Country;
 import models.Customer;
 import util.DateTimeUtils;
-import util.UsefulArray;
 
 /**
  * FXML Controller class
@@ -73,6 +72,20 @@ public class DetailsController implements Initializable {
     private Address address;
     private Country countryData;
     private City city;
+    
+    private DatePicker startDate ;
+    private ComboBox cbType;
+    private ComboBox cbStartTime;
+    private ComboBox cbEndTime;
+    private ComboBox cbTimezone;
+    private ComboBox cbStartAmPm;
+    private ComboBox cbEndAmPm;
+    private HBox left;
+    private HBox leftMid;
+    private HBox rightMid;
+    private HBox right;
+    private Label start;
+    private Label end;
     
     @FXML 
     private void onBtnCustomerDetailsClick() throws IOException {
@@ -178,9 +191,9 @@ public class DetailsController implements Initializable {
         endTime.setFocusTraversable(false);
         details.setFocusTraversable(false);
         
-        
+        hideEditControls();
     }
-    
+ 
     private void setEditControls() {
         type.setVisible(false);
         dateTime.setVisible(false);
@@ -188,33 +201,44 @@ public class DetailsController implements Initializable {
         lblStart.setVisible(false);
         lblEnd.setVisible(false);
         
-        HBox left = new HBox();
-        HBox leftMid = new HBox();
-        HBox rightMid = new HBox();
-        HBox right = new HBox();
-        Label start = new Label("Start: ");
-        Label end = new Label("End: ");
-        ComboBox cbType = new ComboBox();
-        DatePicker startDate = new DatePicker();
-        ComboBox cbStartTime = new ComboBox();
-        ComboBox cbEndTime = new ComboBox();
-        ComboBox cbTimezone = new ComboBox();
-        ComboBox cbStartAmPm = new ComboBox();
-        ComboBox cbEndAmPm = new ComboBox();
+        left = new HBox();
+        leftMid = new HBox();
+        rightMid = new HBox();
+        right = new HBox();
+        start = new Label("Start: ");
+        end = new Label("End: ");
         
-        for(String s : UsefulArray.TIMES) {
+        cbType = new ComboBox();
+        cbStartTime = new ComboBox();
+        cbEndTime = new ComboBox();
+        cbTimezone = new ComboBox();
+        cbStartAmPm = new ComboBox();
+        cbEndAmPm = new ComboBox(); 
+        startDate = new DatePicker();
+        
+        for(String s : DateTimeUtils.TIMES) {
             cbStartTime.getItems().add(s);
             cbEndTime.getItems().add(s);
         }
         
-        for(String s : UsefulArray.TIMEZONES ) {
+        for(String s : DateTimeUtils.TIMEZONES ) {
             cbTimezone.getItems().add(s);
         }
+        
+        cbTimezone.getSelectionModel().selectFirst();
         
         cbStartAmPm.getItems().add("AM");
         cbStartAmPm.getItems().add("PM");
         cbEndAmPm.getItems().add("AM");
         cbEndAmPm.getItems().add("PM");
+        if(appointment.getStart().getHour() > 11) 
+            cbStartAmPm.getSelectionModel().select("PM");
+        else
+            cbStartAmPm.getSelectionModel().select("AM");
+        if(appointment.getEnd().getHour() > 11) 
+            cbEndAmPm.getSelectionModel().select("PM");
+        else
+            cbEndAmPm.getSelectionModel().select("AM");
         
         cbType.getItems().add("Consultation");
         cbType.getItems().add("Planning");
@@ -256,12 +280,11 @@ public class DetailsController implements Initializable {
         
         left.setMinWidth(120);
         left.getChildren().add(start);
-        leftMid.getChildren().add(startDate);
+        leftMid.getChildren().addAll(startDate, cbTimezone);
         rightMid.getChildren().addAll(cbStartTime, cbStartAmPm);
         right.getChildren().addAll(end, cbEndTime, cbEndAmPm);
         
-        appointmentDetails.setGridLinesVisible(true);
-        
+        //appointmentDetails.setGridLinesVisible(true);
         
         appointmentDetails.add(left, 0, 4, 4, 1);
         appointmentDetails.add(leftMid, 1, 4, 4, 1);
@@ -270,21 +293,46 @@ public class DetailsController implements Initializable {
         appointmentDetails.add(cbType, 1, 3);
     }
     
+    private void hideEditControls() {
+        cbType.setVisible(false);
+        left.setVisible(false);
+        leftMid.setVisible(false);
+        rightMid.setVisible(false);
+        right.setVisible(false);
+        start.setVisible(false);
+        end.setVisible(false);
+        
+        type.setVisible(true);
+        dateTime.setVisible(true);
+        endTime.setVisible(true);
+        lblStart.setVisible(true);
+        lblEnd.setVisible(true);
+    }
+    
     private void saveChanges() throws SQLException, ClassNotFoundException {
         SaveData data = new SaveData();
+        
         data.updateFullRecord(appointment, customer, city, address, countryData);
     }
     
     private void setData() {
         appointment.setTitle(subject.getText());
         appointment.setLocation(location.getText());
-        appointment.setDescription(details.getText());
-        
-        
-        appointment.setDescription(details.getText());
-        
+        appointment.setDescription(details.getText());      
         appointment.setLastUpdate(Timestamp.valueOf(LocalDateTime.now()));
         appointment.setUpdatedBy(FXMLDocumentController.authorizedUserId);
+        
+        String timeZoneName = DateTimeUtils.getTimeZoneName((String)cbTimezone.getSelectionModel().getSelectedItem());
+        String date = startDate.getValue().toString();
+        String time = (String)cbStartTime.getSelectionModel().getSelectedItem();
+        String amPm = (String)cbStartAmPm.getSelectionModel().getSelectedItem();
+        
+        appointment.setStart(DateTimeUtils.getZonedDateTimeFromDateParts(timeZoneName, date, time, amPm));
+        
+        time = (String)cbEndTime.getSelectionModel().getSelectedItem();
+        amPm = (String)cbEndAmPm.getSelectionModel().getSelectedItem();
+        
+        appointment.setEnd(DateTimeUtils.getZonedDateTimeFromDateParts(timeZoneName, date, time, amPm));
     }
     
     public void getAppointment(Appointment appointment) {

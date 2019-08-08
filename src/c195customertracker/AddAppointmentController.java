@@ -78,7 +78,7 @@ public class AddAppointmentController implements Initializable {
     private final DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
     private static final int OPENING_TIME = 659;
     private static final int CLOSING_TIME = 1801;
-    private String defaultTimeZone = "";
+    private String defaultTimeZone;
     
     private void setEventHandlers() {
         submit.setOnMouseClicked((MouseEvent e) -> {
