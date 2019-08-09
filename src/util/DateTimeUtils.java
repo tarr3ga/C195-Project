@@ -245,12 +245,13 @@ public class DateTimeUtils {
         return time;
     }
     
-    public static HashMap getAppointmentPerMonth(ArrayList<ZonedDateTime> appointments) {        
+    public static HashMap getAppointmentPerMonth(ArrayList<ZonedDateTime> appointments) {
+        //TODO Find out why first result is trunicated
         HashMap<Integer, Integer> byMonth = new HashMap<>();
         HashMap<String, Integer> sorted = new HashMap<>();
         
         for(ZonedDateTime z : appointments) {
-            int month = z.getMonthValue();
+            int month = z.getMonthValue() - 1;
             int year = z.getYear();
             
             String dateString = "" + month + year;

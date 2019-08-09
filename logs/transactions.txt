@@ -481,3 +481,22 @@ Updated Appointment ID: 58 Updated by test on 2019-08-09T14:29:32.799-04:00[Amer
 Updated Appointment ID: 59 Updated by test on 2019-08-09T14:30:02.553-04:00[America/New_York]
 Updated Appointment ID: 60 Updated by test on 2019-08-09T14:30:30.795-04:00[America/New_York]
 Updated Appointment ID: 61 Updated by test on 2019-08-09T14:31:01.550-04:00[America/New_York]
+jamyers logged in at 2019-08-09T14:39:06.761
+jamyers logged in at 2019-08-09T14:45:40.252
+jamyers logged in at 2019-08-09T14:52:51.158
+test logged in at 2019-08-09T14:54:20.999
+test logged in at 2019-08-09T14:56:04.542
+test logged in at 2019-08-09T14:58:42.650
+test logged in at 2019-08-09T15:01:09.061
+test logged in at 2019-08-09T15:04:47.801
+jamyers logged in at 2019-08-09T15:06:06.946
+test logged in at 2019-08-09T15:14:25.479
+test logged in at 2019-08-09T15:15:04.261
+jamyers logged in at 2019-08-09T15:15:33.231
+New Customer ID: 13 Created by jamyers on 2019-08-09T15:16:29.500-04:00[America/New_York]
+jamyers logged in at 2019-08-09T15:18:48.464
+test logged in at 2019-08-09T15:20:37.571
+sarah logged in at 2019-08-09T15:21:34.744
+New Customer ID: 14 Created by sarah on 2019-08-09T15:22:35.802-04:00[America/New_York]
+bobvilla logged in at 2019-08-09T15:23:39.930
+test logged in at 2019-08-09T15:43:13.857
