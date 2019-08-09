@@ -206,7 +206,7 @@ public class AddCustomerController implements Initializable {
            !address.getText().isEmpty() &&
            !city.getText().isEmpty() &&
            !postalCode.getText().isEmpty() &&
-          // !state.getSelectionModel().isEmpty() &&
+          //!state.getSelectionModel().isEmpty() &&
            !country.getSelectionModel().isEmpty()) {
             isValid = true;
         } else {

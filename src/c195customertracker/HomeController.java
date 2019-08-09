@@ -224,6 +224,5 @@ public class HomeController implements Initializable {
         }
         
         setEventHandlers();
-    }    
-    
+    }     
 }

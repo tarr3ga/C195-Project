@@ -49,6 +49,7 @@ import models.Country;
 import models.Customer;
 import models.User;
 import util.DateTimeUtils;
+import util.RowData;
 
 /**
  * FXML Controller class
@@ -60,7 +61,10 @@ public class CustomersController implements Initializable {
     private ObservableList<Customer> customers = FXCollections.observableArrayList();
     private ObservableList<Appointment> appointments = FXCollections.observableArrayList();
     private ObservableList<User> users = FXCollections.observableArrayList();
+    private ObservableList<RowData> rowData = FXCollections.observableArrayList();
+    
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy  hh:mm a");
+    
     
     public ObservableList<Customer> getCustomers() {
         return customers;
@@ -76,65 +80,47 @@ public class CustomersController implements Initializable {
     private Button btnViewAppointmentDetails;
     private Button btnDeleteAppointment;
     
-    int pos = 0;
-    
     private void populateTable() {
-        TableColumn<Customer, Integer> id = new TableColumn<>("ID");
+        //TableColumn<Customer, Integer> id = new TableColumn<>("ID");
+        //id.setMinWidth(20);
+        //id.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        
+        //TableColumn<Customer, String> name = new TableColumn<>("Name");
+        //name.setMinWidth(175);
+        //name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        
+        TableColumn<RowData, Integer> id = new TableColumn<>("ID");
         id.setMinWidth(20);
         id.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         
-        TableColumn<Customer, String> name = new TableColumn<>("Name");
+        TableColumn<RowData, String> name = new TableColumn<>("Name");
         name.setMinWidth(175);
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         
-        TableColumn<Customer, String> userName = new TableColumn<>("Created By");
+        TableColumn<RowData, String> userName = new TableColumn<>("Created By");
         userName.setMinWidth(175);
-        userName.setCellValueFactory(new PropertyValueFactory<>("userId"));
-        userName.setCellFactory(col -> new TableCell<Customer, String>() {
+        userName.setCellValueFactory(new PropertyValueFactory<>("userName"));
+        
+        /*userName.setCellFactory(col -> new TableCell<RowData, String>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 
-                if(pos < customers.size()) {
-                    System.out.println(".updateItem() customer = " + customers.get(pos).getName());
-                }
-                
-                if(empty) {
+                if(empty) 
                     setText(null);
-                
-                    System.out.println(".updateItem() null hit..");
-                } else {
-                    if(pos < customers.size()) {
-                        int id = customers.get(pos).getCreatedBy() - 1;
-
-                        System.out.println(".updateItem() id = " + id);
-                        setText(users.get(id).getUsername());
-                        System.out.println(".updateItem() text = " + users.get(id).getUsername());
-                    }
-                }
-                
-                System.out.println(".updateItem() pos = " + pos);
-                System.out.println("-----------------------------------");
-                
-                pos++;
-            }
-        });
-        
-        TableColumn<Customer, Timestamp> addedOn = new TableColumn<>("Added On");
-        addedOn.setMinWidth(250);
-        addedOn.setCellValueFactory(new PropertyValueFactory<>("createDate"));
-        /*addedOn.setCellFactory(col -> new TableCell<Customer, Timestamp>(){
-            @Override
-            protected void updateItem(Timestamp item, boolean empty) {
-                LocalDateTime ldt = item.toLocalDateTime();
-                
-                super.updateItem(item, empty);
-                if (empty)
-                    setText(null);
-                else
-                    setText(String.format(ldt.format(formatter)));
+                else {
+                    
+                }                    
             }
         });*/
+        
+        TableColumn<RowData, Timestamp> addedOn = new TableColumn<>("Added On");
+        addedOn.setMinWidth(250);
+        addedOn.setCellValueFactory(new PropertyValueFactory<>("createDate"));
+        
+        //TableColumn<Customer, Timestamp> addedOn = new TableColumn<>("Added On");
+        //addedOn.setMinWidth(250);
+        //addedOn.setCellValueFactory(new PropertyValueFactory<>("createDate"));
         
         
         //TableColumn<Customer, String> customerRep = new TableColumn<>("Customer Rep");
@@ -192,8 +178,6 @@ public class CustomersController implements Initializable {
             } catch(IOException ex) {
                 System.err.println(ex.toString());
             }
-            
-            pos = 0;
             
             initialize(null, null);
         });
@@ -574,7 +558,7 @@ public class CustomersController implements Initializable {
             ZonedDateTime zdtEnd = DateTimeUtils.getUnalteredZonedDateTimeFromString(String.valueOf(a.getEnd()));
             
             if(!customerZoneId.equals(defaultZoneId)) {
-                TimeZone customerTimeZone = TimeZone.getTimeZone(customerZoneId);
+                //TimeZone customerTimeZone = TimeZone.getTimeZone(customerZoneId);
                 zdtStart = DateTimeUtils.adjustForTimeZones(zdtStart);
                 
                 zdtEnd = DateTimeUtils.adjustForTimeZones(zdtEnd);
@@ -582,6 +566,25 @@ public class CustomersController implements Initializable {
             
             a.setStart(zdtStart);
             a.setEnd(zdtEnd);
+        }
+    }
+    
+    /*private void getData() throws SQLException, ClassNotFoundException {
+        FetchData data = new FetchData();
+        appointments = data.fetchAppointmentData();
+        
+        data = new FetchData();
+        users = data.fetchUsers();
+    }*/
+    
+    private void getUserData() throws SQLException, ClassNotFoundException {
+        for(Customer c : customers) {
+            for(User u : users){
+                if(u.getUserId() == c.getCreatedBy()){
+                    RowData rowDataTemp = new RowData(c, u);
+                    rowData.add(rowDataTemp);
+                }
+            }
         }
     }
     

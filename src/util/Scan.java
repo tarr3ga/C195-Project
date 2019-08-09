@@ -27,14 +27,16 @@ public class Scan extends TimerTask implements Serializable {
             ZonedDateTime time = ZonedDateTime.now();
 
             System.out.println("Scan at" + ZonedDateTime.now());
-
+            
+            ArrayList<AppointmentAlert> toDelete = new ArrayList<>();
+            
             alerts.forEach((a) -> {
                 ZonedDateTime due = a.getAlertTime();
-                if (time.isAfter(due.minusMinutes(15))) {
+                if (time.isAfter(due.minusMinutes(15)) && time.isBefore(due.plusMinutes(60))) {
                     String message = "The appoint with " + a.getCustomerName() +
                             " is in 15 minutes.  The subject of the meeting is " + a.getSubject();
 
-                    alerts.remove(a);
+                    toDelete.add(a);
 
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("15 minutes till appointment!");
@@ -42,6 +44,10 @@ public class Scan extends TimerTask implements Serializable {
                     alert.show();
                 }
             });
+            
+            for(AppointmentAlert a : toDelete) {
+                alerts.remove(a);
+            }
         }) ;
     }
 }

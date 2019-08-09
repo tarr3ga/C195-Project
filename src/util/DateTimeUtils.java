@@ -5,8 +5,6 @@
  */
 package util;
 
-import c195customertracker.AddAppointmentController;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -102,10 +100,11 @@ public class DateTimeUtils {
     public static ZonedDateTime getUnalteredZonedDateTimeFromString(String dateTime) {
         String[] date = dateTime.split("T");
         String[] timeWithOffset = date[1].split("\\[");
-        String[] time = timeWithOffset[0].split("-");
+        String time = timeWithOffset[0].substring(0,5);
+        //String offset = timeWithOffset[1].substring(4,6);
         
         String[] dateParts = date[0].split("-");
-        String[] timeParts = time[0].split(":");
+        String[] timeParts = time.split(":");
         
         String zoneName = timeWithOffset[1].substring(0, timeWithOffset[1].length() - 1);
         
@@ -118,6 +117,9 @@ public class DateTimeUtils {
         int minute = Integer.parseInt(timeParts[1]);
         
         ZonedDateTime parsed = ZonedDateTime.of(year, month, day, hour, minute, 0, 0, zone);
+        
+        System.out.println("util.DateTimeUtils.getUnalteredZonedDateTimeFromString() parsed = " + parsed
+        );
         
         return parsed;
     }
@@ -290,8 +292,6 @@ public class DateTimeUtils {
         TimeZone timezone = TimeZone.getDefault();
         TimeZone offsetTimeZone = TimeZone.getTimeZone(dateTime.getZone());
         
-        
-        
         long differenceInMillis = timezone.getRawOffset() - offsetTimeZone.getRawOffset() + 
                 timezone.getDSTSavings() - offsetTimeZone.getDSTSavings();
         System.out.println("util.DateTimeUtils.adjustForTimeZones() differenceInMillis = " + differenceInMillis);
@@ -321,46 +321,46 @@ public class DateTimeUtils {
         
         switch(gmt) {
             case "GMT+1  CET":
-                timeZoneName = "";
+                timeZoneName = "Europe/Paris";
                 break;
             case "GMT+2  EET":
-                timeZoneName = "";
+                timeZoneName = "Africa/Cairo";
                 break;
             case "GMT+3  MSK":
-                timeZoneName = "";
+                timeZoneName = "Asia/Qatar";
                 break;
             case "GMT+4  SMT":
-                timeZoneName = "";
+                timeZoneName = "Europe/Moscow";
                 break;
             case "GMT+5  PKT":
-                timeZoneName = "";
+                timeZoneName = "Asia/Karachi";
                 break;
             case "GMT+6  OMSK":
-                timeZoneName = "";
+                timeZoneName = "Antarctica/Vostok";
                 break;
             case "GMT+7  CXT":
-                timeZoneName = "";
+                timeZoneName = "Asia/Jakarta";
                 break;
             case "GMT+8  CST":
-                timeZoneName = "";
+                timeZoneName = "Australia/Brisbane";
                 break;
             case "GMT+9  JST":
-                timeZoneName = "";
+                timeZoneName = "Asia/Seoul";
                 break;
             case "GMT+10 EAST":
-                timeZoneName = "";
+                timeZoneName = "Australia/Sydney";
                 break;
             case "GMT+11 SAKT":
-                timeZoneName = "";
+                timeZoneName = "Asia/Vladivostok";
                 break;
-            case "MT+12 NZT":
-                timeZoneName = "";
+            case "GMT+12 NZT":
+                timeZoneName = "Pacific/Fiji";
                 break;
             case "GMT+0  GMT":
-                timeZoneName = "Atlantic/Azores";
+                timeZoneName = "Atlantic/Canary";
                 break;
             case "GMT-1  WAT":
-                timeZoneName = "Atlantic/Azores";
+                timeZoneName = "Atlantic/Cape_Verde";
                 break;
             case "GMT-2  AT":
                 timeZoneName = "Atlantic/South_Georgia";
@@ -392,12 +392,90 @@ public class DateTimeUtils {
             case "GMT-11 NT":
                 timeZoneName = "Pacific/Midway";
                 break;
-            case "GMT-12 IDLW":
-                timeZoneName = "";
-                break;
         }   
         
         return timeZoneName;
+    }
+    
+    public static String getTimeZoneAbbreviation(String gmt) {
+        String timeZoneAbbreviation = "";
+        
+        switch(gmt) {
+            case "Europe/Paris":
+                timeZoneAbbreviation = "GMT+1  CET";
+                break;
+            case "Africa/Cairo":
+                timeZoneAbbreviation= "GMT+2  EET";
+                break;
+            case "Asia/Qatar":
+                timeZoneAbbreviation = "GMT+3  MSK";
+                break;
+            case "Europe/Moscow":
+                timeZoneAbbreviation = "GMT+4  SMT";
+                break;
+            case "Asia/Karachi":
+                timeZoneAbbreviation = "GMT+5  PKT";
+                break;
+            case "Antarctica/Vostok":
+                timeZoneAbbreviation = "GMT+6  OMSK";
+                break;
+            case "Asia/Jakarta":
+                timeZoneAbbreviation = "GMT+7  CXT";
+                break;
+            case "Asia/Singapore":
+                timeZoneAbbreviation = "GMT+8  CST";
+                break;
+            case "Asia/Tokyo":
+                timeZoneAbbreviation = "GMT+9  JST";
+                break;
+            case "Australia/Sydney":
+                timeZoneAbbreviation = "GMT+10 EAST";
+                break;
+            case "Asia/Vladivostok":
+                timeZoneAbbreviation = "GMT+11 SAKT";
+                break;
+            case "Pacific/Fiji":
+                timeZoneAbbreviation = "MT+12 NZT";
+                break;
+            case "Greenwich":
+                timeZoneAbbreviation = "GMT+0  GMT";
+                break;
+            case "Atlantic/Azores":
+                timeZoneAbbreviation = "GMT-1  WAT";
+                break;
+            case "Atlantic/South_Georgia":
+                timeZoneAbbreviation = "GMT-2  AT";
+                break;
+            case "America/Buenos_Aires":
+                timeZoneAbbreviation = "GMT-3  ART";
+                break;
+            case "America/Goose_Bay":
+                timeZoneAbbreviation = "GMT-4  AST";
+                break;  
+            case "America/New_York":
+                timeZoneAbbreviation = "GMT-5  EST";
+                break;  
+            case "America/Chicago":
+                timeZoneAbbreviation = "GMT-6  CST";
+                break;  
+            case "America/Boise":
+                timeZoneAbbreviation = "GMT-7  MST";
+                break;
+            case "America/Los_Angeles":
+                timeZoneAbbreviation = "GMT-8  PST";
+                break;
+            case "America/Anchorage":
+                timeZoneAbbreviation = "GMT-9  AKST";
+                break;
+            case "Pacific/Honolulu":
+                timeZoneAbbreviation = "GMT-10 HST";
+                break;
+            case "Pacific/Midway":
+                timeZoneAbbreviation = "GMT-11 NT";
+                break;
+        }   
+        
+        return timeZoneAbbreviation;
     }
     
     private static String getMonth(int month) {

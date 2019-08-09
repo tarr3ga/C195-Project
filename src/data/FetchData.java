@@ -34,7 +34,7 @@ public class FetchData {
     private final ObservableList<Address> addressess = FXCollections.observableArrayList();
     private final ObservableList<User> users = FXCollections.observableArrayList();
     
-    private static final String SQL_GET_USERS = "SELECT * FROM user";
+    private static final String SQL_GET_USER = "SELECT * FROM user WHERE userId = ";
     private static final String SQL_GET_USERNAMES = "SELECT * FROM user;";
     private static final String SQL_CUSTOMER = "SELECT * FROM customer WHERE customerId = ";
     private static final String SQL_CUSTOMERS = "SELECT * FROM customer;";
@@ -76,6 +76,40 @@ public class FetchData {
         return properties;
     }
     // </editor-fold>
+    
+    public User fetchUserForAppointment(int id) throws SQLException, ClassNotFoundException {
+        conn = DBConnect.makeConnection();
+        
+        statement = conn.createStatement();
+        resultSet = statement.executeQuery(SQL_GET_USER + id + ";");
+        
+        int index;
+        
+        index = resultSet.findColumn("userId");
+        int userId = resultSet.getInt(index);
+
+        index = resultSet.findColumn("userName");
+        String username = resultSet.getString(index);
+
+        index = resultSet.findColumn("active");
+        int active = resultSet.getInt(index);
+
+        boolean isAxtive = true;
+
+        if(active == 0) 
+            isAxtive = false;
+
+        User u = new User();
+        u.setUserId(userId);
+        u.setUsername(username);
+        u.setActive(isAxtive);
+
+        users.add(u);
+ 
+        conn.close();
+        
+        return u;
+    }
     
     public ObservableList fetchUsers() throws SQLException, ClassNotFoundException {
         conn = DBConnect.makeConnection();
