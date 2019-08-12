@@ -118,9 +118,6 @@ public class DateTimeUtils {
         
         ZonedDateTime parsed = ZonedDateTime.of(year, month, day, hour, minute, 0, 0, zone);
         
-        System.out.println("util.DateTimeUtils.getUnalteredZonedDateTimeFromString() parsed = " + parsed
-        );
-        
         return parsed;
     }
     
@@ -159,8 +156,6 @@ public class DateTimeUtils {
     public static String getStorableDateTimeString(ZonedDateTime dateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(STORABLE_DATE_TIME_FORMAT);
         String formattedDateTime = dateTime.format(formatter);
-        
-        System.out.println(formattedDateTime);
         
         return formattedDateTime;
     }
@@ -246,7 +241,6 @@ public class DateTimeUtils {
     }
     
     public static HashMap getAppointmentPerMonth(ArrayList<ZonedDateTime> appointments) {
-        //TODO Find out why first result is trunicated
         HashMap<Integer, Integer> byMonth = new HashMap<>();
         HashMap<String, Integer> sorted = new HashMap<>();
         
@@ -295,16 +289,9 @@ public class DateTimeUtils {
         
         long differenceInMillis = timezone.getRawOffset() - offsetTimeZone.getRawOffset() + 
                 timezone.getDSTSavings() - offsetTimeZone.getDSTSavings();
-        System.out.println("util.DateTimeUtils.adjustForTimeZones() differenceInMillis = " + differenceInMillis);
-        
-        System.out.println("util.DateTimeUtils.adjustForTimeZones() hour = " + dateTime.getHour());
         
         long hour = TimeUnit.MILLISECONDS.toHours(differenceInMillis);
         dateTime = dateTime.minusHours(hour);
-        
-        System.out.println("util.DateTimeUtils.adjustForTimeZones() millis to hours = " + hour);
-        
-        System.out.println("util.DateTimeUtils.adjustForTimeZones() hour = " + dateTime.getHour());
         
         return dateTime;
     }

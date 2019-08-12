@@ -578,8 +578,6 @@ public class FetchData {
         
         String sql = SQL_APPOINTMENTS_BY_REP + userId + "';";
         
-        System.out.println(sql);
-        
         statement = conn.createStatement();
         resultSet = statement.executeQuery(sql);
         
@@ -632,13 +630,7 @@ public class FetchData {
     }
     
     public ObservableList fetchAppointmentData() throws SQLException, ClassNotFoundException {
-        
-        try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            System.out.println("fetchAppointmentData");
-            Logger.getLogger(data.FetchData.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        conn = DBConnect.makeConnection();
         
         statement = conn.createStatement();
         resultSet = statement.executeQuery(SQL_APPOINTMENTS);
@@ -716,13 +708,7 @@ public class FetchData {
     }
     
     public ObservableList fetchAppointmentDetails(Appointment a) throws SQLException, ClassNotFoundException {
-        
-        try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            System.out.println("fetchAppointmentDetails");
-            Logger.getLogger(data.FetchData.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        conn = DBConnect.makeConnection();
         
         statement = conn.createStatement();
         resultSet = statement.executeQuery(SQL_APPOINTMENT + a.getAppointmentId() + ";");
@@ -737,13 +723,8 @@ public class FetchData {
     }
     
     public ObservableList fetchAppointmentsInDateRange(ZonedDateTime startDate, ZonedDateTime endDate) throws SQLException, ClassNotFoundException {
-        
-        try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            System.err.println(ex.toString());
-        }
-        
+        conn = DBConnect.makeConnection();
+
         String sql = "SELECT * FROM appointment";
         
         statement = conn.createStatement();
@@ -822,12 +803,8 @@ public class FetchData {
     }
     
     public int getUserId(String userName) throws SQLException, ClassNotFoundException {
-        try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            
-        }
-        
+        conn = DBConnect.makeConnection();
+
         String sql = "SELECT userId FROM user WHERE userName = '" + userName + "';";
         
         statement = conn.createStatement();
@@ -842,11 +819,7 @@ public class FetchData {
     }
     
     public int getCustomerCount() throws SQLException, ClassNotFoundException {
-        try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            
-        }
+        conn = DBConnect.makeConnection();
         
         String sql = "SELECT COUNT(*) FROM customer";
         
@@ -863,12 +836,8 @@ public class FetchData {
     }
     
     public int getAppointmentCount() throws SQLException, ClassNotFoundException {
-        try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            
-        }
-        
+        conn = DBConnect.makeConnection();
+
         String sql = "SELECT COUNT(*) FROM appointment";
         
         statement = conn.createStatement();
@@ -884,12 +853,8 @@ public class FetchData {
     }
     
     public int getAppointmentCountPerCustomer(Customer customer) throws SQLException, ClassNotFoundException{        
-        try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            System.err.println(ex.toString());
-        }
-        
+        conn = DBConnect.makeConnection();
+
         String sql = "SELECT COUNT(*) FROM appointment WHERE customerId = " + customer.getCustomerId();
         
         statement = conn.createStatement();
@@ -907,11 +872,7 @@ public class FetchData {
     public int getConsultationCount() throws SQLException, ClassNotFoundException {
         int count;
         
-        try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            
-        }
+        conn = DBConnect.makeConnection();
         
         String sql = "SELECT COUNT(*) FROM appointment WHERE type = 'Consultation'";
         
@@ -927,14 +888,10 @@ public class FetchData {
         return count;
     }
     
-    public int getPlanningCount() throws SQLException, ClassNotFoundException {
-        int count = 0;
+    public int getPlanningCount() throws SQLException, ClassNotFoundException {      
+        conn = DBConnect.makeConnection();
         
-        try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            
-        }
+        int count;
         
         String sql = "SELECT COUNT(*) FROM appointment WHERE type = 'Planning'";
         
@@ -951,13 +908,9 @@ public class FetchData {
     }
     
     public int getWorkingCount() throws SQLException, ClassNotFoundException {        
-        try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            
-        }
+        conn = DBConnect.makeConnection();
         
-        int count = 0;
+        int count;
         
         String sql = "SELECT COUNT(*) FROM appointment WHERE type = 'Working'";
         
@@ -974,14 +927,10 @@ public class FetchData {
     }
     
     public int getCasualCount() throws SQLException, ClassNotFoundException {
-        int count = 0;
+        conn = DBConnect.makeConnection();
         
-        try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
+        int count;
             
-        }
-        
         String sql = "SELECT COUNT(*) FROM appointment WHERE type = 'Casual'";
         
         statement = conn.createStatement();
@@ -997,13 +946,9 @@ public class FetchData {
     }
     
     public int getOtherCount() throws SQLException, ClassNotFoundException {
-        int count = 0;
+        conn = DBConnect.makeConnection();
         
-        try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            
-        }
+        int count;
         
         String sql = "SELECT COUNT(*) FROM appointment WHERE type = 'Other'";
         

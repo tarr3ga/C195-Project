@@ -44,8 +44,6 @@ public class SaveData {
                      isActive + ", '" + customer.getCreateDate() + "', " + customer.getCreatedBy() + ", '" +
                      customer.getCreateDate() + "', " + customer.getUpdatedBy() + ");";
         
-        System.out.println("data.SaveData.saveNewCustomer() sql = " + sql);
-        
         try {
             statement = conn.createStatement();
             statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
@@ -81,8 +79,6 @@ public class SaveData {
                      address.getPostalCode() + "', '" + address.getPhone() + "', '" + address.getCreateDate() + "', " + 
                      address.getCreatedBy() + ", '" + address.getLastUpdate() + "', " + address.getUpdatedBy() + ");";
         
-        System.out.println("data.SaveData.saveNewAddess() sql = " + sql);
-        
         try {
             statement = conn.createStatement();
             statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
@@ -117,8 +113,6 @@ public class SaveData {
                      city.getCreatedBy() +
                      ");";
         
-        System.out.println("data.SaveData.saveNewCity() sql = " + sql);
-        
         try {
             statement = conn.createStatement();
             statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
@@ -141,9 +135,9 @@ public class SaveData {
     }
     
     public int saveNewAppointment(Appointment appointment) throws SQLException, ClassNotFoundException {
-        int id = 0;
-        
         conn = DBConnect.makeConnection();
+        
+        int id = 0;
         
         String sql = "INSERT INTO appointment(customerId, userId, title, description, " +
                      "location, contact, type, url, start, end, createDate, createdBy, lastUpdate, lastUpdateBy) " +
@@ -161,8 +155,6 @@ public class SaveData {
                      appointment.getCreatedBy() + ", '" +
                      appointment.getLastUpdate() + "', " +
                      appointment.getUpdatedBy() + ");";
-        
-        System.out.println("data.SaveData.saveNewAppointment() sql = " + sql);
         
         statement = conn.createStatement();
         statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
@@ -218,7 +210,6 @@ public class SaveData {
     public void updateCustomer(Customer customer) throws SQLException, ClassNotFoundException {
         conn = DBConnect.makeConnection();
 
-        
         String sql = "UPDATE customer " +
               "SET customerName = '" + customer.getName() + "', " +
               "    createDate = '"  + customer.getCreateDate() + "', " +
@@ -226,8 +217,6 @@ public class SaveData {
               "    lastUpdate = '"  + customer.getLastUpdate() + "', " +
               "    lastUpdateBy = "  + customer.getUpdatedBy() + " " +
               "WHERE customerId = " + customer.getCustomerId()+ ";";
-                        
-        System.out.println("data.SaveData.updateCustomer() sql = " + sql);
         
         statement = conn.createStatement();
         statement.execute(sql);
@@ -245,8 +234,6 @@ public class SaveData {
                 "    lastUpdate = '" + city.getLastUpdate() + "', " +  
                 "    lastUpdateBy = " + city.getUpdatedBy() + " " +    
                 "WHERE cityId = " + city.getCityId() + ";";
-        
-        System.out.println("data.SaveData.updateCity() sql = " + sql);
         
         statement = conn.createStatement();
         statement.execute(sql);
@@ -267,8 +254,6 @@ public class SaveData {
               "    lastUpdate = '" + address.getLastUpdate() + "', " +  
               "    lastUpdateBy = " + address.getUpdatedBy() + " " +    
               "WHERE addressId = " + address.getAddressId() + ";";
-                        
-        System.out.println("data.SaveData.updateAddress() sql = " + sql);
         
         statement = conn.createStatement();
         statement.execute(sql);

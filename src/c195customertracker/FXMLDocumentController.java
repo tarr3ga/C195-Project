@@ -134,8 +134,6 @@ public class FXMLDocumentController implements Initializable {
                 FetchData data = new FetchData();
                 authorizedUserId = data.getUserId(authorizedUser);
                 
-                //MainSceneController scene = new MainSceneController();
-                //scene.openWindow();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
                 Parent root = loader.load();
                 

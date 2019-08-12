@@ -23,8 +23,6 @@ import java.util.ResourceBundle;
 import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -38,7 +36,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -46,15 +43,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import models.Address;
 import models.Appointment;
 import models.AppointmentRow;
 import models.City;
 import models.Country;
 import models.Customer;
-import models.User;
-import util.AppointmentRowData;
 import util.DateTimeUtils;
 import util.RowData;
 
@@ -67,7 +61,6 @@ public class CustomersController implements Initializable {
 
     private ObservableList<Customer> customers = FXCollections.observableArrayList();
     private ObservableList<Appointment> appointments = FXCollections.observableArrayList();
-    private ObservableList<User> users = FXCollections.observableArrayList();
     private final ObservableList<RowData> rowData = FXCollections.observableArrayList();
     private ObservableList<AppointmentRow> appointmentRows= FXCollections.observableArrayList();
     
@@ -94,22 +87,7 @@ public class CustomersController implements Initializable {
         name.setMinWidth(175);
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         
-        /*TableColumn<RowData, String> userName = new TableColumn<>("Created By");
-        userName.setMinWidth(175);
-        userName.setCellValueFactory(new PropertyValueFactory<>("userName"));
-        userName.setCellFactory(col -> new TableCell<RowData, String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                
-                if(empty) 
-                    setText(null);
-                else {
-                    System.out.println(".updateItem() " + rowData.listIterator().next().getUser().getUsername());
-                    setText(rowData.listIterator().next().getUser().getUsername());
-                }                    
-            }
-        });*/
+        
         
         TableColumn<RowData, Timestamp> addedOn = new TableColumn<>("Added On");
         addedOn.setMinWidth(250);
@@ -140,7 +118,6 @@ public class CustomersController implements Initializable {
         displayTable.setOnMouseClicked((MouseEvent event) -> {
             if(event.getClickCount() >= 2) {
                 Customer c = (Customer)displayTable.getSelectionModel().getSelectedItem();           
-                //int index = c.getId();
                 
                 try {
                     loadCustomerSpecificAppointments(c);
@@ -378,7 +355,7 @@ public class CustomersController implements Initializable {
         hBoxCustomer.getChildren().clear();
         hBoxCustomer.getChildren().addAll(customerLabel, customerDate, address, address2, country, phone);
         
-        displayTable.setItems(appointments);
+        displayTable.setItems(appointmentRows);
         displayTable.getColumns().setAll(id, subject, location, time, end, user);
         
         displayTable.setOnMouseClicked((MouseEvent event) -> {
@@ -424,8 +401,6 @@ public class CustomersController implements Initializable {
                 stage.initModality(Modality.APPLICATION_MODAL);
                 stage.setScene(scene);
                 stage.showAndWait();
-                
-                getAppointmentRowData();
                 
                 loadCustomerSpecificAppointments(customer);
             } catch(SQLException | IOException ex) {
@@ -580,49 +555,7 @@ public class CustomersController implements Initializable {
             a.setEnd(zdtEnd);
         }
     }
-    
-    /*private void getData() throws SQLException, ClassNotFoundException {
-        FetchData data = new FetchData();
-        appointments = data.fetchAppointmentData();
-        
-        data = new FetchData();
-        users = data.fetchUsers();
-    }*/
-    
-    /*private void getUserData() throws SQLException, ClassNotFoundException {
-        for(Customer c : customers) {
-            for(User u : users){
-                if(u.getUserId() == c.getCreatedBy()){
-                    RowData rowDataTemp = new RowData(c, u);
-                    rowData.add(rowDataTemp);
-                }
-            }
-        }
-    }*/
-    
-    private void getAppointmentRowData() {
-        int index = 0;
-        
-        /*for(Appointment a : appointments) {
-            for(User u : users) {
-                System.out.println("index = " + index);
-                System.out.println("u.getUserId() = " + u.getUserId());
-                System.out.println("a.getCreatedBy() = " + a.getCreatedBy());
-                System.out.println("a.getCreatedBy() ------------------------");
-                
-                if(u.getUserId() == a.getCreatedBy()){
-                    AppointmentRowData rowDataTemp = new AppointmentRowData(a, u);
-                    appointmentRowData.add(rowDataTemp);
-                    System.out.println("Match...");
-                } else {
-                    System.out.println("No Match...");
-                }
-                
-                index++;
-            }
-        }*/
-    }
-    
+      
     /**
      * Initializes the controller class.
      * @param url
@@ -634,11 +567,7 @@ public class CustomersController implements Initializable {
         
         try {
             customers = data.fetchCustomerData();
-            users = data.fetchUsers();
             appointments = data.fetchAppointmentData();
-            
-            //getUserData();
-            //getAppointmentRowData();
         } catch (SQLException ex) {
             System.out.println(ex.toString());
         } catch (ClassNotFoundException ex) {

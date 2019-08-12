@@ -55,6 +55,7 @@ public class AppointmentRowAdapter {
             
             row.setId(element.getAppointmentId());
             row.setTitle(element.getTitle());
+            row.setLocation(element.getLocation());
             row.setStart(element.getStart());
             row.setEnd(element.getEnd());
             row.setCreatedBy(element.getCreatedBy());

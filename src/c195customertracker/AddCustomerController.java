@@ -68,7 +68,6 @@ public class AddCustomerController implements Initializable {
                     
                     int id = -1;
 
-                    //c = new Customer();
                     if(isEditing) {
                         c.setCustomerId(customerToEdit.getCustomerId());
                     }
@@ -76,8 +75,6 @@ public class AddCustomerController implements Initializable {
                     c.setActive(true);
                     
                      if(isEditing) {
-                        //c.setCreateDate(c.getCreateDate());
-                        //c.setCreatedBy(c.getCreatedBy());
                         c.setLastUpdate(Timestamp.valueOf(LocalDateTime.now()));
                         c.setUpdatedBy(FXMLDocumentController.authorizedUserId);
                     } else {
@@ -87,7 +84,6 @@ public class AddCustomerController implements Initializable {
                         c.setUpdatedBy(FXMLDocumentController.authorizedUserId);
                     }
                     
-                    //a = new Address();
                     a.setCustomerId(c.getCustomerId());
                     a.setAddress(address.getText());
                     a.setAddress2(address2.getText());
@@ -95,8 +91,6 @@ public class AddCustomerController implements Initializable {
                     a.setPhone(phone.getText());
                     
                     if(isEditing) {
-                        //a.setCreateDate(c.getCreateDate());
-                        //a.setCreatedBy(c.getCreatedBy());
                         a.setLastUpdate(Timestamp.valueOf(LocalDateTime.now()));
                         a.setUpdatedBy(FXMLDocumentController.authorizedUserId);
                     } else {
@@ -107,7 +101,6 @@ public class AddCustomerController implements Initializable {
                     }
                     
                     int countryId = country.getSelectionModel().getSelectedIndex() -1;
-                    //City ci = new City();
                     ci.setCity(city.getText());
                     ci.setCountryId(countryId);
                     
@@ -224,10 +217,7 @@ public class AddCustomerController implements Initializable {
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        //Window window =  btnCancel.getScene().getWindow();
-        //stage = (Stage) window.getScene().getWindow();
-        
+    public void initialize(URL url, ResourceBundle rb) {      
         setEventHandlers();
          
         /*for(String s: states) {

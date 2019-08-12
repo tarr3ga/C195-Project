@@ -57,12 +57,10 @@ public class DetailsController implements Initializable {
     @FXML private TextField country;
     @FXML private TextField phone;
     
-    @FXML private GridPane gpBoxButtons;
     @FXML private Button btnEdit;
     @FXML private Button btnClose;
     @FXML private Button btnSave;
     @FXML private Button btnCancel;
-    @FXML private Button onBtnCustomerDetailsClick;
     
     @FXML private Label lblStart;
     @FXML private Label lblEnd;

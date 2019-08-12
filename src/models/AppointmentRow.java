@@ -14,6 +14,7 @@ import java.time.ZonedDateTime;
 public class AppointmentRow {
     private int id;
     private String title;
+    private String location;
     private ZonedDateTime start;
     private ZonedDateTime end;
     private String user;
@@ -27,6 +28,9 @@ public class AppointmentRow {
     
     public ZonedDateTime getStart() { return start; }
     public void setStart(ZonedDateTime start) { this.start = start; }
+
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
     
     public ZonedDateTime getEnd() { return end; }
     public void setEnd(ZonedDateTime end) { this.end = end; }
@@ -41,9 +45,10 @@ public class AppointmentRow {
         
     }
     
-    public AppointmentRow(int id, String title, ZonedDateTime start, ZonedDateTime end, String user, int createdBy) {
+    public AppointmentRow(int id, String title, String location, ZonedDateTime start, ZonedDateTime end, String user, int createdBy) {
         this.id = id;
         this.title = title;
+        this.location = location;
         this.start = start;
         this.end = end;
         this.user = user;
