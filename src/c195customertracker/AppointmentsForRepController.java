@@ -87,11 +87,7 @@ public class AppointmentsForRepController implements Initializable {
                     setText(String.format(item.format(formatter)));
             }
         });
-        
-        //TableColumn<Appointment, String> customerRep = new TableColumn<>("Customer Rep");
-        //customerRep.setMinWidth(175);
-        //customerRep.setCellValueFactory(new PropertyValueFactory("customerRep"));
-        
+       
         TableColumn<Appointment, ZonedDateTime> end = new TableColumn<>("End Date");
         end.setMinWidth(225);
         end.setCellValueFactory(new PropertyValueFactory("end"));

@@ -5,6 +5,7 @@
  */
 package c195customertracker;
 
+import adapters.AppointmentRowAdapter;
 import data.DeleteData;
 import data.FetchData;
 import java.io.BufferedWriter;
@@ -22,6 +23,8 @@ import java.util.ResourceBundle;
 import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -35,6 +38,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -42,12 +46,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import models.Address;
 import models.Appointment;
+import models.AppointmentRow;
 import models.City;
 import models.Country;
 import models.Customer;
 import models.User;
+import util.AppointmentRowData;
 import util.DateTimeUtils;
 import util.RowData;
 
@@ -61,13 +68,12 @@ public class CustomersController implements Initializable {
     private ObservableList<Customer> customers = FXCollections.observableArrayList();
     private ObservableList<Appointment> appointments = FXCollections.observableArrayList();
     private ObservableList<User> users = FXCollections.observableArrayList();
-    private ObservableList<RowData> rowData = FXCollections.observableArrayList();
+    private final ObservableList<RowData> rowData = FXCollections.observableArrayList();
+    private ObservableList<AppointmentRow> appointmentRows= FXCollections.observableArrayList();
     
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy  hh:mm a");
     
-    public ObservableList<Customer> getCustomers() {
-        return customers;
-    } 
+    public ObservableList<Customer> getCustomers() { return customers; } 
     
     @FXML private TableView displayTable;
     @FXML private HBox hBoxButtons;
@@ -88,7 +94,7 @@ public class CustomersController implements Initializable {
         name.setMinWidth(175);
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         
-        TableColumn<RowData, String> userName = new TableColumn<>("Created By");
+        /*TableColumn<RowData, String> userName = new TableColumn<>("Created By");
         userName.setMinWidth(175);
         userName.setCellValueFactory(new PropertyValueFactory<>("userName"));
         userName.setCellFactory(col -> new TableCell<RowData, String>() {
@@ -103,7 +109,7 @@ public class CustomersController implements Initializable {
                     setText(rowData.listIterator().next().getUser().getUsername());
                 }                    
             }
-        });
+        });*/
         
         TableColumn<RowData, Timestamp> addedOn = new TableColumn<>("Added On");
         addedOn.setMinWidth(250);
@@ -129,7 +135,7 @@ public class CustomersController implements Initializable {
         hBoxButtons.getChildren().addAll(btnAdd, btnView, btnEdit, btnDelete);
         
         displayTable.setItems(customers);
-        displayTable.getColumns().setAll(id, name, addedOn, userName);
+        displayTable.getColumns().setAll(id, name, addedOn);
         
         displayTable.setOnMouseClicked((MouseEvent event) -> {
             if(event.getClickCount() >= 2) {
@@ -252,29 +258,30 @@ public class CustomersController implements Initializable {
     
     private void loadCustomerSpecificAppointments(Customer customer) throws SQLException, IOException, ClassNotFoundException {
         
-        FetchData data = new FetchData();
-        appointments = data.fetchAppointmentsForCustomerData(customer);
+        AppointmentRowAdapter adapter = new AppointmentRowAdapter(customer);
+                
+        appointmentRows = adapter.getAdapter();
         
         adjustTimeZones();
         
         displayTable.getItems().clear();
        
-        TableColumn<Appointment, Integer> id = new TableColumn<>("ID");
+        TableColumn<AppointmentRow, Integer> id = new TableColumn<>("ID");
         id.setMinWidth(20);
         id.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
        
-        TableColumn<Appointment, String> subject = new TableColumn<>("Title");
+        TableColumn<AppointmentRow, String> subject = new TableColumn<>("Title");
         subject.setMinWidth(175);
         subject.setCellValueFactory(new PropertyValueFactory<>("title"));
 
-        TableColumn<Appointment, String> location = new TableColumn<>("Location");
+        TableColumn<AppointmentRow, String> location = new TableColumn<>("Location");
         location.setMinWidth(175);
         location.setCellValueFactory(new PropertyValueFactory<>("location"));
         
-        TableColumn<Appointment, ZonedDateTime> time = new TableColumn<>("Date and Time");
+        TableColumn<AppointmentRow, ZonedDateTime> time = new TableColumn<>("Date and Time");
         time.setMinWidth(250);
         time.setCellValueFactory(new PropertyValueFactory<>("start"));
-        time.setCellFactory(col -> new TableCell<Appointment, ZonedDateTime>(){
+        time.setCellFactory(col -> new TableCell<AppointmentRow, ZonedDateTime>(){
             @Override
             protected void updateItem(ZonedDateTime item, boolean empty) {
 
@@ -286,10 +293,10 @@ public class CustomersController implements Initializable {
             }
         });
         
-        TableColumn<Appointment, ZonedDateTime> end = new TableColumn<>("End");
+        TableColumn<AppointmentRow, ZonedDateTime> end = new TableColumn<>("End");
         end.setMinWidth(250);
         end.setCellValueFactory(new PropertyValueFactory<>("end"));
-        end.setCellFactory(col -> new TableCell<Appointment, ZonedDateTime>(){
+        end.setCellFactory(col -> new TableCell<AppointmentRow, ZonedDateTime>(){
             @Override
             protected void updateItem(ZonedDateTime item, boolean empty) {
 
@@ -300,6 +307,10 @@ public class CustomersController implements Initializable {
                     setText(String.format(item.format(formatter)));
             }
         });
+        
+        TableColumn<AppointmentRow, String> user = new TableColumn<>("Assigned To");
+        user.setMinWidth(175);
+        user.setCellValueFactory(new PropertyValueFactory<>("user"));
         
         btnAdd = new Button();
         btnAdd.setPrefWidth(200);
@@ -324,6 +335,8 @@ public class CustomersController implements Initializable {
         customerDate.setText("Added on " + formattedDateTime);
         
         Address add = new Address();
+        
+        FetchData data;
         
         try {
             data = new FetchData();
@@ -366,7 +379,7 @@ public class CustomersController implements Initializable {
         hBoxCustomer.getChildren().addAll(customerLabel, customerDate, address, address2, country, phone);
         
         displayTable.setItems(appointments);
-        displayTable.getColumns().setAll(id, subject, location, time, end);
+        displayTable.getColumns().setAll(id, subject, location, time, end, user);
         
         displayTable.setOnMouseClicked((MouseEvent event) -> {
             if(event.getClickCount() >= 2) {
@@ -411,6 +424,8 @@ public class CustomersController implements Initializable {
                 stage.initModality(Modality.APPLICATION_MODAL);
                 stage.setScene(scene);
                 stage.showAndWait();
+                
+                getAppointmentRowData();
                 
                 loadCustomerSpecificAppointments(customer);
             } catch(SQLException | IOException ex) {
@@ -574,7 +589,7 @@ public class CustomersController implements Initializable {
         users = data.fetchUsers();
     }*/
     
-    private void getUserData() throws SQLException, ClassNotFoundException {
+    /*private void getUserData() throws SQLException, ClassNotFoundException {
         for(Customer c : customers) {
             for(User u : users){
                 if(u.getUserId() == c.getCreatedBy()){
@@ -583,6 +598,29 @@ public class CustomersController implements Initializable {
                 }
             }
         }
+    }*/
+    
+    private void getAppointmentRowData() {
+        int index = 0;
+        
+        /*for(Appointment a : appointments) {
+            for(User u : users) {
+                System.out.println("index = " + index);
+                System.out.println("u.getUserId() = " + u.getUserId());
+                System.out.println("a.getCreatedBy() = " + a.getCreatedBy());
+                System.out.println("a.getCreatedBy() ------------------------");
+                
+                if(u.getUserId() == a.getCreatedBy()){
+                    AppointmentRowData rowDataTemp = new AppointmentRowData(a, u);
+                    appointmentRowData.add(rowDataTemp);
+                    System.out.println("Match...");
+                } else {
+                    System.out.println("No Match...");
+                }
+                
+                index++;
+            }
+        }*/
     }
     
     /**
@@ -597,8 +635,10 @@ public class CustomersController implements Initializable {
         try {
             customers = data.fetchCustomerData();
             users = data.fetchUsers();
+            appointments = data.fetchAppointmentData();
             
-            getUserData();
+            //getUserData();
+            //getAppointmentRowData();
         } catch (SQLException ex) {
             System.out.println(ex.toString());
         } catch (ClassNotFoundException ex) {
