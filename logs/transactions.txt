@@ -59,3 +59,21 @@ test logged in at 2019-08-12T17:51:31.065
 test logged in at 2019-08-12T17:55:52.754
 bobvilla logged in at 2019-08-13T07:41:14.672
 Updated Appointment ID: 19 Updated by bobvilla on 2019-08-13T07:42:20.150-04:00[America/New_York]
+jamyers logged in at 2019-08-13T10:51:21.726
+jamyers logged in at 2019-08-13T10:57:58.389
+jamyers logged in at 2019-08-13T11:31:49.452
+jamyers logged in at 2019-08-13T12:12:50.261
+New Customer ID: 0 Created by jamyers on 2019-08-13T12:13:47.380-04:00[America/New_York]
+New Customer ID: 12 Created by jamyers on 2019-08-13T12:21:50.860-04:00[America/New_York]
+Customer ID: 12 Deleted by jamyers on 2019-08-13T12:22:29.358-04:00[America/New_York]
+Customer ID: 12 Deleted by jamyers on 2019-08-13T12:22:36.602-04:00[America/New_York]
+test logged in at 2019-08-13T12:52:12.601
+test logged in at 2019-08-13T12:56:43.586
+New Customer ID: 13 Created by test on 2019-08-13T12:58:07.562-04:00[America/New_York]
+Customer ID: 13 Deleted by test on 2019-08-13T12:58:16.951-04:00[America/New_York]
+New Customer ID: 14 Created by test on 2019-08-13T12:59:20.585-04:00[America/New_York]
+New Customer ID: 15 Created by test on 2019-08-13T14:11:09.287-04:00[America/New_York]
+New Customer ID: 16 Created by test on 2019-08-13T14:12:16.169-04:00[America/New_York]
+jamyers logged in at 2019-08-13T14:15:52.887
+test logged in at 2019-08-13T14:19:23.788
+Updated Appointment ID: 24 Updated by test on 2019-08-13T14:22:45.520-04:00[America/New_York]

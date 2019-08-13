@@ -74,6 +74,14 @@ public class AppointmentsController implements Initializable {
         TableColumn<Appointment, ZonedDateTime> start = new TableColumn<>("Start Date");
         start.setMinWidth(225);
         start.setCellValueFactory(new PropertyValueFactory("start"));
+        /*
+            ********************************************************************
+            Lambda Example 2.  
+            This reduces the amount of code needed to use the setCellFactory
+            method.  It also allows you to use that method without importing
+            and using the Callback class.
+            ********************************************************************
+        */
         start.setCellFactory(col -> new TableCell<Appointment, ZonedDateTime>(){
             @Override
             protected void updateItem(ZonedDateTime item, boolean empty) {
@@ -93,6 +101,14 @@ public class AppointmentsController implements Initializable {
         TableColumn<Appointment, ZonedDateTime> end = new TableColumn<>("End Date");
         end.setMinWidth(225);
         end.setCellValueFactory(new PropertyValueFactory("end"));
+         /*
+            ********************************************************************
+            Lambda Example 2.  
+            This reduces the amount of code needed to use the setCellFactory
+            method.  It also allows you to use that method without importing
+            and using the Callback class.
+            ********************************************************************
+        */
         end.setCellFactory(col -> new TableCell<Appointment, ZonedDateTime>(){
             @Override
             protected void updateItem(ZonedDateTime item, boolean empty) {

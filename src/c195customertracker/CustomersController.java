@@ -61,7 +61,6 @@ public class CustomersController implements Initializable {
 
     private ObservableList<Customer> customers = FXCollections.observableArrayList();
     private ObservableList<Appointment> appointments = FXCollections.observableArrayList();
-    private final ObservableList<RowData> rowData = FXCollections.observableArrayList();
     private ObservableList<AppointmentRow> appointmentRows= FXCollections.observableArrayList();
     
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy  hh:mm a");
@@ -260,6 +259,14 @@ public class CustomersController implements Initializable {
         TableColumn<AppointmentRow, ZonedDateTime> time = new TableColumn<>("Date and Time");
         time.setMinWidth(250);
         time.setCellValueFactory(new PropertyValueFactory<>("start"));
+        /*
+            ********************************************************************
+            Lambda Example 1.  
+            This reduces the amount of code needed to use the setCellFactory
+            method.  It also allows you to use that method without importing
+            and using the Callback class.
+            ********************************************************************
+        */
         time.setCellFactory(col -> new TableCell<AppointmentRow, ZonedDateTime>(){
             @Override
             protected void updateItem(ZonedDateTime item, boolean empty) {
@@ -275,6 +282,14 @@ public class CustomersController implements Initializable {
         TableColumn<AppointmentRow, ZonedDateTime> end = new TableColumn<>("End");
         end.setMinWidth(250);
         end.setCellValueFactory(new PropertyValueFactory<>("end"));
+        /*
+            ********************************************************************
+            Lambda Example 1.  
+            This reduces the amount of code needed to use the setCellFactory
+            method.  It also allows you to use that method without importing
+            and using the Callback class.
+            ********************************************************************
+        */
         end.setCellFactory(col -> new TableCell<AppointmentRow, ZonedDateTime>(){
             @Override
             protected void updateItem(ZonedDateTime item, boolean empty) {
