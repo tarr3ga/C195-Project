@@ -42,3 +42,20 @@ jamyers logged in at 2019-08-12T13:02:51.086
 jamyers logged in at 2019-08-12T13:19:51.948
 jamyers logged in at 2019-08-12T15:05:51.329
 jamyers logged in at 2019-08-12T15:08:56.256
+jamyers logged in at 2019-08-12T15:31:16.519
+jamyers logged in at 2019-08-12T15:37:02.350
+skyler logged in at 2019-08-12T15:48:03.151
+jamyers logged in at 2019-08-12T15:59:44.800
+skyler logged in at 2019-08-12T16:16:42.317
+Updated Appointment ID: 15 Updated by skyler on 2019-08-12T16:17:23.257-04:00[America/New_York]
+sarah logged in at 2019-08-12T17:13:56.239
+Updated Appointment ID: 16 Updated by sarah on 2019-08-12T17:14:55.930-04:00[America/New_York]
+jamyers logged in at 2019-08-12T17:25:27.227
+Updated Appointment ID: 17 Updated by jamyers on 2019-08-12T17:26:27.306-04:00[America/New_York]
+skyler logged in at 2019-08-12T17:40:55.201
+Updated Appointment ID: 18 Updated by skyler on 2019-08-12T17:41:54.566-04:00[America/New_York]
+jamyers logged in at 2019-08-12T17:49:05.289
+test logged in at 2019-08-12T17:51:31.065
+test logged in at 2019-08-12T17:55:52.754
+bobvilla logged in at 2019-08-13T07:41:14.672
+Updated Appointment ID: 19 Updated by bobvilla on 2019-08-13T07:42:20.150-04:00[America/New_York]

@@ -79,19 +79,21 @@ public class CustomersController implements Initializable {
     private Button btnDeleteAppointment;
     
     private void populateTable() {        
-        TableColumn<RowData, Integer> id = new TableColumn<>("ID");
+        TableColumn<Customer, Integer> id = new TableColumn<>("ID");
         id.setMinWidth(20);
         id.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         
-        TableColumn<RowData, String> name = new TableColumn<>("Name");
+        TableColumn<Customer, String> name = new TableColumn<>("Name");
         name.setMinWidth(175);
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        
-        
-        
-        TableColumn<RowData, Timestamp> addedOn = new TableColumn<>("Added On");
+       
+        TableColumn<Customer, Timestamp> addedOn = new TableColumn<>("Added On");
         addedOn.setMinWidth(250);
         addedOn.setCellValueFactory(new PropertyValueFactory<>("createDate"));
+        
+        TableColumn<Customer, Integer> createdBy = new TableColumn<>("Created By");
+        createdBy.setMinWidth(175);
+        createdBy.setCellValueFactory(new PropertyValueFactory<>("createdBy"));
         
         btnAdd = new Button();
         btnAdd.setPrefWidth(200);
@@ -245,7 +247,7 @@ public class CustomersController implements Initializable {
        
         TableColumn<AppointmentRow, Integer> id = new TableColumn<>("ID");
         id.setMinWidth(20);
-        id.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
        
         TableColumn<AppointmentRow, String> subject = new TableColumn<>("Title");
         subject.setMinWidth(175);
@@ -360,8 +362,9 @@ public class CustomersController implements Initializable {
         
         displayTable.setOnMouseClicked((MouseEvent event) -> {
             if(event.getClickCount() >= 2) {
-                Appointment a = (Appointment)displayTable.getSelectionModel().getSelectedItem();           
-                int index = a.getAppointmentId();
+                AppointmentRow row = (AppointmentRow)displayTable.getSelectionModel().getSelectedItem();
+                 
+                Appointment a = getAppointmentByID(row.getId());
                 
                 try {                    
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Details.fxml"));
@@ -464,6 +467,18 @@ public class CustomersController implements Initializable {
         });
     }
     
+    private Appointment getAppointmentByID(int id) {
+        Appointment appointment = new Appointment();
+        
+        for(Appointment a : appointments) {
+            if(a.getAppointmentId() == id) {
+                appointment = a;
+            }
+        }
+        
+        return appointment;
+    }
+    
     private boolean checkIfCustomerHasAppointments(Customer c) throws SQLException, ClassNotFoundException {
         boolean hasAppoinyments = true;
         
@@ -545,7 +560,7 @@ public class CustomersController implements Initializable {
             ZonedDateTime zdtEnd = DateTimeUtils.getUnalteredZonedDateTimeFromString(String.valueOf(a.getEnd()));
             
             if(!customerZoneId.equals(defaultZoneId)) {
-                //TimeZone customerTimeZone = TimeZone.getTimeZone(customerZoneId);
+                TimeZone customerTimeZone = TimeZone.getTimeZone(customerZoneId);
                 zdtStart = DateTimeUtils.adjustForTimeZones(zdtStart);
                 
                 zdtEnd = DateTimeUtils.adjustForTimeZones(zdtEnd);
@@ -574,8 +589,12 @@ public class CustomersController implements Initializable {
             Logger.getLogger(CustomersController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        for(RowData r : rowData) {
-            System.out.println(r.getCustomer().getName() + " " + r.getUser().getUsername());
+        for(Appointment a : appointments) {
+           ZonedDateTime start = a.getStart().plusHours(1);
+           ZonedDateTime end = a.getEnd().plusHours(1);
+           
+           a.setStart(start);
+           a.setEnd(end);
         }
         
         populateTable();  

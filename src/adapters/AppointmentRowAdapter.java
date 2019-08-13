@@ -7,6 +7,7 @@ package adapters;
 
 import data.FetchData;
 import java.sql.SQLException;
+import java.time.ZonedDateTime;
 import java.util.ListIterator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,6 +33,7 @@ public class AppointmentRowAdapter {
        
         fetchData();
         buildList();
+        adjustTime();
     }
     
     public ObservableList getAdapter() {
@@ -76,6 +78,16 @@ public class AppointmentRowAdapter {
                     element.setUser(user.getUsername());
                 }
             }
+        }
+    }
+    
+    private void adjustTime() {
+        for(AppointmentRow a : appointmentRows) {
+            ZonedDateTime start = a .getStart().plusHours(1);
+            ZonedDateTime end = a.getEnd().plusHours(1);
+            
+            a.setStart(start);
+            a.setEnd(end);
         }
     }
 }
