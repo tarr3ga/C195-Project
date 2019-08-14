@@ -22,8 +22,6 @@ public class Appointment {
     private String contact;
     private String type;
     private String url;
-    //private GregorianCalendar start;
-    //private GregorianCalendar end;
     private ZonedDateTime start;
     private ZonedDateTime end;
     private Timestamp createDate;

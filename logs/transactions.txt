@@ -77,3 +77,14 @@ New Customer ID: 16 Created by test on 2019-08-13T14:12:16.169-04:00[America/New
 jamyers logged in at 2019-08-13T14:15:52.887
 test logged in at 2019-08-13T14:19:23.788
 Updated Appointment ID: 24 Updated by test on 2019-08-13T14:22:45.520-04:00[America/New_York]
+jamyers logged in at 2019-08-13T15:31:08.868
+Updated Appointment ID: 25 Updated by jamyers on 2019-08-13T15:32:16.465-04:00[America/New_York]
+Updated Appointment ID: 26 Updated by jamyers on 2019-08-13T15:34:57.597-04:00[America/New_York]
+Updated Appointment ID: 27 Updated by jamyers on 2019-08-13T15:44:39.524-04:00[America/New_York]
+jamyers logged in at 2019-08-13T15:48:22.001
+jamyers logged in at 2019-08-13T15:55:01.352
+jamyers logged in at 2019-08-13T16:01:59.869
+New Customer ID: 17 Created by jamyers on 2019-08-13T16:03:01.786-04:00[America/New_York]
+jamyers logged in at 2019-08-13T16:50:56.390
+New Customer ID: 18 Created by jamyers on 2019-08-13T17:00:50.519-04:00[America/New_York]
+jamyers logged in at 2019-08-13T14:12:51.968

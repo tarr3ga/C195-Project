@@ -84,6 +84,8 @@ public class AddCustomerController implements Initializable {
                         c.setUpdatedBy(FXMLDocumentController.authorizedUserId);
                     }
                     
+                     System.out.println("c time = " + Timestamp.valueOf(LocalDateTime.now()));
+                     
                     a.setCustomerId(c.getCustomerId());
                     a.setAddress(address.getText());
                     a.setAddress2(address2.getText());
@@ -100,6 +102,8 @@ public class AddCustomerController implements Initializable {
                         a.setUpdatedBy(FXMLDocumentController.authorizedUserId);
                     }
                     
+                    System.out.println("a time = " + Timestamp.valueOf(LocalDateTime.now()));
+                    
                     int countryId = country.getSelectionModel().getSelectedIndex() -1;
                     ci.setCity(city.getText());
                     ci.setCountryId(countryId);
@@ -115,6 +119,8 @@ public class AddCustomerController implements Initializable {
                         ci.setLastUpdate(Timestamp.valueOf(LocalDateTime.now()));
                         ci.setUpdatedBy(FXMLDocumentController.authorizedUserId);
                     }
+                    
+                    System.out.println("ci time = " + Timestamp.valueOf(LocalDateTime.now()));
                     
                     SaveData data = new SaveData();
                     

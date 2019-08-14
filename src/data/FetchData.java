@@ -174,13 +174,8 @@ public class FetchData {
     
     public Customer fetchSingleCustomer(int customerId) throws SQLException, ClassNotFoundException {
         Customer c = new Customer();
-        
-         try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            System.out.println("fetchSingleCustomer");
-            Logger.getLogger(data.FetchData.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+        conn = DBConnect.makeConnection();
         
         statement = conn.createStatement();
         resultSet = statement.executeQuery(SQL_CUSTOMER + customerId + ";");
@@ -217,14 +212,8 @@ public class FetchData {
     }
     
     public ObservableList fetchCustomerData() throws SQLException, ClassNotFoundException {
-        
-        try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            System.out.println("fetchCustomerData");
-            Logger.getLogger(data.FetchData.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        conn = DBConnect.makeConnection();
+
         statement = conn.createStatement();
         resultSet = statement.executeQuery(SQL_CUSTOMERS);
         
@@ -274,14 +263,8 @@ public class FetchData {
     }
     
     public ObservableList fetchAddresses() throws SQLException, ClassNotFoundException {
-        
-         try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            System.out.println("fetchAddresses");
-            Logger.getLogger(data.FetchData.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        conn = DBConnect.makeConnection();
+
         statement = conn.createStatement();
         resultSet = statement.executeQuery(SQL_ADDRESSES);
         
@@ -425,13 +408,8 @@ public class FetchData {
         
         Country c = new Country();
         
-        try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            System.out.println("fetchCountry");
-            Logger.getLogger(data.FetchData.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        conn = DBConnect.makeConnection();
+
         statement = conn.createStatement();
         resultSet = statement.executeQuery(SQL_COUNTRY + countryId + ";");
               
@@ -451,16 +429,9 @@ public class FetchData {
     }
     
     public ArrayList<Country> fetchCountries() throws SQLException, ClassNotFoundException {
-        
         ArrayList<Country> countries = new ArrayList<>();
-        
-        try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            System.out.println("fetchCountry");
-            Logger.getLogger(data.FetchData.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        conn = DBConnect.makeConnection();
+
         statement = conn.createStatement();
         resultSet = statement.executeQuery(SQL_COUNTRIES);
               
@@ -486,13 +457,7 @@ public class FetchData {
     }
     
     public ObservableList fetchAppointmentsForCustomerData(Customer c) throws SQLException, ClassNotFoundException {
-        
-         try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            System.out.println("fetchAppointmentsForCustomerData");
-            Logger.getLogger(data.FetchData.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        conn = DBConnect.makeConnection();
         
         statement = conn.createStatement();
         resultSet = statement.executeQuery(SQL_CUSTOMER_SPECIFIC_APPOINTMENTS + c.getCustomerId() + ";");
@@ -570,11 +535,7 @@ public class FetchData {
     }
     
     public ObservableList fetchAppointmentsForCustomerRep(int userId) throws SQLException, ClassNotFoundException {
-        try {
-            conn = DBConnect.makeConnection();
-        } catch(SQLException ex) {
-            System.err.println(ex.toString());
-        }
+        conn = DBConnect.makeConnection();
         
         String sql = SQL_APPOINTMENTS_BY_REP + userId + "';";
         
