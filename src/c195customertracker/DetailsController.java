@@ -238,7 +238,10 @@ public class DetailsController implements Initializable {
             cbTimezone.getItems().add(s);
         }
         
-        cbTimezone.getSelectionModel().selectFirst();
+        String zoneName = appointment.getStart().getZone().toString();
+        String timeZone = DateTimeUtils.getTimeZoneAbbreviation(zoneName);
+        
+        cbTimezone.getSelectionModel().select(timeZone);
         
         cbStartAmPm.getItems().add("AM");
         cbStartAmPm.getItems().add("PM");

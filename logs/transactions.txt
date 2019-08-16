@@ -143,3 +143,8 @@ jamyers logged in at 2019-08-16T14:16:51.652
 Updated Appointment ID: 41 Updated by jamyers on 2019-08-16T14:17:48.169-04:00[America/New_York]
 jamyers logged in at 2019-08-16T14:35:49.236
 sarah logged in at 2019-08-16T14:42:28.543
+test logged in at 2019-08-16T14:44:29.068
+skyler logged in at 2019-08-16T14:53:17.042
+test logged in at 2019-08-16T14:55:17.971
+test logged in at 2019-08-16T14:57:18.203
+test logged in at 2019-08-16T15:01:55.717
