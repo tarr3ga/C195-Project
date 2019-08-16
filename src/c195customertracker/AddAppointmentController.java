@@ -320,7 +320,13 @@ public class AddAppointmentController implements Initializable {
     private void setDefaultTimeZone() {
         String zone = TimeZone.getDefault().getDisplayName();
         
+        System.out.println("c195customertracker.AddAppointmentController.setDefaultTimeZone()  = " + zone);
+        
         switch(zone) {
+            case "Atlantic Standard Time":
+                timezone.getSelectionModel().select("GMT-4  EST");
+                defaultTimeZone = "GMT-4  EST";
+                break;
             case "Eastern Standard Time":
                 timezone.getSelectionModel().select("GMT-5  EST");
                 defaultTimeZone = "GMT-5  EST";

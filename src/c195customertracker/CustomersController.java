@@ -239,8 +239,6 @@ public class CustomersController implements Initializable {
                 
         appointmentRows = adapter.getAdapter();
         
-        adjustTimeZones();
-        
         displayTable.getItems().clear();
        
         TableColumn<AppointmentRow, Integer> id = new TableColumn<>("ID");
@@ -429,10 +427,11 @@ public class CustomersController implements Initializable {
         
         btnViewAppointmentDetails.setOnMouseClicked((MouseEvent e) -> {
             if(displayTable.getSelectionModel().getSelectedItem() != null) {
-                Appointment a = (Appointment)displayTable.getSelectionModel().getSelectedItem();           
-                int index = a.getAppointmentId();
+                AppointmentRow row = (AppointmentRow)displayTable.getSelectionModel().getSelectedItem();
+                 
+                Appointment a = getAppointmentByID(row.getId());
                 
-                try {
+                try {                    
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Details.fxml"));
                     Parent root = loader.load();
                     
@@ -448,11 +447,11 @@ public class CustomersController implements Initializable {
                     controller.getData();
                     
                     stage.showAndWait();
-                } catch(SQLException | IOException ex) {
+                } catch(IOException | SQLException ex) {
                     System.err.println(ex.toString());
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(CustomersController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                }      
             }           
         });
         
@@ -563,7 +562,8 @@ public class CustomersController implements Initializable {
         } 
     }
     
-    private void adjustTimeZones() {
+    //TODO Moved to appointment adapter, can be removed from here when tested.
+    /*private void adjustTimeZones() {
         TimeZone defaultTimeZone = TimeZone.getDefault();
         ZoneId defaultZoneId = ZoneId.of(defaultTimeZone.getID());
         
@@ -583,7 +583,7 @@ public class CustomersController implements Initializable {
             a.setStart(zdtStart);
             a.setEnd(zdtEnd);
         }
-    }
+    }*/
       
     /**
      * Initializes the controller class.

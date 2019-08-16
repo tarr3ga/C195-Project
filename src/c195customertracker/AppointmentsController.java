@@ -40,6 +40,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.Appointment;
+import models.AppointmentRow;
 import util.DateTimeUtils;
 
 /**
@@ -128,15 +129,20 @@ public class AppointmentsController implements Initializable {
     private void setEventHandlers() {
         appointmentsTable.setOnMouseClicked((MouseEvent event) -> {
             if(event.getClickCount() >= 2) {
-                Appointment a = (Appointment)appointmentsTable.getSelectionModel().getSelectedItem();           
-                int index = a.getAppointmentId();
+                //Appointment a = (Appointment)appointmentsTable.getSelectionModel().getSelectedItem();     
+                AppointmentRow a = (AppointmentRow)appointmentsTable.getSelectionModel().getSelectedItem();
+                int index = a.getId();
                 
                 try {                    
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Details.fxml"));
                     Parent root = loader.load();
                     
                     DetailsController controller = loader.getController();
-                    controller.getAppointment(a);
+                    
+                    FetchData data = new FetchData();
+                    Appointment app = data.fetchAppointmentById(index);
+                    
+                    controller.getAppointment(app);
                     
                     Stage stage = new Stage();
                     Scene scene = new Scene(root);
@@ -234,9 +240,7 @@ public class AppointmentsController implements Initializable {
                     appointments = data.fetchAppointmentsInDateRange(startDateTime, endDateTime);
                     adjustForTimezones();
                     populateTable();
-                } catch(SQLException ex) {
-                    System.err.println(ex.toString());
-                } catch (ClassNotFoundException ex) {
+                } catch(SQLException | ClassNotFoundException ex) {
                     System.err.println(ex.toString());
                 }
             }

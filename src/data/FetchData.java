@@ -590,6 +590,52 @@ public class FetchData {
         return appointments;
     }
     
+    public Appointment fetchAppointmentById(int id) throws SQLException, ClassNotFoundException {
+        Appointment a = new Appointment();
+        
+        conn = DBConnect.makeConnection();
+        
+        statement = conn.createStatement();
+        resultSet = statement.executeQuery(SQL_APPOINTMENTS);
+        
+        resultSet.next();
+        
+        int index;
+        
+        index = resultSet.findColumn("appointmentId");
+        a.setAppointmentId(resultSet.getInt(index));
+
+        index = resultSet.findColumn("customerId");
+        a.setCustomerId(resultSet.getInt(index));
+
+        index = resultSet.findColumn("title");
+        a.setTitle(resultSet.getString(index));
+
+        index = resultSet.findColumn("location");
+        a.setLocation(resultSet.getString(index));
+
+        index = resultSet.findColumn("description");
+        a.setDescription(resultSet.getString(index));
+
+        index = resultSet.findColumn("start");
+        String start = resultSet.getString(index);
+
+        index = resultSet.findColumn("end");
+        String end = resultSet.getString(index);
+
+        ZonedDateTime startDateTime = ZonedDateTime.parse(start);
+        ZonedDateTime endDateTime = ZonedDateTime.parse(end);
+            
+        a.setStart(startDateTime);
+        a.setEnd(endDateTime);
+
+        appointments.add(a);
+
+        conn.close();
+        
+        return a;
+    }
+    
     public ObservableList fetchAppointmentData() throws SQLException, ClassNotFoundException {
         conn = DBConnect.makeConnection();
         
@@ -599,7 +645,7 @@ public class FetchData {
         int index;
         
         while(resultSet.next()) {
-             index = resultSet.findColumn("appointmentId");
+            index = resultSet.findColumn("appointmentId");
             int appointmentId = resultSet.getInt(index);
             
             index = resultSet.findColumn("customerId");
@@ -668,6 +714,7 @@ public class FetchData {
         return appointments;
     }
     
+    /*
     public ObservableList fetchAppointmentDetails(Appointment a) throws SQLException, ClassNotFoundException {
         conn = DBConnect.makeConnection();
         
@@ -681,7 +728,7 @@ public class FetchData {
         }
         
         return appointments;
-    }
+    }*/
     
     public ObservableList fetchAppointmentsInDateRange(ZonedDateTime startDate, ZonedDateTime endDate) throws SQLException, ClassNotFoundException {
         conn = DBConnect.makeConnection();

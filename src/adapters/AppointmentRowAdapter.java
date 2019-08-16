@@ -7,14 +7,17 @@ package adapters;
 
 import data.FetchData;
 import java.sql.SQLException;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ListIterator;
+import java.util.TimeZone;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import models.Appointment;
 import models.AppointmentRow;
 import models.Customer;
 import models.User;
+import util.DateTimeUtils;
 
 /**
  *
@@ -40,10 +43,34 @@ public class AppointmentRowAdapter {
         return appointmentRows;
     }
     
+    private void adjustTimeZones() {
+        TimeZone defaultTimeZone = TimeZone.getDefault();
+        ZoneId defaultZoneId = ZoneId.of(defaultTimeZone.getID());
+        
+        for(Appointment a : appointments) {
+            ZonedDateTime zdtStart = DateTimeUtils.getUnalteredZonedDateTimeFromString(String.valueOf(a.getStart()));
+            ZoneId customerZoneId =  zdtStart.getZone();
+            
+            ZonedDateTime zdtEnd = DateTimeUtils.getUnalteredZonedDateTimeFromString(String.valueOf(a.getEnd()));
+            
+            if(!customerZoneId.equals(defaultZoneId)) {
+                TimeZone customerTimeZone = TimeZone.getTimeZone(customerZoneId);
+                zdtStart = DateTimeUtils.adjustForTimeZones(zdtStart);
+                
+                zdtEnd = DateTimeUtils.adjustForTimeZones(zdtEnd);
+            }
+            
+            a.setStart(zdtStart);
+            a.setEnd(zdtEnd);
+        }
+    }
+    
     private void fetchData() throws SQLException, ClassNotFoundException {
         FetchData data = new FetchData();
         
         appointments = data.fetchAppointmentsForCustomerData(customer);
+        adjustTimeZones();
+        
         users = data.fetchUsers();
     }
     
