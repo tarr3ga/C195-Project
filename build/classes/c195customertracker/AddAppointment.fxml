@@ -8,7 +8,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane id="AnchorPane" prefHeight="675.0" prefWidth="700.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="c195customertracker.AddAppointmentController">
+<GridPane id="AnchorPane" prefHeight="675.0" prefWidth="700.0" 
+          styleClass="mainFxmlClass" 
+          xmlns:fx="http://javafx.com/fxml/1" 
+          fx:controller="c195customertracker.AddAppointmentController">
     <stylesheets>
         <URL value="@/styles/stylesMain.css"/>
     </stylesheets>

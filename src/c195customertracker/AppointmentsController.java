@@ -273,6 +273,14 @@ public class AppointmentsController implements Initializable {
             Logger.getLogger(AppointmentsController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        for(Appointment a : appointments) {
+           ZonedDateTime start = a.getStart().plusHours(1);
+           ZonedDateTime end = a.getEnd().plusHours(1);
+           
+           a.setStart(start);
+           a.setEnd(end);
+        }
+        
         populateTable();
         
         setEventHandlers();
