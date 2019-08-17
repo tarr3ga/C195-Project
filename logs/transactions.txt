@@ -148,3 +148,17 @@ skyler logged in at 2019-08-16T14:53:17.042
 test logged in at 2019-08-16T14:55:17.971
 test logged in at 2019-08-16T14:57:18.203
 test logged in at 2019-08-16T15:01:55.717
+test logged in at 2019-08-16T15:44:35.915
+test logged in at 2019-08-16T15:50:11.162
+test logged in at 2019-08-16T15:52:32.001
+jamyers logged in at 2019-08-16T15:55:37.572
+jamyers logged in at 2019-08-16T16:07:24.766
+test logged in at 2019-08-16T16:13:15.369
+test logged in at 2019-08-16T16:14:03.812
+test logged in at 2019-08-16T16:16:20.953
+test logged in at 2019-08-16T16:18:30.803
+jamyers logged in at 2019-08-16T17:27:46.745
+jamyers logged in at 2019-08-16T22:20:26.937
+Appointment ID: 1 Deleted by jamyers on 2019-08-16T22:20:59.089-04:00[America/New_York]
+jamyers logged in at 2019-08-16T22:22:04.946
+Appointment ID: 2 Deleted by jamyers on 2019-08-16T22:30:10.383-04:00[America/New_York]

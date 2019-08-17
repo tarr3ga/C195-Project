@@ -208,6 +208,8 @@ public class FetchData {
         index = resultSet.findColumn("lastUpdateBy");
         c.setUpdatedBy(resultSet.getInt(index));
         
+        conn.close();
+        
         return c;
     }
     
@@ -400,6 +402,8 @@ public class FetchData {
         
         index = resultSet.findColumn("lastUpdateBy");
         city.setUpdatedBy(resultSet.getInt(index));      
+        
+        conn.close();
         
         return city;
     }
@@ -807,6 +811,8 @@ public class FetchData {
             }
         }
         
+        conn.close();
+        
         return appointments;
     }
     
@@ -822,6 +828,8 @@ public class FetchData {
         
         int index = resultSet.findColumn("userId");
         int id = resultSet.getInt(index);
+        
+        conn.close();
         
         return id;
     }
@@ -873,6 +881,8 @@ public class FetchData {
         int count = resultSet.getInt(1);
         
         System.out.println("Appointment count = " + count);
+        
+        conn.close();
         
         return count;
     }

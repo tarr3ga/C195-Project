@@ -5,11 +5,13 @@
  */
 package c195customertracker;
 
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import util.SaveAlerts;
 
 /**
  *
@@ -32,5 +34,19 @@ public class C195CustomerTracker extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+        
+         Runtime.getRuntime().addShutdownHook(new Thread() { 
+          @Override
+          public void run() 
+          {   
+             SaveAlerts save = new SaveAlerts();
+             
+             try {
+                save.saveAlerts();
+             } catch(IOException ex) {
+                System.err.println(ex.toString());
+             }
+          } 
+        });
     }   
 }

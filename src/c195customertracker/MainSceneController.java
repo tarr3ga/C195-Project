@@ -134,6 +134,7 @@ public class MainSceneController implements Initializable {
         }catch(SQLException | ClassNotFoundException ex) {
             
         }
+        
         startTimer();
     }    
 }

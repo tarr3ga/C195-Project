@@ -463,8 +463,13 @@ public class CustomersController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 
                 if(result.get() == ButtonType.OK) {
-                    Appointment a = (Appointment)displayTable.getSelectionModel().getSelectedItem();
+                    AppointmentRow row = (AppointmentRow)displayTable.getSelectionModel().getSelectedItem();
+                    
+                    FetchData fetch = new FetchData();
+                   
                     try {
+                        Appointment a = fetch.fetchAppointmentById(row.getId());
+                        
                         deleteAppointment(a, customer);
                     } catch(SQLException | IOException ex) {
                         
