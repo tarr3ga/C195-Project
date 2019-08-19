@@ -162,3 +162,39 @@ jamyers logged in at 2019-08-16T22:20:26.937
 Appointment ID: 1 Deleted by jamyers on 2019-08-16T22:20:59.089-04:00[America/New_York]
 jamyers logged in at 2019-08-16T22:22:04.946
 Appointment ID: 2 Deleted by jamyers on 2019-08-16T22:30:10.383-04:00[America/New_York]
+test logged in at 2019-08-17T18:49:20.593
+Customer ID: 15 Deleted by test on 2019-08-17T18:49:57.123-04:00[America/New_York]
+Customer ID: 15 Deleted by test on 2019-08-17T18:50:39.740-04:00[America/New_York]
+test logged in at 2019-08-17T18:52:08.560
+test logged in at 2019-08-17T18:53:33.734
+test logged in at 2019-08-17T19:08:42.165
+Appointment ID: 1 Deleted by test on 2019-08-17T19:09:13.348-04:00[America/New_York]
+Appointment ID: 2 Deleted by test on 2019-08-17T19:09:24.451-04:00[America/New_York]
+Appointment ID: 3 Deleted by test on 2019-08-17T19:09:37.124-04:00[America/New_York]
+Appointment ID: 4 Deleted by test on 2019-08-17T19:10:15.936-04:00[America/New_York]
+test logged in at 2019-08-18T17:42:43.238
+Appointment ID: 5 Deleted by test on 2019-08-18T17:43:16.894-04:00[America/New_York]
+Appointment ID: 6 Deleted by test on 2019-08-18T17:43:35.880-04:00[America/New_York]
+test logged in at 2019-08-18T17:45:26.922
+test logged in at 2019-08-18T18:04:01.512
+Appointment ID: 7 Deleted by test on 2019-08-18T18:05:29.690-04:00[America/New_York]
+Appointment ID: 8 Deleted by test on 2019-08-18T18:05:55.101-04:00[America/New_York]
+Appointment ID: 9 Deleted by test on 2019-08-18T18:09:53.084-04:00[America/New_York]
+test logged in at 2019-08-18T18:21:47.034
+Appointment ID: 10 Deleted by test on 2019-08-18T18:23:20.135-04:00[America/New_York]
+Appointment ID: 11 Deleted by test on 2019-08-18T18:24:06.173-04:00[America/New_York]
+Customer ID: 1 Deleted by test on 2019-08-18T18:25:25.624-04:00[America/New_York]
+Appointment ID: 12 Deleted by test on 2019-08-18T19:33:16.207-04:00[America/New_York]
+Appointment ID: 13 Deleted by test on 2019-08-18T19:33:24.760-04:00[America/New_York]
+test logged in at 2019-08-18T19:47:52.750
+Customer ID: 2 Deleted by test on 2019-08-18T19:48:06.476-04:00[America/New_York]
+Customer ID: 3 Deleted by test on 2019-08-18T19:49:23.161-04:00[America/New_York]
+test logged in at 2019-08-19T10:43:07.086
+Appointment ID: 1 Deleted by test on 2019-08-19T10:43:31.523-04:00[America/New_York]
+jamyers logged in at 2019-08-19T11:05:51.155
+Appointment ID: 2 Deleted by jamyers on 2019-08-19T11:07:11.700-04:00[America/New_York]
+Appointment ID: 3 Deleted by jamyers on 2019-08-19T11:08:03.134-04:00[America/New_York]
+test logged in at 2019-08-19T11:42:22.297
+test logged in at 2019-08-19T11:48:45.166
+test logged in at 2019-08-19T11:51:02.649
+Appointment ID: 15 Deleted by test on 2019-08-19T11:51:24.015-04:00[America/New_York]

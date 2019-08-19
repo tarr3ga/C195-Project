@@ -41,7 +41,7 @@ public class DeleteData {
         
         String sql1 = "SET FOREIGN_KEY_CHECKS = 0;";
         String sql2 = "DELETE FROM customer WHERE customerId = " + customer.getCustomerId() + ";";
-        String sql3 = "DELETE FROM address WHERE addressId + " + customer.getAddressId() + ";";
+        String sql3 = "DELETE FROM address WHERE addressId = " + customer.getAddressId() + ";";
         String sql4 = "SET FOREIGN_KEY_CHECKS = 1;";
         
         System.out.println(sql2);

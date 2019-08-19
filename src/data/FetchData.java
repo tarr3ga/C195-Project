@@ -600,7 +600,7 @@ public class FetchData {
         conn = DBConnect.makeConnection();
         
         statement = conn.createStatement();
-        resultSet = statement.executeQuery(SQL_APPOINTMENTS);
+        resultSet = statement.executeQuery(SQL_APPOINTMENT + id + ";");
         
         resultSet.next();
         

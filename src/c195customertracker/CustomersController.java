@@ -144,8 +144,7 @@ public class CustomersController implements Initializable {
             
             initialize(null, null);
         });
-                
-        
+                     
         btnView.setOnMouseClicked((MouseEvent e) -> {
             if(displayTable.getSelectionModel().getSelectedItem() != null) {
                 Customer c = (Customer)displayTable.getSelectionModel().getSelectedItem();           
@@ -212,6 +211,8 @@ public class CustomersController implements Initializable {
                             Optional<ButtonType>errorResult = errorAlert.showAndWait();
                         } else {
                             deleteCustomer(c);
+                            
+                            populateTable();
                         }
                     } catch(SQLException ex) {
                         System.err.println(ex.toString());
