@@ -49,7 +49,6 @@ public class AddCustomerController implements Initializable {
     @FXML private TextField address2;
     @FXML private TextField city;
     @FXML private TextField postalCode;
-    //@FXML private ComboBox state;
     @FXML private ComboBox country;
     @FXML private Button btnSubmit;
     @FXML private Button btnCancel;
@@ -63,8 +62,6 @@ public class AddCustomerController implements Initializable {
         btnSubmit.setOnMouseClicked((MouseEvent e) -> {
             try {
                 if(validateForm()) {
-
-                    System.out.println("c195customertracker.AddCustomerController.setEventHandlers() isEditing = " + isEditing);
                     
                     int id = -1;
 
@@ -83,8 +80,6 @@ public class AddCustomerController implements Initializable {
                         c.setLastUpdate(Timestamp.valueOf(LocalDateTime.now()));
                         c.setUpdatedBy(FXMLDocumentController.authorizedUserId);
                     }
-                    
-                     System.out.println("c time = " + Timestamp.valueOf(LocalDateTime.now()));
                      
                     a.setCustomerId(c.getCustomerId());
                     a.setAddress(address.getText());
@@ -102,9 +97,7 @@ public class AddCustomerController implements Initializable {
                         a.setUpdatedBy(FXMLDocumentController.authorizedUserId);
                     }
                     
-                    System.out.println("a time = " + Timestamp.valueOf(LocalDateTime.now()));
-                    
-                    int countryId = country.getSelectionModel().getSelectedIndex() -1;
+                    int countryId = country.getSelectionModel().getSelectedIndex() + 1;
                     ci.setCity(city.getText());
                     ci.setCountryId(countryId);
                     
@@ -119,8 +112,6 @@ public class AddCustomerController implements Initializable {
                         ci.setLastUpdate(Timestamp.valueOf(LocalDateTime.now()));
                         ci.setUpdatedBy(FXMLDocumentController.authorizedUserId);
                     }
-                    
-                    System.out.println("ci time = " + Timestamp.valueOf(LocalDateTime.now()));
                     
                     SaveData data = new SaveData();
                     
@@ -205,7 +196,6 @@ public class AddCustomerController implements Initializable {
            !address.getText().isEmpty() &&
            !city.getText().isEmpty() &&
            !postalCode.getText().isEmpty() &&
-          //!state.getSelectionModel().isEmpty() &&
            !country.getSelectionModel().isEmpty()) {
             isValid = true;
         } else {

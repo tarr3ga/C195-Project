@@ -212,6 +212,8 @@ public class CustomersController implements Initializable {
                         } else {
                             deleteCustomer(c);
                             
+                            getData();
+                            
                             populateTable();
                         }
                     } catch(SQLException ex) {
@@ -416,6 +418,8 @@ public class CustomersController implements Initializable {
                 stage.setScene(scene);
                 stage.showAndWait();
                 
+                getData();
+                
                 loadCustomerSpecificAppointments(customer);
             } catch(SQLException | IOException ex) {
                 System.err.println(ex.toString());
@@ -566,6 +570,19 @@ public class CustomersController implements Initializable {
         } 
     }
     
+    private void getData() throws SQLException {
+        FetchData data = new FetchData();
+        
+        try {
+            customers = data.fetchCustomerData();
+            appointments = data.fetchAppointmentData();
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CustomersController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     //TODO Moved to appointment adapter, can be removed from here when tested.
     /*private void adjustTimeZones() {
         TimeZone defaultTimeZone = TimeZone.getDefault();
@@ -596,15 +613,12 @@ public class CustomersController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        FetchData data = new FetchData();
+        //FetchData data = new FetchData();
         
         try {
-            customers = data.fetchCustomerData();
-            appointments = data.fetchAppointmentData();
+            getData();
         } catch (SQLException ex) {
             System.out.println(ex.toString());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CustomersController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         for(Appointment a : appointments) {
