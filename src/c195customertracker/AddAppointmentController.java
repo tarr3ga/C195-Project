@@ -67,7 +67,7 @@ public class AddAppointmentController implements Initializable {
    
     private final DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
     private static final int OPENING_TIME = 659;
-    private static final int CLOSING_TIME = 1801;
+    private static final int CLOSING_TIME = 1800;
     private String defaultTimeZone;
     
     private void setEventHandlers() {
@@ -215,7 +215,7 @@ public class AddAppointmentController implements Initializable {
         FetchData data = new FetchData();
         
         ObservableList<Appointment> appointments;
-        appointments = data.fetchAppointmentsForCustomerRep(customerSelected.getCustomerId());
+        appointments = data.fetchAppointmentsForCustomerData(customerSelected);
         
         for(Appointment a : appointments) {
             ZonedDateTime t1 =  DateTimeUtils.getUnalteredZonedDateTimeFromString(String.valueOf(a.getStart()));
@@ -232,6 +232,11 @@ public class AddAppointmentController implements Initializable {
             }
             
             if(start.isBefore(t1) && end.isAfter(t2)) {
+                isValid = false;
+                conflict = a;
+            }
+            
+            if(start.equals(t1) && end.equals(t2)) {
                 isValid = false;
                 conflict = a;
             }
@@ -261,15 +266,15 @@ public class AddAppointmentController implements Initializable {
             startString = "" + start.getHour() + start.getMinute();
         
         if(end.getMinute() == 0)
-            endString = "" + end.getHour() + "0";
+            endString = "" + end.getHour() + "00";
         else
             endString = "" + end.getHour() + end.getMinute();
         
         
-        int startTime = Integer.parseInt(startString);
-        int endTime = Integer.parseInt(endString);
+        int startTimeInt = Integer.parseInt(startString);
+        int endTimeInt = Integer.parseInt(endString);
         
-        if(startTime < OPENING_TIME || endTime > CLOSING_TIME) {
+        if(startTimeInt < OPENING_TIME || endTimeInt >= CLOSING_TIME) {
             isValid = false;
             
             Alert alert = new Alert(Alert.AlertType.ERROR);

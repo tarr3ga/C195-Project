@@ -40,6 +40,7 @@ public class FetchData {
     private static final String SQL_CUSTOMERS = "SELECT * FROM customer;";
     private static final String SQL_APPOINTMENT = "SELECT * FROM appointment WHERE appointmentId = ";
     private static final String SQL_APPOINTMENTS = "SELECT * FROM appointment;";
+    //private static final String SQL_APPOINTMENTS_BY_CUSTOMER = "SELECT * FROM appointment WHERE customerId = ";
     private static final String SQL_APPOINTMENTS_BY_REP = "SELECT * FROM appointment WHERE userId = '";
     private static final String SQL_ADDRESS = "SELECT * FROM address WHERE addressId = ";
     private static final String SQL_ADDRESSES = "SELECT * FROM address";

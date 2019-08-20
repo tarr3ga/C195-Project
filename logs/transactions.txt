@@ -237,3 +237,24 @@ test logged in at 2019-08-20T11:11:46.108
 Updated Appointment ID: 31 Updated by test on 2019-08-20T11:13:08.251-04:00[America/New_York]
 test logged in at 2019-08-20T11:23:17.313
 Updated Appointment ID: 32 Updated by test on 2019-08-20T11:23:59.087-04:00[America/New_York]
+test logged in at 2019-08-20T12:19:00.329
+Updated Appointment ID: 36 Updated by test on 2019-08-20T12:36:58.053-04:00[America/New_York]
+Updated Appointment ID: 37 Updated by test on 2019-08-20T12:50:52.504-04:00[America/New_York]
+test logged in at 2019-08-20T14:20:57.675
+jamyers logged in at 2019-08-20T14:24:29.631
+Updated Appointment ID: 38 Updated by jamyers on 2019-08-20T14:26:12.499-04:00[America/New_York]
+jamyers logged in at 2019-08-20T14:26:41.235
+Updated Appointment ID: 39 Updated by jamyers on 2019-08-20T14:35:10.063-04:00[America/New_York]
+jamyers logged in at 2019-08-20T14:42:08.410
+Updated Appointment ID: 40 Updated by jamyers on 2019-08-20T14:46:29.978-04:00[America/New_York]
+test logged in at 2019-08-20T14:48:31.097
+test logged in at 2019-08-20T14:58:34.362
+Updated Appointment ID: 24 Updated by test on 2019-08-20T14:59:20.104-04:00[America/New_York]
+Appointment ID: 24 Deleted by test on 2019-08-20T14:59:33.956-04:00[America/New_York]
+test logged in at 2019-08-20T15:00:37.395
+Updated Appointment ID: 25 Updated by test on 2019-08-20T15:02:33.316-04:00[America/New_York]
+Updated Appointment ID: 26 Updated by test on 2019-08-20T15:03:21.730-04:00[America/New_York]
+test logged in at 2019-08-20T15:11:27.612
+Appointment ID: 25 Deleted by test on 2019-08-20T15:12:09.172-04:00[America/New_York]
+Appointment ID: 26 Deleted by test on 2019-08-20T15:12:14.382-04:00[America/New_York]
+test logged in at 2019-08-20T15:19:17.989
