@@ -257,6 +257,34 @@ public class AppointmentsController implements Initializable {
         }
     }
     
+    private void adjustForTimeZone() {
+        ZoneId zoneId = ZoneId.systemDefault();
+        
+        for(Appointment a : appointments) {            
+             ZonedDateTime startTime = a.getStart();
+             ZonedDateTime endTime = a.getEnd();
+             
+             System.out.println("");
+             System.out.println("");
+             System.out.println("startTime = " + startTime);
+             System.out.println("endTime   = " + endTime);
+             
+             //ZonedDateTime adjustedStartTime = startTime.withZoneSameInstant(zoneId);
+             //ZonedDateTime adjustedEndTime = endTime.withZoneSameInstant(zoneId);
+             
+             ZonedDateTime adjustedStartTime = startTime.withZoneSameInstant(zoneId);
+             ZonedDateTime adjustedEndTime = endTime.withZoneSameInstant(zoneId);
+             
+             a.setStart(adjustedStartTime);
+             a.setEnd(adjustedEndTime);
+             
+             System.out.println("adjustedStartTime = " + adjustedStartTime);
+             System.out.println("adjustedEndTime   = " + adjustedEndTime);
+             System.out.println("");
+             System.out.println("");
+        }
+    }
+    
     /**
      * Initializes the controller class.
      * @param url
@@ -280,6 +308,8 @@ public class AppointmentsController implements Initializable {
            a.setStart(start);
            a.setEnd(end);
         }
+        
+        adjustForTimeZone();
         
         populateTable();
         

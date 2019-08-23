@@ -103,6 +103,7 @@ public class FXMLDocumentController implements Initializable {
         required = english[6];
     }
     
+    @SuppressWarnings("ConvertToTryWithResources")
     private void checkCreds() throws SQLException, Exception {
         if(username.getLength()== 0 || password.getLength() == 0) {
             response.setText(required);

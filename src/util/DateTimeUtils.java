@@ -304,6 +304,87 @@ public class DateTimeUtils {
         return cal.getTime();
     }
     
+    public static int getTimeZoneOOffset(String gmt) {
+        int timeZoneOffset = 0;
+    
+        switch(gmt) {
+            case "Europe/Paris":
+                timeZoneOffset = 1;
+                break;
+            case "Africa/Cairo":
+                timeZoneOffset = 2;
+                break;
+            case "Asia/Qatar":
+                timeZoneOffset = 3;
+                break;
+            case "Europe/Moscow":
+                timeZoneOffset = 4;
+                break;
+            case "Asia/Karachi":
+                timeZoneOffset = 5;
+                break;
+            case "Antarctica/Vostok":
+                timeZoneOffset = 6;
+                break;
+            case "Asia/Jakarta":
+                timeZoneOffset = 7;
+                break;
+            case "Asia/Singapore":
+                timeZoneOffset = 8;
+                break;
+            case "Asia/Tokyo":
+                timeZoneOffset = 9;
+                break;
+            case "Australia/Sydney":
+                timeZoneOffset = 10;
+                break;
+            case "Asia/Vladivostok":
+                timeZoneOffset = 11;
+                break;
+            case "Pacific/Fiji":
+                timeZoneOffset = 12;
+                break;
+            case "Greenwich":
+                timeZoneOffset = 0;
+                break;
+            case "Atlantic/Azores":
+                timeZoneOffset = -1;
+                break;
+            case "Atlantic/South_Georgia":
+                timeZoneOffset = -2;
+                break;
+            case "America/Buenos_Aires":
+                timeZoneOffset = -3;
+                break;
+            case "America/Goose_Bay":
+                timeZoneOffset = -4;
+                break;  
+            case "America/New_York":
+                timeZoneOffset = -5;
+                break;  
+            case "America/Chicago":
+                timeZoneOffset = -6;
+                break;  
+            case "America/Boise":
+                timeZoneOffset = -7;
+                break;
+            case "America/Los_Angeles":
+                timeZoneOffset = -8;
+                break;
+            case "America/Anchorage":
+                timeZoneOffset = -9;
+                break;
+            case "Pacific/Honolulu":
+                timeZoneOffset = -10;
+                break;
+            case "Pacific/Midway":
+                timeZoneOffset = -11;
+                break;
+        }   
+        
+        return timeZoneOffset;
+    }
+    
     public static String getTimeZoneName(String gmt) {
         String timeZoneName = "";
         

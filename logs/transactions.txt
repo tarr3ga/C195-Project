@@ -258,3 +258,38 @@ test logged in at 2019-08-20T15:11:27.612
 Appointment ID: 25 Deleted by test on 2019-08-20T15:12:09.172-04:00[America/New_York]
 Appointment ID: 26 Deleted by test on 2019-08-20T15:12:14.382-04:00[America/New_York]
 test logged in at 2019-08-20T15:19:17.989
+test logged in at 2019-08-21T12:36:27.810
+Updated Appointment ID: 27 Updated by test on 2019-08-21T12:37:29.620-04:00[America/New_York]
+test logged in at 2019-08-21T12:40:12.506
+test logged in at 2019-08-21T14:02:49.015
+jamyers logged in at 2019-08-21T14:09:18.501
+jamyers logged in at 2019-08-21T14:10:43.235
+test logged in at 2019-08-21T14:57:01.370
+test logged in at 2019-08-21T14:58:05.820
+test logged in at 2019-08-21T13:58:54.128
+jamyers logged in at 2019-08-21T16:12:12.863
+test logged in at 2019-08-21T14:11:55.087
+test logged in at 2019-08-21T17:12:44.256
+test logged in at 2019-08-21T17:22:55.035
+jamyers logged in at 2019-08-21T18:25:27.979
+test logged in at 2019-08-21T15:26:37.053
+test logged in at 2019-08-21T17:43:01.376
+test logged in at 2019-08-21T17:54:46.908
+test logged in at 2019-08-22T13:27:00.050
+test logged in at 2019-08-22T14:07:54.851
+test logged in at 2019-08-22T11:10:15.075
+test logged in at 2019-08-22T14:27:27.512
+test logged in at 2019-08-22T12:28:24.539
+test logged in at 2019-08-22T14:31:26.367
+test logged in at 2019-08-22T12:32:16.827
+test logged in at 2019-08-22T12:33:18.745
+test logged in at 2019-08-22T14:34:23.618
+test logged in at 2019-08-22T14:38:43.132
+test logged in at 2019-08-22T12:39:21.170
+jamyers logged in at 2019-08-22T12:40:18.705
+test logged in at 2019-08-22T12:43:27.494
+test logged in at 2019-08-22T14:44:28.528
+New Customer ID: 11 Created by test on 2019-08-22T14:45:20.663-04:00[America/New_York]
+Updated Appointment ID: 28 Updated by test on 2019-08-22T14:46:00.311-04:00[America/New_York]
+New Customer ID: 12 Created by test on 2019-08-22T14:46:31.643-04:00[America/New_York]
+Customer ID: 12 Deleted by test on 2019-08-22T14:46:39.189-04:00[America/New_York]

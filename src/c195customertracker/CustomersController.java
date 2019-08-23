@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -512,6 +513,7 @@ public class CustomersController implements Initializable {
         return hasAppoinyments;
     }
     
+    @SuppressWarnings("ConvertToTryWithResources")
     private void deleteAppointment(Appointment a, Customer c) throws SQLException, IOException, ClassNotFoundException {
         DeleteData delete= new DeleteData();
         delete.deleteAppointment(a.getAppointmentId());
@@ -542,6 +544,7 @@ public class CustomersController implements Initializable {
         loadCustomerSpecificAppointments(c);
     }
     
+    @SuppressWarnings("ConvertToTryWithResources")
     private void deleteCustomer(Customer c) throws SQLException, ClassNotFoundException {
         DeleteData data = new DeleteData();
         data.DeleteCustomer(c);
@@ -582,29 +585,6 @@ public class CustomersController implements Initializable {
             Logger.getLogger(CustomersController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    //TODO Moved to appointment adapter, can be removed from here when tested.
-    /*private void adjustTimeZones() {
-        TimeZone defaultTimeZone = TimeZone.getDefault();
-        ZoneId defaultZoneId = ZoneId.of(defaultTimeZone.getID());
-        
-        for(Appointment a : appointments) {
-            ZonedDateTime zdtStart = DateTimeUtils.getUnalteredZonedDateTimeFromString(String.valueOf(a.getStart()));
-            ZoneId customerZoneId =  zdtStart.getZone();
-            
-            ZonedDateTime zdtEnd = DateTimeUtils.getUnalteredZonedDateTimeFromString(String.valueOf(a.getEnd()));
-            
-            if(!customerZoneId.equals(defaultZoneId)) {
-                TimeZone customerTimeZone = TimeZone.getTimeZone(customerZoneId);
-                zdtStart = DateTimeUtils.adjustForTimeZones(zdtStart);
-                
-                zdtEnd = DateTimeUtils.adjustForTimeZones(zdtEnd);
-            }
-            
-            a.setStart(zdtStart);
-            a.setEnd(zdtEnd);
-        }
-    }*/
       
     /**
      * Initializes the controller class.
@@ -613,21 +593,19 @@ public class CustomersController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //FetchData data = new FetchData();
-        
         try {
             getData();
         } catch (SQLException ex) {
             System.out.println(ex.toString());
         }
         
-        for(Appointment a : appointments) {
+        /*for(Appointment a : appointments) {
            ZonedDateTime start = a.getStart().plusHours(1);
            ZonedDateTime end = a.getEnd().plusHours(1);
            
            a.setStart(start);
            a.setEnd(end);
-        }
+        }*/
         
         populateTable();  
     }     

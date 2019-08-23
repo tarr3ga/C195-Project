@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 import java.util.logging.Level;
@@ -70,11 +71,14 @@ public class AddAppointmentController implements Initializable {
     private static final int CLOSING_TIME = 1800;
     private String defaultTimeZone;
     
+    @SuppressWarnings("ConvertToTryWithResources")
     private void setEventHandlers() {
         submit.setOnMouseClicked((MouseEvent e) -> {
             String timeZoneName = DateTimeUtils.getTimeZoneName((String)timezone.getSelectionModel().getSelectedItem());
             
             ZoneId zone;
+            
+            defaultTimeZone = TimeZone.getDefault().getDisplayName();
             
             if(!timeZoneName.equals(defaultTimeZone)) {
                 zone = ZoneId.of(timeZoneName);
@@ -83,6 +87,8 @@ public class AddAppointmentController implements Initializable {
             }
             
             ZonedDateTime localStartDateTime = ZonedDateTime.now();
+            
+            
             
             try {
                 String[] dateTimeParts = DateTimeUtils.getDateParts(startDate.getValue().toString(), 
@@ -361,6 +367,8 @@ public class AddAppointmentController implements Initializable {
     
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -375,9 +383,9 @@ public class AddAppointmentController implements Initializable {
             Logger.getLogger(AddAppointmentController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        for(Customer c : customers) {
+        customers.forEach((c) -> {
             cbCustomers.getItems().add(c.getCustomerId() + " " + c.getName());
-        }
+        });
         
         if(customerIsSelected) {
             int index = -1;
@@ -396,9 +404,7 @@ public class AddAppointmentController implements Initializable {
             endTime.getItems().add(s);
         }
         
-        for(String s : DateTimeUtils.TIMEZONES) {
-            timezone.getItems().add(s);
-        }
+        timezone.getItems().addAll(Arrays.asList(DateTimeUtils.TIMEZONES));
         
         setDefaultTimeZone();
         

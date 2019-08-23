@@ -43,25 +43,31 @@ public class AppointmentRowAdapter {
         return appointmentRows;
     }
     
-    private void adjustTimeZones() {
-        TimeZone defaultTimeZone = TimeZone.getDefault();
-        ZoneId defaultZoneId = ZoneId.of(defaultTimeZone.getID());
+    private void adjustForTimeZone() {
+        ZoneId zoneId = ZoneId.systemDefault();
         
-        for(Appointment a : appointments) {
-            ZonedDateTime zdtStart = DateTimeUtils.getUnalteredZonedDateTimeFromString(String.valueOf(a.getStart()));
-            ZoneId customerZoneId =  zdtStart.getZone();
-            
-            ZonedDateTime zdtEnd = DateTimeUtils.getUnalteredZonedDateTimeFromString(String.valueOf(a.getEnd()));
-            
-            if(!customerZoneId.equals(defaultZoneId)) {
-                TimeZone customerTimeZone = TimeZone.getTimeZone(customerZoneId);
-                zdtStart = DateTimeUtils.adjustForTimeZones(zdtStart);
-                
-                zdtEnd = DateTimeUtils.adjustForTimeZones(zdtEnd);
-            }
-            
-            a.setStart(zdtStart);
-            a.setEnd(zdtEnd);
+        for(Appointment a : appointments) {            
+             ZonedDateTime startTime = a.getStart();
+             ZonedDateTime endTime = a.getEnd();
+             
+             System.out.println("");
+             System.out.println("");
+             System.out.println("startTime = " + startTime);
+             System.out.println("endTime   = " + endTime);
+             
+             //ZonedDateTime adjustedStartTime = startTime.withZoneSameInstant(zoneId);
+             //ZonedDateTime adjustedEndTime = endTime.withZoneSameInstant(zoneId);
+             
+             ZonedDateTime adjustedStartTime = startTime.withZoneSameInstant(zoneId);
+             ZonedDateTime adjustedEndTime = endTime.withZoneSameInstant(zoneId);
+             
+             a.setStart(adjustedStartTime);
+             a.setEnd(adjustedEndTime);
+             
+             System.out.println("adjustedStartTime = " + adjustedStartTime);
+             System.out.println("adjustedEndTime   = " + adjustedEndTime);
+             System.out.println("");
+             System.out.println("");
         }
     }
     
@@ -69,7 +75,7 @@ public class AppointmentRowAdapter {
         FetchData data = new FetchData();
         
         appointments = data.fetchAppointmentsForCustomerData(customer);
-        adjustTimeZones();
+        adjustForTimeZone();
         
         users = data.fetchUsers();
     }
